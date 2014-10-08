@@ -181,5 +181,11 @@ Beginning_Ruby_From_Novice_to_Professional
 
             Pi = 3.141592
 
-        -   Text and Strings   
+        -   Text and Strings
+
+            The simlest form of assigning a string value is:
+        
+            x = "Test"
+
+            
         
