@@ -1,0 +1,185 @@
+Beginning_Ruby_From_Novice_to_Professional
+
+-   Chapter 2 Programming == JOY: A Whistle-stop tour of Ruby and Object
+    Orientation
+
+    -   irb - interactive ruby. It is like a cmd line terminal program.
+
+        irb(main):001:0> class Person
+        irb(main):002:1> attr_accessor :name, :age, :gender
+        irb(main):003:1> end
+        => nil
+        irb(main):004:0>        
+
+        Note: Ruby knew that you were now within a class structure, defining
+        a class, rather than typing code to be processed immediately. The
+        1 represents that you're at a depth of 1 of nested concepts.
+
+        defining a class results in no return value, and nil is Ruby's
+        way of representing "nothing".
+        
+
+    -   define a class example code:
+
+        class Person
+            attr_accessor :name, :age, :gender
+        end
+
+        Note:   1)  Class names in Ruby always start with a capital letter
+                2)  attr stands for "attribute" and accessor roughly means
+                    "make these attributes accessible to be set and changed
+                    at will"
+                3)  end line mathes up the class definition
+
+    -   Basic of using a class
+
+        -   Create an object
+        
+            person_instance = Person.new
+
+        -   Set attributes
+
+            person_instance.age = 52
+
+        -   Print attributes
+
+            puts person_instance.name
+
+        -   Inheritance
+
+            class Pet
+                attr_accessor :name, :age, :gender, :color
+            end
+
+            class Cat < Pet
+            end
+
+            class Dog < Pet
+            end
+
+            class Snake < pet
+                attr_accessor :length
+            end
+
+            note: length is the attribte that isn't relevant to
+            every animal.
+
+        -   Methods
+
+            -   How to add a method to a class:
+
+                class Dog < Pet
+                    def bark
+                        puts "Woof!"
+                    end
+                end
+
+            -   How to use the method?
+
+                irb(main):0> a_dog = Dog.new
+                irb(main):0> a_dog.bark
+
+            -   Passing Data to Methods
+
+                Kernel.puts "Hello, world"
+
+                or
+
+                Kernel.puts("Hello, world!")
+
+                note:
+
+                1)  puts ia a method of the Kernel module that is included
+                    and searched by default, so usually you won't need to
+                    use Kernel.puts to refer to it.
+
+                2)  Parentheses are not strictly necessary. Often, however
+                    , parentheses are required, as in many situation
+                    omitting them leaves the code vague and imprecise.
+
+        -   Which class am I?
+
+            e.g. puts 2.class => Fixnum
+
+    -   Everything in Ruby is an object        
+
+        puts 1 + 10
+
+        In the above statement, even 1 and 10 are objects of class Fixnum
+
+    -   String related methods:
+
+        Expression                  Output
+
+        "Test" + "Test"	            TestTest
+        "Test".capitalize	        Test
+        "Test".downcase	            test
+        "Test".chop	                Tes
+        "Test".next	                Tesu
+        "Test".reverse	            tseT
+        "Test".sum	                416
+        "Test".swapcase	            tEST
+        "Test".upcase	            TEST
+        "Test".upcase.reverse	    TSET
+        "Test".upcase.reverse.next	TSEU
+
+-   Chapter 3   Ruby's Building Blocks: Data, Expressions, and Flow Control
+
+    -   Examples
+
+        -   if statement
+
+            age = 24
+            puts "You're a teenager" if age > 12 && age < 20
+
+        -   unless statement
+
+            age = 24
+            puts "You're NOT a teenager" unless age > 12 && age < 20
+
+        -   x <=> y
+
+            x <=> y means Comparison; return 0 if x and y are equal, 1 if x is higher, and -1 if y is higher
+
+    -   Looping Through Numbers with Blocks and Iterators
+
+        -   Fixnum.times method()
+
+            5.times do puts "Test" end
+
+            or
+
+            5.times {puts "Test"}
+
+            note: parentheses are used to replace the "do end" couple.
+
+            In Ruby, one mechanism to create a loop is called an iterator. An iterator is something that progresses through a list
+            of items one by one. E.g.
+
+            1.upto(5) { ...code to loop here... }
+            10.downto(5) { ...code to loop here... }
+            0.step(50, 5) { ...code to loop here... }
+
+            The first and second examples are self-explainatory. The third example counts up from 0 to 50 in steps of 5
+
+            How to get hold of the number being iterated upon at each step of the way so that you can do something with it in the looped
+            code. What if you wanted to print out the current iteration number? Thanksfully, all of the iterators just explained automatically
+            pass the state of the iteration to the looped code as a parameter, which you can then retrieve into a variable and use, like:
+
+            1.upto(5) {|number| puts number}
+
+            |number| is the way how a parameters are passed into blocks of code that don't have specific names. Another way of writing the above
+            block of code is like:
+
+            1.upto(5) do |number|
+                puts number
+            end
+     
+        -   Constants
+
+            Any variable beginning with a capital letter, for example:
+
+            Pi = 3.141592
+
+        -   Text and Strings   
+        
