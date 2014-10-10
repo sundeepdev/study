@@ -183,9 +183,691 @@ Beginning_Ruby_From_Novice_to_Professional
 
         -   Text and Strings
 
-            The simlest form of assigning a string value is:
-        
-            x = "Test"
+            -   Assigning String value
 
+                The simlest form of assigning a string value is:
             
+                x = "Test"
+                y = "String"
+                puts "Success!" if x + y == "TestString"
+
+                There are several other ways of including a string literal within a program. If you want to include multiple lines of text, try this:
+
+                x = %q{This is a test
+                of the multi
+                line capabilities}
+
+                You don't have to use curly brackets, anything pairs of symbols for example: < and >, ( and ) or simply two other delimiters of your choice
+                such as ! and !.
+
+                Another way to build up a long string literal is by using a "here document". The concept is very similar to the previous example, except that
+                the delimiter can be many characters long. Here's an example:
+
+                x = <<END_MY_STRING_PLEASE
+                This is the string
+                And a second line
+                END_MY_STRING_PLEASE
+
+            -   String Expressions
+
+                -   1) puts "abc" * 5
+                    "abcabcabcabcabc"
+
+                -   2) puts "x" > "y"
+                    false
+
+                -   3) if you are interested to learn what value a particular character has, find out like so:
+
+                    puts "x".ord
+                    120
+
+                -   4) A reverse method for above statement
+
+                    puts 120.chr
+                    x
+
+                -   Interpolation
+
+                    You can embed expressions (and even logic ) directly into strings. This is so called interpolation. The way of interpolate
+                    a string is to place the expression within #{and} symbols. E.g.
+
+                    puts "100 * 5" = #{100 * 5}"
+
+                    The #{100 * 5} section interpolates the result of 100 * 5(500) into the string at that position, resulting in th output shown.
+
+                    Another example to demo this concept is:
+
+                    puts "It's a #{"bad " * 5 }"
+
+                -   Other string methods
+
+                    Expression                  Output                    
+
+                    "Test" + "Test"	            TestTest
+                    "Test".capitalize	        Test
+                    "Test".downcase	            test
+                    "Test".chop	                Tes
+                    "Test".next	                Tesu
+                    "Test".reverse	            tseT
+                    "Test".sum	                416
+                    "Test".swapcase	            tEST
+                    "Test".upcase	            TEST
+                    "Test".upcase.reverse	    TSET
+                    "Test".upcase.reverse.next	TSEU
+                    "Test".length               4
+
+            -   Regular expression and String Manipulation
+
+                A regular expression is a string that describes a pattern for matching elements in other strings.
+
+                -   Subsitutions
+
+                    puts "foobar".sub('bar', 'foo')
+                    foofoo
+
+                    The above example demo a single sub. For multiple sub, look at the below example:
+
+                    puts "this is a test".gsub('i', '')
+                    ths s a test
+                                       
+                    For more complicated examples such as to replace the first two characters of a string with 'Hello'
+
+                    puts "this is a test.gsub(/^../, "Hello")"
+                    Hellois is a test
+            
+                    The ^ is an anchor, meaning the regular expression will match from the beginning of any lines within the string
+                    The two periods each represent “any character.” In all, /^../ means “any two characters immediately after the 
+                    start of a line.”
+
+                    Likewise, if you want to change the last two characters, you can use a different anchor:
+
+                    x = "This is a test"
+                    puts x.sub(/..$/, 'Hello')
+                    This is a teHello
+
+                -   Iteration with a regular Expression
+
+                    What if you want to iterate through a string and have access to each section of it
+                    separately? scan is the iterator method you require:
+
+                    "xyz".scan(/./) { |letter| puts letter }
+                    x
+                    y
+                    z
+
+                    Another example to demo to iterate through every two characters:
+
+                    "This is a test".scan(/../) {|x| puts x}
+                    
+                    Th
+                    is
+                     i
+                    s 
+                    a 
+                    te
+                    st
+
+                    The result is weird with all spaces mixed in. Let's adjust our regular expression to match only letters and digits, like so:
+                    
+                    "This is a test".scan(/\w\w/) { |x| puts x }
+
+                    Th
+                    is
+                    is
+                    te
+                    st
+
+                    \w means “any alphanumeric character or an underscore.
+
+                    Character   Meaning
+
+                    ^	        Anchor for the beginning of a line
+                    $	        Anchor for the end of a line
+                    \A	        Anchor for the start of a string
+                    \Z	        Anchor for the end of a string
+                    .	        Any character
+                    \w	        Any letter, digit, or underscore
+                    \W	        Anything that \w doesn’t match
+                    \d	        Any digit
+                    \D	        Anything that \d doesn’t match (non-digits)
+                    \s	        Whitespace (spaces, tabs, newlines, and so on)
+                    \S	        Non-whitespace (any visible character)
+
+                    Another example:
+
+                    "The car costs $1000 and the cat costs $10".scan(/\d+/) do |x|
+                    puts x
+                    end
+
+                    1000
+                    10
+                    
+                    The + that follows \d makes \d match as many digits in a row as possible. '+' after a character in a regular expression means 
+                    match one or more of that type of character. There are other types of modifiers, and these are shown below:
+
+                    Modifier	        Description
+                    *	                Match zero or more occurrences of the preceding character, and match as many as possible.
+                    +	                Match one or more occurrences of the preceding character, and match as many as possible.
+                    *?	                Match zero or more occurrences of the preceding character, and match as few as possible.
+                    +?	                Match one or more occurrences of the preceding character, and match as few as possible.
+                    ?	                Match either one or none of the preceding character.
+                    {x}	                Match x occurrences of the preceding character.
+                    {x,y}	            Match at least x occurrences and at most y occurrences.
+
+                    Last but not least, you can use "character classes" to match against a specific set of characters. E.g.
+
+                    "This is a test".scan(/[aeiou]/) { |x| puts x }
+
+                    i
+                    i
+                    a
+                    e
+
+                    another example: 
+
+                    "This is a test".scan(/[a-m]/) { |x| puts x }
+                    
+                    h
+                    i
+                    i
+                    a
+                    e
+
+                -   Matching
+                
+                    Making substitions and extracting certain text from strings is useful, but sometimes you merely want to check whether a certain string
+                    matches against the pattern of your choice. Let's look at one example:
+
+                    puts "String has vowels" if "This is a test" =~ /[aeiou]/
+                
+                    =~ is another form of operator: a matching operator. If the string has a match with the regular expression following the operator, then 
+                    the expression returns the position of the first match.
         
+                    It's possible to use a method called match, provided by the String class. Match can provide more power than =~. Here is an example:
+
+                    puts "String has vowels" if "This is a test".match(/[aeiou]/)
+
+                    In regular expressions, if you surround a section of the expression with parentheses - ( and ) - the data matched by that section of the
+                    regular expression is made available separately from the rest.match lets you access the data(??):
+
+                    x = "This is a test".match(/(\w+) (\w+)/)
+                    puts x[0]
+                    puts x[1]
+                    puts x[2]
+
+                    This is
+                    This
+                    is
+
+                    match returns a MatchData object that can be accessed like an array. The first element
+                    (x[0]) contains the data matched by the entire regular expression. However, each successive
+                    element contains that which was matched by each match group of the regular expression. In
+                    this example, the first (\w+) matched This and the second (\w+) matched is.
+
+        -   Arrays and Lists
+
+            x = [1, 2, 3, 4]
+            puts x[2]
+            
+            3
+
+            -   You can create an empty array like:
+
+                x = []
+
+            -   Push data into an array
+
+                x << "Word"
+                
+                After this, the array contains a single element: a string saying "Word". << is the operator for pushing an item into the end of an array. You can
+                also use the push method: 
+
+                x.push("Word")
+
+            -   Remove entries from arrays
+
+                x = []
+                x << "Word"
+                x << "Play"
+                x << "Fun"
+                puts x.pop
+                puts x.pop
+                puts x.length
+
+                Fun
+                Play
+                1
+
+            -   If array is full of strings, you can join all the elements together into one big string by calling the join method on the array:
+
+                x = ["Word", "Play", "Fun"]
+                puts x.join
+
+                WordPlayFun
+
+                or 
+
+                x = ["Word", "Play", "Fun"]
+                puts x.join(', ')
+
+                Word, Play, Fun
+
+            -   Splitting Strings into Arrays
+
+                You can use the split method to split a string into multiple pieces. Like so:
+
+                puts "Short sentence. Another. No more.".split(/\./).inspect
+
+                ["Short sentence", " Another", " No more"]
+
+                Note:
+
+                1)      In the regular expression rather than ., you'd be splitting on every character rather than on full stops, 
+                        because . represents "any character" in a regular expression. Therefore, you have to escape(escaping is
+                        process of specifically denoting a character to make its meaning clear) it by prefixing it with a backslash; 
+
+                2)      The inspect method is common to almost all built-in classes in Ruby and it gives you a textual representation 
+                        of the object. You can use 'p' to replace inspect. E.g.
+    
+                        p "Words with lots of spaces".split(/\s+/)
+
+                        ["Words", "with", "lots", "of", "spaces"]
+
+            -   Array Iteration
+
+                -   example 1: use "each" method
+
+                    [1, "test", 2, 3, 4].each { |element| puts element.to_s + "X" }
+
+                    1X
+                    testX
+                    2x
+                    3x
+                    4x
+
+                -   example 2: use "collect" method
+
+                    Although each iterates through elements of an array, you can also convert an array on the fly using the collect method:
+
+                    [1, 2, 3, 4].collect { |element| element * 2 }
+
+                    [2, 4, 6, 8]
+
+                    collect iterates through an array element by element, and assigns to that element the result of any expression within the code block.
+
+                    note: map function is the same as collect
+
+                -   example 3: use the regular method
+
+                    while (i < a.length)
+                      puts a[i].to_s + "X"
+                      i += 1
+                    end
+                
+
+            -   Other array methods
+
+                -   Addition +
+
+                    x = [1, 2, 3]
+                    y  = ["a", "b", "c"]
+                    z = x + y
+                    p z
+
+                    [1, 2, 3, "a", "b", "c"]
+
+                -   Subtraction -
+
+                    x = [1, 2, 3, 4, 5]
+                    y = [1, 2, 3]
+                    z = x - y
+                    p z
+
+                    [4, 5]
+
+                -   empty array check
+
+                    x = []
+                    puts "x is empty" if x.empty?
+
+                    x is empty
+
+                -   checking an Array for a Certain item
+                                        
+                    x = [1, 2, 3]
+                    p x.include?("x")
+                    p x.include?(3)
+
+                    false
+                    true
+
+                -   Accessing the first/last element of the array
+
+                    x = [1, 2, 3]
+                    puts x.first
+                    puts x.last
+
+                    1
+                    3
+
+                    x = [1, 2, 3]
+                    puts x.first(2).join("-")
+
+                    1-2
+
+                -   Reversing the order
+
+                    x = [1, 2, 3]
+                    p x.reverse
+    
+                    [3, 2, 1]
+
+        -   Hashes
+
+            directionary = {'cat' => 'feline animal', 'dog' => 'canine animal'}
+
+            puts directionary.size
+            
+            2
+
+            -   Basci Hash Methods
+
+                -   Iterate through Hash Elements
+
+                    x = { "a" => 1, "b" => 2 }
+                    x.each { |key, value| puts "#{key} equals #{value}" }
+
+                    a equals 1
+                    b equals 2
+
+                    In Ruby 1.8, there is no guarantee that elements will be returned in a specific order. In Ruby 1.9,
+                    however, the order in which the elements were inserted into the hash will be remembered, and each will
+                    return them in that order.
+
+                -   Retrieving keys
+
+                    x = { "a" => 1, "b" => 2, "c" => 3 }
+                    p x.keys
+
+                    ["a", "b", "c"]
+
+                -   Delete Hash Elements
+
+                    x = { "a" => 1, "b" => 2 }
+                    x.delete("a")
+                    p x
+
+                    {"b"=>2}
+
+                -   Deleting Hash Elements Conditionally
+                    
+                    x = { "a" => 100, "b" => 20 }
+                    x.delete_if { |key, value| value < 25 }
+                    p x
+
+                    {"a"=>100}
+
+            -   Hash Within Hashes
+
+                people = {
+                    'fred' => {
+                        'name' => 'Fred Elliott',
+                        'age' => 63,
+                        'gender' => 'male',
+                        'favorite painters' => ['Monet', 'Constable', 'Da Vinci']
+                    },
+                    'janet' => {
+                        'name' => 'Janet S Porter',
+                        'age' => 55,
+                        'gender' => 'female'
+                    }
+                }
+
+                puts people['fred']['age']
+                puts people['janet']['gender']
+                p people['janet']
+
+                63
+                female
+                {"name"=>"Janet S Porter", "gender"=>"female", "age"=>55}
+
+                Even the array embedded within Fred’s hash is easy to access:
+                puts people['fred']['favorite painters'].length
+                puts people['fred']['favorite painters'].join(", ")
+
+                3
+                Monet, Constable, Da Vinci
+
+            -   Flow Control
+
+                -   if and unless
+                -   ? the Ternary Operator
+                -   elsif and case
+
+                    fruit = "orange"
+                    if fruit == "orange"
+                        color = "orange"
+                    elsif fruit == "apple"
+                        color = "green"
+                    elsif fruit == "banana"
+                        color = "yellow"
+                    else
+                        color = "unknown"
+                
+                    fruit = "orange"
+                    case fruit
+                        when "orange"
+                        color = "orange"
+                        when "apple"
+                        color = "green"
+                        when "banana"
+                        color = "yellow"
+                        else
+                        color = "unknown"
+                    end
+
+                    You can use another trick to shorten the above example:
+
+                    fruit = "orange"
+                    color = case fruit
+                      when "orange"
+                      "orange"
+                      when "apple"
+                      "green"
+                      when "banana"
+                      "yellow"
+                      else
+                      "unknown"
+                    end
+
+                -   while and until
+
+                    x = 1
+                    until x > 99
+                      puts x
+                      x = x * 2
+                    end
+
+                    It's also possible to while and until in a single line setting:
+
+                    i = 1
+                    i = i * 2 until i > 1000
+                    puts i
+
+                    1024
+
+                -   Code Blocks
+
+                    The code between { and } or do and end is a code block. Another example(!!)
+
+                    def each_vowel(&code_block)
+                      %w{a e i o u}.each { |vowel| code_block.call(vowel) }
+                    end
+
+                    each_vowel { |vowel| puts vowel }
+
+                    a
+                    e
+                    i
+                    o
+                    u
+
+                    each_vowel is a method that accepts a code block, as designated by the ampersand(&) before the variable name code_block in the method
+                    definition. It then iterates over each vowel in the literal array %w{a e i o u} and uses the call method on code_block to execute
+                    the code block for each vowel, passing in the vowel variable as a parameter each time. 
+
+                    Note: Code blocks passed in this way result in objects that have many methods of their own, such as "call".
+
+                    Another alternate technique is to use the yield method, which automatically detects any passed code block and passes control to it:
+
+                    def each_vowel
+                      %w{a e i o u}.each { |vowel| yield vowel}
+                    end
+
+                    each_vowel {|vowel| puts vowel }
+
+                    The last method you can use is to store code blocks within variable, using the lambda method:
+
+                    print_parameter_to_screen = lambda { |x| puts x }
+                    print_parameter_to_screen.call(100)
+
+                    100
+
+                -   Other Useful Building Blocks
+    
+                    -   Dates and Times
+                    -   Large Numbers
+                    -   Ranges
+
+                        x = ['A', 'B', 'C'..., 'Z'] can be written as a representation of a range
+
+                        ('A'..'Z')
+
+                        The Range class provides a simple way to convert a range into an array with to_a:
+
+                        ('A'..'Z').to_a.each{|letter| print letter}
+
+                        ABCDEFGHIJKLMNOPQRSTUVWXYZ=> 
+                        ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]
+
+                        You can check if R is within the range, using the include? method, like so:
+
+                        ('A'..'Z').include?('R')
+
+                        => true
+
+                    -   Symbols
+
+                        current_situation = :good
+                        puts "Everything is fine" if current_situation == :good
+                        puts "PANIC!" if current_situation == :bad
+
+                        => Everything is fine
+
+                        Here :good and :bad are symbols. 
+
+                        Symbols don’t contain values or objects, like variables do. Instead, they’re used as a consistent 
+                        name within code. For example, in the preceding code, you could easily replace the symbols with strings, like so:
+
+                        current_situation = "good"
+                        puts "Everything is fine" if current_situation == "good"
+                        puts "PANIC!" if current_situation == "bad"
+
+                        This gives the same result, but isn’t as efficient. In this example, every mention of “good”
+                        and “bad” creates a new object stored separately in memory, whereas symbols are single refer-
+                        ence values that are only initialized once. In the first code example, only :good and :bad exist,
+                        whereas in the second example, you end up with the full strings of "good", "good", and "bad"
+                        taking up memory.
+
+                        You might want to consider symbols to be literal constants that have no value, but whose
+                        name is the most important factor.
+
+                        Symbols are particularlu useful when creating hashes and you want to have a distinction between keys and values. E.g.
+
+                        s = { :key => 'value' }
+            
+                        This technique can also be useful when there’s a specification or consistency in which key
+                        names to use:
+
+                        person1 = { :name => "Fred", :age => 20, :gender => :male }
+                        person2 = { :name => "Laura", :age => 23, :gender => :female }
+
+
+-  Chapter 4 Your first Ruby program 
+
+    -   Please check myFirst.rb, summarize.rb, and argv.rb in the test folder
+
+-   Questions
+
+    a = %w{ a b c d e f }
+    a.select {|v| v =~ /[aeiou]/}   #=> ["a", "e"]
+
+    ?? What does "v =~" mean here?
+    
+    the =~ operator matches the regular expression against a string, and it returns either the offset of the match from the string if it is found,
+    otherwise nil.
+
+-   Chapter 6 Classes, Objects and Modules
+
+    -   Return Statement
+
+        It's not necessary to use return to return values from methods in Ruby. The last expression within the method is used as the return bu default.
+        If it feels right for the situation or seems clearer to you, however, you can certainly use return with impunity!
+
+    -   Local, Global, Object and Class Variables
+
+        -   Local variables
+
+            def basic_method
+                x = 50
+                puts x
+            end
+
+        -   Global variables
+
+            def basic_method
+            puts $x
+            end
+
+        -   Object Variables
+
+            class Square
+                def initialize(side_length)
+                    @side_length = side_length
+                end
+                def area
+                    @side_length * @side_length
+                end
+            end
+
+            a = Square.new(10)
+            b = Square.new(5)
+            puts a.area
+            puts b.area
+
+            100
+            25
+
+        -   Class Variables
+
+            class Square
+                def initialize
+                    if defined?(@@number_of_squares)
+                        @@number_of_squares += 1
+                    else
+                        @@number_of_squares = 1
+                    end
+                end
+                
+                def self.count
+                    @@number_of_squares
+                end
+            end
+
+            a = Square.new
+            b = Square.new
+            puts Square.count
+
+            2
+
+        -   Object methods vs Class methods
