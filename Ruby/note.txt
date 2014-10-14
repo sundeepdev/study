@@ -143,7 +143,7 @@ Beginning_Ruby_From_Novice_to_Professional
 
     -   Looping Through Numbers with Blocks and Iterators
 
-        -   Fixnum.times method()
+        -   Fixnum.times method
 
             5.times do puts "Test" end
 
@@ -323,15 +323,17 @@ Beginning_Ruby_From_Novice_to_Professional
 
                     ^	        Anchor for the beginning of a line
                     $	        Anchor for the end of a line
-                    \A	        Anchor for the start of a string
-                    \Z	        Anchor for the end of a string
+                    \A	      Anchor for the start of a string
+                    \Z	      Anchor for the end of a string
                     .	        Any character
-                    \w	        Any letter, digit, or underscore
-                    \W	        Anything that \w doesn’t match
-                    \d	        Any digit
-                    \D	        Anything that \d doesn’t match (non-digits)
-                    \s	        Whitespace (spaces, tabs, newlines, and so on)
-                    \S	        Non-whitespace (any visible character)
+                    \w	      Any letter, digit, or underscore
+                    \W	      Anything that \w doesn’t match
+                    \b        Matches word boundaries when outside brackets; backspace (0x08) when inside brackets
+                    \B        Matches non-word boundaries
+                    \d	      Any digit
+                    \D	      Anything that \d doesn’t match (non-digits)
+                    \s	      Whitespace (spaces, tabs, newlines, and so on)
+                    \S	      Non-whitespace (any visible character)
 
                     Another example:
 
@@ -403,6 +405,7 @@ Beginning_Ruby_From_Novice_to_Professional
                     (x[0]) contains the data matched by the entire regular expression. However, each successive
                     element contains that which was matched by each match group of the regular expression. In
                     this example, the first (\w+) matched This and the second (\w+) matched is.
+
 
         -   Arrays and Lists
 
@@ -797,17 +800,7 @@ Beginning_Ruby_From_Novice_to_Professional
 
     -   Please check myFirst.rb, summarize.rb, and argv.rb in the test folder
 
--   Questions
-
-    a = %w{ a b c d e f }
-    a.select {|v| v =~ /[aeiou]/}   #=> ["a", "e"]
-
-    ?? What does "v =~" mean here?
-    
-    the =~ operator matches the regular expression against a string, and it returns either the offset of the match from the string if it is found,
-    otherwise nil.
-
--   Chapter 6 Classes, Objects and Modules
+-  Chapter 6 Classes, Objects and Modules
 
     -   Return Statement
 
@@ -871,3 +864,576 @@ Beginning_Ruby_From_Novice_to_Professional
             2
 
         -   Object methods vs Class methods
+
+            "self." is used to denote a class method. Please see test/Square.rb for more detail.
+
+        -   Inheritance
+
+            "<" is used to inherit from a parent class. Pls refer to test/parent.rb for more detail.
+
+        -   Reflection and Discovering an Object's Methods
+
+            Reflection is the process by which a computer program can inspect, analyze, and modify itself while
+            it's running and being used. Ruby takes reflection to an extreme, and allows you to change the functionality 
+            of great swathes of the language itself while running your own code.
+
+            -   methods() method
+        
+                a = "This is a test"
+                puts a.methods.join(' ')
+
+                The methods method on any object (unless it has been overridden, of course!) returns an array of methods made 
+                available by that object.
+
+            -   instance_variables
+
+                It returns the names of any object
+                variables associated with an instance (as opposed to class variables):
+
+                class Person
+                  attr_accessor :name, :age
+                end
+
+                p = Person.new
+                p.name = "Fred"
+                p.age = 20
+                puts p.instance_variables
+
+                ["@age", "@name"]
+
+                note: Ruby 1.9’s implementation of instance_variables returns symbols that refer to the object
+                variables rather than strings.
+
+            -   Encapsulation
+
+                Encapsulation is the ability for an object to have certain methods and attributes available for
+                use publicly (from any section of code), but for others to be visible only within the class itself
+                or by other objects of the same class.
+
+                class Person
+                def anyone_can_access_this
+                   ...
+                end
+                
+                    private
+                    def this_is_private
+                       ...
+                    end
+                    
+                    public
+                    def another_public_method
+                       ...
+                    end
+                end
+
+                You can also use "private" as a command by passing in symbols representing the methods you want to keep private, like so:
+
+                class Person
+                    def anyone_can_access_this; ...; end
+                    def this_is_private; ...; end
+                    def this_is_also_private; ...; end
+                    def another_public_method; ...; end
+                    private :this_is_private, :this_is_also_private
+                end
+
+                The third form of encapsulation (other than public and private) called protected that makes a method private, but within
+                the scope of a class rather than within a single object(??It seems this is different from the protected concept in Java/C++).
+                For example, you were unable to directly call a private method outside the scope of that object and its methods. However
+                , you can call a protected method from the scope of the methods of any object that's a member of the same class.
+
+                Note:
+
+                Note  Ruby supports ending lines of code with semicolons ( ; ) and allows you to put multiple lines of code
+                onto a single line (for example, x = 10; x += 1; puts x ). In this case, it’s been done to save on lines of
+                code in the example, although it’s not considered good style in production-quality Ruby code.
+
+                For more detail, please check the person.rb in /test
+
+            -   Polymorphism
+
+                Polymorphism is the concept of writing code that can work with objects of multiple types and
+                classes at once. Please see polymorphism.rb for more detail.
+
+            -   Nested Classes
+
+                Nested classes are useful when you want to seperate classes into groups of classes rather than keep them all distinct.
+
+                class Drawing
+                    def Drawing.give_me_a_circle
+                        Circle.new
+                    end
+
+                    class Line
+                    end
+                    class Circle
+                        def what_am_i
+                            "This is a circle"
+                        end
+                    end
+                end
+
+                a.Drawing.give_me_a_circle
+                puts a.what_am_i
+                a = Drawing::Circle.new
+                puts a.what_am_i
+                #a = Circle.new
+                #puts a.what_am_i
+
+                You can create a circle object with either a.Drawing.give_me_a_circle or Drawing::Circle.new.
+                But you cannot directly create a circle instance with Circle.new directly.
+
+            -   Modules, Namespaces, and Mix-Ins
+            
+                Modules provide a structure to collect Ruby classes, methods, and constants into a single,
+                separately named and defined unit.
+
+                -   Namespaces
+    
+                    Modules help to solve name conflicts by providing namespaces that can contain any number of classes, methods,
+                    and constants, and allow you to address them directly. Please see the modules.rb as an example.
+
+                -   Max-Ins
+
+                    Ruby doesn't support multiple inheritance. However, in some cases, it can be useful to share functionality 
+                    between disparate classes. In this sense, modules act like a sort of “super” class and can be included into other classes,
+                    extending that class with the methods the module offers. Please see mixIns.rb for more detail.
+
+                Two keywords:   1) module;  2) include
+
+                module is used to define a module to include classes, methdos and constants.
+                include takes a module and includes its contents into the current scope.
+
+                Ruby comes with several modules by standard that you can use. E.g. the Kernel module contains all the "standard" commands (such as load, 
+                require, exit, puts, eval...) without getting involved with objects or classes. Two such modules are Enumerable and Comparable.
+
+- Chapter 7 Projects and Libraries
+
+    -   Basic File Inclusion
+
+        You might want to write a number of methods to add to String that you'd like to use in multiple programs. Rather than copy and paste the code each time
+        you can copy it out to a separate file and use the require command to load the external file into the current program. For example, put this code in 
+        a file called string_extensions.rb:
+
+        class String
+          def vowels
+            self.scan(/[aeiou]/i)
+          end
+        end
+
+        and Put this code in a file called vowel_test.rb:
+
+        require 'string_extensions'
+        puts "This is a test".vowels.join('-')
+
+        You can also use "load" to load external source-code files into your program. For example:
+
+        load 'string_extensions.rb'
+        puts "This is a test".vowels.join('-')
+
+        (!!)Note: load requires a full filename, including the .rb suffix, whereas require assume the .rb suffix.
+        Also, With load, the code is loaded and reprocessed anew each time you use the load method. require, on the
+        other hand, processes external code only once. Good Ruby programmers usually prefer using "require" instead
+        of "load"
+
+    -   Inclusions from Other Directories
+
+        Ruby stores the list of directories to search for included files in a special variable called $:
+        (or, if you prefer, $LOAD_PATH). You can see what $: contains by default, using irb:
+        $:.each { |d| puts d }
+
+        /usr/local/lib/site_ruby/1.9.1
+        /usr/local/lib/site_ruby/1.9.1/x86_64-linux
+        /usr/local/lib/site_ruby
+        /usr/lib/ruby/vendor_ruby/1.9.1
+
+        If you want to add extra directories to this, 
+
+        $:.push '/your/directory/here'
+        require 'yourfile'
+
+        Note: $: is an array so you can do "push" operation
+
+    -   Logic and Including Code
+
+        -   Example 1:
+
+            $debug_mode = 0
+            require $debug_mode == 0 ? "normal-classes" : "debug-classes"
+
+        -   Example 2:
+
+            %w{file1 file2 file3 file4 file5}.each { |l| require l }
+
+    -   Libraries
+
+        -   RubyGems(!!)
+
+            RubyGems is a packaging system for Ruby programs and libraries. It enables developers to package their Ruby libraries 
+            in a form that's easy for users to maintain and install. RubyGems makes it easy to manage different versions of the 
+            same libraries on your machine, and  gives you the ability to install them with a single line at the command prompt.
+
+            Each individually packaged Ruby library (or application) is known simply as a gem or RubyGem. Gems have names, version 
+            numbers, and descriptions. You can manage your computer’s local installations of gems using the gem command, available 
+            from the command line.
+
+            -   Finding Gems
+
+                To find local gems: gem list --local
+
+                To find remote gems: gem list --remote
+
+                Note: The remote gem server is currently hosted by RubyForge, but you can add other source later on(??how).
+
+                Alternatively, you can use the search features offered by the gem program directly, like so:
+
+                gem query --remote --name-matches class
+
+            -   Installing a Simple Gem
+
+                sudo gem install feedtools
+
+                or gem install hpricot --source http://code.whytheluckystiff.net
+
+                note: --source specifies another remote source site rather than the default one such as RubyForge
+
+            -   Using Gems
+
+                As the RubyGems system isn’t an integrated part of Ruby, it’s necessary to tell your programs
+                that you want to use and load gems.
+
+                Let's look at one example:
+
+                require 'rubygems'
+                require 'RedCloth'
+                r = RedCloth.new("this is a *test* of _using RedCloth_")
+                puts r.to_html
+
+                => <p>this is a <strong>test</strong> of <em>using RedCloth</em></p>
+
+                In this example, you first load up the RubyGems library, and then load up the RedCloth
+                library with require. When RubyGems is loaded on the first line, the RubyGems library over-
+                rides the require method and enables it to be used to load gems as if they were normal, local
+                libraries(!!).
+
+            -   Updating and Uninstalling Gems
+
+                sudo gem update
+                sudo gem uninstall feedtools
+
+-   Chapter 8 Documentation, Error Handling, Debugging, and Testing
+
+    -   Documentation
+
+        Ruby uses a utility called RDoc to make documentation extremely easy to document your code. For example: 
+
+        rdoc person.rb
+
+        This command tells RDoc to process person.rb and produce the HTML documentation. By default, it does this 
+        by creating a directory called doc from the current directory and placing its HTML and CSS files in there.
+
+        -   Basic Formatting(...)
+        -   Modifier and Options(...)
+        -   Command Options(...)
+
+    -   Debugging and Errors
+
+        -   Exceptions and Error Handling
+
+            -   Raising Exceptions
+  
+                When an exception is raised (exceptions are said to be raised when they occur within the
+                execution of a program), Ruby immediately looks back up the tree of routines that called
+                the current one (known as the stack) and looks for a routine that can handle that particular
+                exception. If it can’t find any error-handling routines, it quits the program with the raw error
+                message.
+
+                E.g.
+
+                irb(main):001:0> puts 10 / 0
+
+                =>
+
+                ZeroDivisionError: divided by 0
+                from (irb):1:in `/'
+                from (irb):1
+
+                You can use the keyword "raise" to generate an exception. E.g.
+
+                class Person
+                  def initialize(name)
+                    raise ArgumentError, "No name present" if name.empty?
+                  end
+                end
+
+                fred = Person.new('')
+
+                => ArgumentError: No name present
+
+                Note: Always provide a message and a class with raise , if possible.
+
+                However, you could create your own type of exception if you wanted to. For example:
+
+                class BadDataException < RuntimeError
+                end
+
+                class Person
+                  def initialize(name)
+                    raise BadDataException, "No name present" if name.empty?
+                  end
+                end
+
+            -   Handling Exceptions(!!)
+  
+                In most situations, stopping a program because of a single error isn’t necessary.
+                The error might only be minor, or there might be an alternative option to try.  
+
+                Therefore, it’s possible to handle exceptions. In Ruby, the rescue clause is used, 
+                along with begin and end, to define blocks of code to handle exceptions. For example:
+
+                begin
+                  puts 10 / 0
+                rescue
+                  puts "You caused an error!"
+                end
+
+                => You caused an error!
+
+                rescue's syntax makes handling different exceptions in different ways eash:
+
+                begin
+                  ... code here ...
+                rescue ZeroDivisionError
+                  ... code to rescue the zero division exception here ...
+                rescue YourOwnException
+                  ... code to rescue a different type of exception here ...
+                rescue
+                  ... code that rescues all other types of exception here ...
+                end
+
+            -   Handling Passed Exceptions
+
+                As well as handling different types of exceptions using different code blocks, it’s possible to
+                receive exceptions and use them. This is achieved with a little extra syntax on the rescue block:
+
+                begin
+                  puts 10 / 0
+                rescue => e
+                  puts e.class
+                end
+
+                => ZeroDivisionError
+
+            -   Catch and Throw (!!)
+ 
+                Sometimes you want to be able to break out of a thread of execution (say, a loop) during normal operation
+                in a similar way to an exception, but without actually generating an error. Ruby provides two methods, catch 
+                and throw, for this purpose.
+
+                catch(:finish) do
+                  1000.times do
+                    x = rand(1000)
+                    throw :finish if x == 123
+                  end
+
+                  puts "Generated 1000 random numbers without generating 123!"
+                end
+
+                Within the catch block you generate 1,000 random numbers, and if the random number is
+                ever 123, you immediately escape out of the block using throw :finish. However, if you man-
+                age to generate 1,000 random numbers without generating the number 123, the loop and the
+                block complete, and you see the message.
+
+                Catch and throw don’t have to be directly in the same scope. throw works from methods
+                called from within a catch block:
+
+                def generate_random_number_except_123
+                  x = rand(1000)
+                  throw :finish if x == 123
+                end
+
+                catch(:finish) do
+                  1000.times { generate_random_number_except_123 }
+                  puts "Generated 1000 random numbers without generating 123!"
+                end
+
+        -   The Ruby Debugger
+
+            ruby -r debug debugtest.rb
+
+            Note: -r: Causes Ruby to load the library using require.
+
+            -   Most useful commands:
+  
+                -   list
+                -   step 
+                -   cont
+                -   break
+                -   watch
+                -   quit
+                
+        -   Testing 
+
+            -   Test Driven Development
+            -   Behaviol Driven Development
+            -   Unit Testing
+
+                With more than a few tests, it soon becomes messy, as there's no logical place for the tests to go and you certainly do not want to
+                include tests with your actual functional code. Ruby comes with a library, Test::Unit that makes testing easy and organizes test cases
+                into a clean structure. Unit testing is the primary component of test-driven development, and means that you’re testing each individual 
+                unit of functionality within a program or system. Test::Unit is Ruby’s official library for performing unit tests.
+
+            -   BenchMarking and Profiling
+
+-   Chapter 9 Files and Databases
+
+    -   File I/O (...)
+    -   Text File Databases(...)
+    -   Storing Objects and Data Structures
+
+        -   PStore
+
+            PStore is a core Ruby library that allows you to use Ruby objects and data structures as you
+            normally would, and then store them in a file. Later on, you can reload the objects back into
+            memory from the disk file. This technique is known as object persistence, and relies on a tech-
+            nique called marshalling, where standard data structures are turned into a form of flat data
+            that can be stored to disk or transmitted over a network for later reconstruction.
+
+
+            (...)
+
+        -   YAML (standing for YAML Ain’t Markup Language)
+
+            It is a special text-based markup language that was designed as a data serialization format that’s readable by humans.
+
+            (...)
+
+    -   Relational Databases and SQL
+
+-   Chapter 13 Web Application Frameworks: Rails, Sinatra, and Ramaze
+
+    -   Ruby On Rails
+
+        It's an open-source, web application framework. A framework is a set of code libraries and data-structures that provide
+        generic functionality which can be used, overridden or further specilized.
+
+        -   2 Principles
+
+            -   DRY - "Don't repeat yourself". It means Concise, consistent code that is easy to maintain. Built DRY, encourage DRY.
+            -   Convention over configuration - Sensible defaults(??), only specify unconventional aspects. It can speed development
+                and less code to maintain. Extra features for free.
+
+        -   MVC Web Architecture
+
+                      1                   2             3 
+            Browser   ->    Controller    ->    Model   -> DataBase
+               ^                 |         5             4
+               |                 |         <-            <-
+               |7                v
+               |                 6
+               |----------------View (HTML, CSS, JavaScript)
+            
+
+        
+            Controller: Handle Decisions
+            Model:      Handle Data
+            View:       Handle Presentation
+
+            In Ruby-On-Rails, We call:
+
+            Controller    ->    ActionController
+            View          ->    ActionView
+            Model         ->    ActiveRecord
+
+            it also groups ActionController and ActionView together as ActionPack
+
+        -   Bundler
+
+            Two files are associated with Bundler: 1) Gemfile; 2) Gemfile.lock
+
+            Gemfile is the file to tell Bundler which gems are needed for this project and what versions.
+
+            Run: bundle install so that the bundler translates Gemfile into Gemfile.locso that the bundler translates Gemfile into Gemfile.lock
+
+            Tip:
+
+            If running the following failed:
+
+            rake db:migrate
+
+            try:
+
+            bundle exec rake db:migrate
+
+        -   Create a Prject
+  
+            Let's take using a postgresql as our database as an example:
+
+            rails new simple_cms -d postgresql
+
+            There are a couple sub-folders also created for you:
+
+            app:
+
+            app/controllers:
+
+            app/helpers:
+
+            app/models:
+
+            app/
+
+            Now, rails creates a project called simple_cms with postgresql
+    
+        -   Accessing a Project
+
+            Start web server
+
+            rails s or rails server
+
+            Note: You may run into the trouble: "Rails server does not start -> Could not find a JavaScript runtime"
+
+            That means you don't have JavaScript runtime installed. Therefore, you need to do this:
+
+            sudo add-apt-repository ppa:chris-lea/node.js
+            sudo apt-get -y update
+            sudo apt-get -y install nodejs
+            
+                      
+
+                
+
+-   Questions
+
+    1.  =~ operator
+
+    a = %w{ a b c d e f }
+    a.select {|v| v =~ /[aeiou]/}   #=> ["a", "e"]
+
+    ?? What does "v =~" mean here?
+    
+    the =~ operator matches the regular expression against a string, and it returns either the offset of the match from the string if it is found,
+    otherwise nil.
+
+    2.  %w
+
+    %w(foo, bar) is a shortcut for ["foo", "bar"]. Meaning it's a notation to write an array of strings seperated by spaces instead of commas and without
+    quotes around them.
+
+-   Notes for my project
+
+    1.  Install those gems
+
+        sudo apt-get install ruby-dev
+        sudo gem install carrierwave
+        sudo gem install carrierwave_backgrounder
+        sudo gem install houston 
+
+    2.  Install rails
+
+        sudo apt-get install libpq-dev
+        sudo gem install pg
+
+        (go to the site root directory)
+        sudo bundle install
+
+        After running all those steps, the bundler creates a file called Gemfile.lock based on the file Gemfile
