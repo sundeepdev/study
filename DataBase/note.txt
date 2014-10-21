@@ -1955,7 +1955,45 @@ Notes from Learning MySQL:
 
                 UPDATE pg_database SET datistemplate=true WHERE datname='mydb';
 
+        -   The pg_hba.conf File
+
+            Client authentication is controlled by a configuration file, which traditionally is named pg_hba.conf and is 
+            stored in the database cluster's data directory. (HBA stands for host-based authentication.)
+
+            Each record specifies a connection type, a client IP address range (if relevant for the connection type), a database 
+            name, a user name, and the authentication method to be used for connections matching these parameters. There is no 
+            "fall-through" or "backup": if one record is chosen and the authentication fails, subsequent records are not considered. 
+            If no record matches, access is denied.
+
+            A record can have one of the seven formats:
+
+            local      database  user  auth-method  [auth-options]
+            host       database  user  address  auth-method  [auth-options]
+            hostssl    database  user  address  auth-method  [auth-options]
+            hostnossl  database  user  address  auth-method  [auth-options]
+            host       database  user  IP-address  IP-mask  auth-method  [auth-options]
+            hostssl    database  user  IP-address  IP-mask  auth-method  [auth-options]
+            hostnossl  database  user  IP-address  IP-mask  auth-method  [auth-options]
+
+            -   Difference between MD5 and password auth-methods
+
+                Those two authentication methods are similar to each other except that password method is sent across the connection, namely
+                MD5-hashed and clear-text respectively.
+
+                PostgreSQL database passwords are separate from operating system user passwords. The password for 
+                each database user is stored in the pg_authid system catalog. Passwords can be managed with the SQL 
+                commands CREATE USER and ALTER ROLE, e.g., CREATE USER foo WITH PASSWORD 'secret'. If no password has 
+                been set up for a user, the stored password is null and password authentication will always fail for that user.
+
+            -   peer auth-method
+
+                Obtain the client's operating system user name from the operating system and check if it matches the requested database user name. 
+                This is only available for local connections.
+
+
         -   Organizing Your Database Using Schemas
+
+            The general format of the pg_hba.conf file is a set of records, one per line.
 
             
 
@@ -2014,6 +2052,9 @@ Notes from Learning MySQL:
                 mysql:          DESCRIBE TABLE
                 postgresql:     \d+table
                 postgresql:     SELECT column_name FROM information_schema.tables:
+
+                mysql:          USE datname
+                postgres        \c datname
     
             -   The Schema
                 

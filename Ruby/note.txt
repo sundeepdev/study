@@ -1364,6 +1364,8 @@ Beginning_Ruby_From_Novice_to_Professional
 
             bundle exec rake db:migrate
 
+            You can also use bundle list to list all the gems installed in your app.
+
         -   Create a Prject
   
             Let's take using a postgresql as our database as an example:
@@ -1383,6 +1385,22 @@ Beginning_Ruby_From_Novice_to_Professional
             app/
 
             Now, rails creates a project called simple_cms with postgresql
+
+        -   Configure the database
+
+            Go to the file in /config/database.yml and setup the database setting:
+
+            E.g.
+
+            development:
+              adapter: postgresql
+              encoding: unicode
+              database: aioptify
+              pool: 5
+              username: aioptify
+              password:
+            ...
+
     
         -   Accessing a Project
 
@@ -1397,10 +1415,999 @@ Beginning_Ruby_From_Novice_to_Professional
             sudo add-apt-repository ppa:chris-lea/node.js
             sudo apt-get -y update
             sudo apt-get -y install nodejs
-            
-                      
 
+        -   public folder
+
+            If there is an html page already exists in the public folder, no bother the Rails Framework.
+
+        -   Routing
+
+            -   The Purpose of the Rails Router
+
+                The Rails router recognizes URLs and dispatches them to a controller's action. It can also
+                generate paths and URLs, avoiding the need to hardcode strings in your views.
+
+            -   Simple route
+
+                E.g. In the folder config/routes.rb
+
+                get "demo/index"
+
+                The above statement is the simplified form. The long one is shown below:
+
+                match "demo/index",
+                  :to => "demo#index",
+                  :via => :get
+
+            -   Default route
+        
+                Simple routes are not convinent to handle many cases. It would be much better if we can write the routing rules that can
+                handle many cases. They can pass the strings to the right components. This is what Default Route does. The Default route
+                structure looks something like the following:
+
+                :controller/:action/:id
+
+                E.g.
+
+                If an upcoming request is: "GET /students/edit/52"
+
+                |
+                v
+                StudentController, edit action
+                |
+                v
+                match ':controller(/:action(/:id))', :via => :get
+
+                Note: the parentheses () means optional. From programming point of view; :controller, :action, :id, :via and :get are all keywords.
+
+                Another example to show if you need JSON handling, try "format":
+
+                match ':controller(/:action(/:id(.:format)))',
+                  :via => :get
+        
+            -   Root route
+
+                root :to => "demo#index" or root to: => "demo#index"
+  
+                The short-hand version is:
+
+                root "demo#index" (Note: this version is not supported by Rails 3.2.16)
+
+            -   Print the routing info:
+
+                go to the rails root folder and run:
+
+                rake routes
+
+        -   Rendering Template
+
+            -   How does the controller choose which view to display to the user?
+
+                In each controller, it is a good practice to have each action defined. E.g.
+
+                class DemoController < ApplicationController
+                  layout false
+                  def index
+                    render(:template => 'demo/hello')
+                  end
+                  
+                  def hello
+                  end
+                end
+
+            -   Use the render method to tell the controller which template to load for that specified action:
+
+                ...
+                  def index
+                    render(:template => 'demo/hello') #or render('demo/hello') or render('hello'), because we are in demo controller,
+                                                      #we can ommit 'demo'
+                ...
+
+        -   Redirecting Actions
+
+            A redirect means a controller directs a request to another controller. For example, a user wants to access a page that is login required. 
+            The controller can direct the user to the login page. Why not just use render to the login page? Because there are other tasks to implement
+            before rendering the login page such as reading the cookies.
+
+            The syntax looks something like the following:
+
+            redirect_to(:controller => 'demo', :action => 'index')
+
+            or
+
+            redirect_to('http://www.ign.com')
+
+        -   View Templates
+
+            -   What is ERb?
+
+                It stands for Embedded Ruby. eRuby templating system to embed Ruby
+
+            -   Template file naming
+
+                hello.html.erb
+
+                It means that:
                 
+                Template name: hello
+                Process with: ERb
+                Output format: HTML
+
+            -   Embedding Ruby in an ERb template
+
+                <% code %> : execute the ruby code
+
+                < %= code% > : execute the ruby code and output the result
+
+                E.g.
+
+                <% 3.times do %>
+                    <%= "xxx" %>
+                <% end %>
+
+                Note: To output text to html, we cannot do <% puts "xxx" %>, instead, we need to do <%= "xxx" %>
+
+        -   Instance Variables
+
+            You can setup a variable in your controller, inside a action that it becomes available to the corresponding view at the end. E.g.
+
+            In your controller:
+        
+              def hello
+                #render('demo/index')
+                @array = [1, 2, 3, 4, 5]
+              end
+
+            In your view:
+
+             <% @array.each do |n| %>
+               <%= n %><br />
+             <% end %>
+
+            The reason why the view and controller can talk to each other this way because they all belong to ActionPack. Remember, you can
+            pass instance variables from controller to view to the other way around!
+
+        -   Links
+
+            -   Rails links
+
+                Rails's helper method:
+
+                <%= link_to(text, target) %> 
+
+                Target:
+
+                    "/demo/index"
+
+                    or
+
+                    {:controller => 'demo', :action => 'index'}
+
+                    or 
+
+                    (if are in under the same controler)
+            
+                    {:action => 'index'}
+
+                There is no harm if you just use the string "/demo/index" but you should force yourself to use hash format instead because
+                Rails has its own way to deal with links.
+
+        -   URL Parameters
+
+            -   HTML link with parameters
+
+                /demo/hello/1?page=3&name=kevin
+
+            -   How to use Rails hash with parameters
+
+                { :controller =? 'demo',
+                  :action => 'hello',
+                  :id => 1,
+                  :page => 3,
+                  :name => 'kevin' }
+
+            -   Parameters hash
+
+                Rails provides a method called params that contain all GET and POST variables 
+
+                The hash is not regular hash, it is called HashWithIndifferentAccess
+
+                params[:id]
+                params['id']
+
+                E.g. Assuming you are going to hit this url: http://localhost:3000/demo/hello/20?page=5
+
+                In your controller:
+
+                  def hello
+                    @id = params['id']
+                    @page = params[:page]
+                  end
+                
+                Note: id is a special instance variable that is different from others.
+
+                In your view:
+
+                    ID: <%= params[:id] %> <br />
+                    ID: <%= @id %> <br /> <br />
+                    Next Page: <%= @page %> <br />
+
+                Note: you can access params[:id] or via the instance variable defined in the controller.
+
+                Also, the instance variables that store the parameters are String. So if you want to do:
+
+                Next Page: <%= @page + 1%> <br />
+
+                This doesn't work and you need to do like this:
+
+                Next Page: <%= @page.to_i + 1%> <br />
+
+                or in the controller:
+
+                @page = params[:page].to_i
+
+
+        -   Databases
+                
+                -   Basic DataBasic Memo
+
+                    -   Foreign key: Table column whose values reference rows in another table
+                    -   CRUD: Create, Read, Update, Delete
+
+                -   the file /config/database.yml is used to configure the db setup
+
+                    Rails has three different environments:
+
+                    -   Development
+                    -   Production
+                    -   Test
+
+                    These three environments are also shown in the /config/environments folder
+
+                    You can use the command: rake db:schema:dump to dump the database
+
+                -   rake
+
+                    rake is a program that written in Ruby and it runs scripts known as "tasks". Similar to Unix's make program, 
+                    "rake" = "ruby make"
+
+                    E.g. rake db:schema:dump
+
+                    By default, all the tasks that are available to run are loaded in the file: /Rakefile:
+
+                    require File.expand_path('../config/application', __FILE__)
+                    SimpleCms::Application.load_tasks
+
+                    Also, you can add your own tasks in files placed in /lib/tasks ending in .rake.
+
+                    -   To list all the tasks available
+
+                        rake -T
+
+                        To print all the db related tasks:
+
+                        rake -T db
+
+                    -   VARIABLE with rake
+
+                        You can use VARIABLE for the rake command line. E.g.
+
+                        rake db:schema:dump RAILS_ENV=production (default is RAILS_NEW=development)
+
+                -   migration
+
+                    migration is a set of database instructions written in Ruby. It "migrate" your database from one state to another. It contains
+                    instructions for both:
+
+                    Moving "up" to a new state
+                    Moving back "down" to the previous state
+
+                    Pro: 
+
+                        Keeps database schema with application code
+                        Executable and repeatable
+                        Allows sharing schema changes
+                        Helps with versioning
+                        Allows writting Ruby instead of SQL
+
+                    -   Generate migration
+
+                        first let's look at one example:
+
+                        rails generate migration NoNothingYet
+
+                        After you run this comand, a new file is generated for you: e.g.  db/migrate/20141016223358_no_nothing_yet.rb
+
+                    -   Generate a model
+                        
+                        rails generate model User
+
+                        After you hit enter: You have:
+
+                        invoke  active_record
+                             create    db/migrate/20141016223930_create_users.rb
+                             create    app/models/user.rb
+                             invoke    test_unit
+                             create      test/unit/user_test.rb
+                             create      test/fixtures/users.yml
+
+                        Note: the naming convention is Rails: model name is singular (e.g. user.rb) and the database name
+                        (20141016223939_create_users.rb) is plural.
+
+                    -   20141016223939_create_users.rb
+
+                        class CreateUsers < ActiveRecord::Migration
+                          def up
+                            create_table :users do |t|
+                              t.column "first_name", :string, :limit => 25
+                              t.string "last_name", :limit => 25
+                              t.string  "email", :default => "", :null => false
+                              t.string "password", :limit => 40
+                              #t.datetime "created_at"
+                              #t.datetime "updated_at"
+                              t.timestamps 
+                            end
+                          end
+                          
+                          def down
+                            drop_table :users
+                          end
+                        end
+
+                        Note: t.type name options are the shorter definition. E.g. t.string "last_name" :limit => 25
+                        You can also specify the id (the indexed-increment key) to false e.g. Last but not least, 
+                        t.timestamps is used to replace t.datetime "created_at" and t.datetime "updated_at"
+
+                        def up
+                            create_table :users {:id => false} do |t|
+                            ...
+
+                        -   How many Table column types available:
+
+                            binary 
+                            float 
+                            boolean 
+                            integer 
+                            date 
+                            string 
+                            datetime 
+                            text 
+                            decimal 
+                            time
+
+                        -   How many Table column options available:
+
+                            :limit      =>  size
+                            :default    =>  value
+                            :null       =>  true/false
+                            :precision  =>  number
+                            :scale      =>  number
+
+                    -   Running Migration
+
+                        rake db:migrate
+
+                        (default is RAILS_NEW=development). After run this, you now should see the newly created tables in the database and a file 
+
+                        /db/migrate/schema.rb is updated for this migration.
+
+                        If you want to specify which version to bring up until:
+
+                        rake db:migrate VERSION=#of_a_specified_version
+
+                    -   Reversing Migration
+
+                        rake db:migrate VERSION=0
+
+                    -   Check Migration status
+
+                        rake db:migrate:status
+
+                        In summary, Running Migrations could be:
+
+                        rake db:migrate
+                        rake db:migrate VERSION=0
+                        rake db:migrate VERSION=xxx
+                        rake db:migrate:status
+                        rake db:migrate:up VERSION=xxx
+                        rake db:migrate:down VERSION=xxx
+                        rake db:migrate:redo VERSION=xxx
+
+                    -   Migration methods:
+
+                        -   Table methods:
+
+                            -   create_table(table, options) do |t|
+                                  ...columns...
+                                end
+
+                            -   drop_table(table)
+
+                            -   rename_table(table, new_name)
+
+                        -   Column migration methods
+
+                            -   add_column(table, column, type, options)
+                            -   remove_column(table, column)
+                            -   rename_column(table, column, new_name)
+                            -   chage_column(table, column, new_name)
+
+                        -   Index migration methods
+
+                            -   add_index(table, column, options)
+                            -   remove_index(table, column)
+
+                        -   Index migration method options
+
+                            -   :unique =>  true/false
+                            -   :name   =>  "your_custom_name"
+
+                        -   Execute migration method
+
+                            -   execute("any SQL string")
+
+                    -   Migration advice
+
+                        -   How to fix problems if errors happen during migration?
+
+                            Solution 1: Use SQL to fix the problems
+
+                            Solution 2: In the problematic migration file, comment out the lines 
+                            that successfuly run then fix the problematic line and run the migration again.
+
+                        -   Migration advice
+
+                            1)  Comment out executed code lines to get back on track. Write SQL commands as a last resort.
+                            2)  Keep migrations small and concise.
+                            3)  Test all migrations throughly in development.
+
+                    -   In summary(!!):
+
+                        The steps to create model/migration:
+
+                        -   Design the relationships between models and determine the keys including primary keys are foreign keys
+                        -   Use the command: "rails generate model xxx" to generate the migration files and model files
+                        -   Run: "rake db:migrate:migrate" to generate the database tables
+                        -   Check the migration status by running: rake db:migrate:
+
+        -   ActiveRecord and ActiveRelation
+
+            -   What is ActiveRecord?
+
+                active record: design pattern for relational databases. It is not Rails specific.
+                
+                ActiveRecord: Rails implementation of active record pattern.
+
+                This design pattern retrieves and maniplates data as objects, not as static rows.
+
+                Active record objects are "intelligent" because it allows:
+
+                -   Understand the structure of the table
+                -   Contain data from table rows
+                -   Know how to create, read, update, and delete rows
+                -   Can be manipulated as objects, then saved easily
+
+            -   Active Record Example:
+
+                user = User.new
+                user.first_name = "Kelvin"
+                user.save #SQL INSERT
+
+                user.lastname = "Skoglud"
+                user.save #SQL UPDATE
+
+                user.delete #SQL DELETE
+
+            -   What is ActiveRelation?
+                
+                AKA "ARel". It's Object-oriented interpretation of relational algebra.
+
+                It simplifies the generation of complex database queries:
+
+                    -   Small queries are chainable (like most Ruby objects)
+                    -   Complex joins and aggregations use efficient SQL
+                    -   Queries do not execute until needed
+
+                E.g.
+
+                users = User.where(:first_name => "Kelvin")
+                users = users.order("last_name" ASC).limit(5)
+                users = users.include(:articles_authored)
+
+                SELECT users.*, articles.*
+                FROM users
+                LEFT JOIN articles ON (users.id = 
+                    articles.author_id)
+                WHERE users.first_name = 'Kelvin'
+                ORDER BY last_name ASC LIMIT 5
+
+            -   Generate a Model
+
+                -   Go to the root directory of Rails application
+                    
+                    e.g.
+                    
+                    rails generate model SingularName
+                    rails generate model Subject
+              
+                -   Creates file in db/migrate
+
+                    File name:  20130101000000_create_subjects.rb
+                    ClassName:  CreateSubjects
+                    Inherits from:  ActiveRecord::Migration
+                    create_table :subjects, drop_table :subjects
+
+                -   Creates file in app/models
+
+                    File name:  subject.rb
+                    Class name: Subject
+                    Inherits from:  ActiveRecord::Base
+                        
+                    (!!) File names, class names, and table names matter a great deal. It is hightly recommended to stick to these
+                    naming conventions. If you don't, it is still OK but you need to do some extra work. For example, if your model
+                    class called "User" needs to access another table named "admin_users", you need to specify the table:
+
+                    class User < ActiveRecord::Base
+                        self.table_name = "admin_users"
+                    end
+
+                    Remember, one great feature that Rails provides for model is you don't need to write getter/setter for each column
+                    because it will automatically create those getter/setter methods for you. For example, the following code don't need
+                    you to write in your model class as last_name is the column in the database.
+
+                    #long way
+                    def last_name
+                      @last_name
+                    end
+                    
+                    def last_name(value)
+                      @last_name = value
+                    end
+
+                    Whenever you change the column names, Rails will automatically adjust those getter/setter methdos for you.
+
+            -   Rails Console
+
+                Similar to irb, you can run Rails console with the following commands:
+
+                rails console
+
+                Note(!!): In Ubuntu 14.04, I'm getting uninitialized constant Test when running rails console in terminal. To solve this problem,
+                I did this:
+
+                sudo apt-get install ruby-test-unit
+                echo require 'test/unit' >> /usr/lib/ruby/vendor_ruby/active_support/test_case.rb
+
+                By default, Running "rails console" goes to the development environment. If you need production environment, just simply do:
+
+                "rails console production"
+
+                With Rails console, you can inspect models/views without a browser.
+
+            -   Creating records
+
+                Way 1: New/save
+
+                    Instantiate object
+                    Set values
+                    Save
+
+                Way 2: Create(all the steps above in one step!)
+
+                    Instantiate object, set values, save
+
+                -   Examples
+
+                    After you run "rails console", you can run
+
+                    -   subject = Subject.new #create a new Subject instance
+                    -   subject = Subject.new(:name => "First Subject", :position => 1, :visible => true) #create a new Subject instance with some columns values set
+                    -   subject.new_record? #check if the record is new or not. If it is new, it hasn't been saved to the database table yet.
+                    -   subject.name = "First Subject"
+                    -   subject.save
+                    -   subject = Subject.create(:name => "First Subject", :position => 1, :visible => true) #create a new Subject instance with some columns values set
+
+           -    Updating records
+
+                Way 1: Find/save: Find record, Set values, Save
+
+                Way 2: Find/update_attributes: Find record, Set values, save
+
+                -   Examples
+
+                    -   subject = Subject.find(1)
+                    -   subject.new_record?
+                    -   subject.name = "Initial Subject"
+                    -   subject.save
+                    -   subject.update_attributes(:name => "Next Subject")
+
+            -   Deleting records
+
+                Way 1: Find/destroy
+
+                    -   Find record
+                    -   Destroy
+
+                Note: there is another method called delete, but it bypass some Rails features. Don't use it for now.
+
+                -   Examples
+
+                    -   subject.find(3)
+                    -   subject.destroy
+
+            -   Finding Records
+                
+                -   Primary key finder
+
+                    Subject.find(2)
+            
+                    Returns an object or error
+
+                    Note: returning error can cause problems and we prefer returning nil instead.
+
+                -   Dynamic finders
+
+                    Subject.find_by_id(2)
+
+                    Returns an object or nil
+                    
+                    You can use dynamic finders to find entries by using other columns names rather than just the primary key.
+                    For example:
+
+                    Subject.find_by_id(2)
+                    Subject.find_by_name("First Subject")
+
+                -   Find all method
+
+                    Subject.all
+
+                    Returns an array of objects
+
+                -   First/last methods
+
+                    Subject.first, Subject.last
+
+                    Returns an object or nil
+
+                -   Query Methods: Conditions
+
+                    -   where(conditions)
+
+                        Subject.where(:visible => true)
+
+                    -   Returns an ActiveRecord object(called ActiveRecord::Relation), which can be chained.
+
+                        Subject.where(:visible => true).order("position ASC")
+
+                        You can check the SQL query by using the to_sql method:
+
+                        subject.to_sql
+
+                    -   It does not execute a database call immediately
+
+                    -   Condition expression types
+
+                        -   String
+
+                            "name = 'First Subject' AND visible = true"
+
+                            Pro: Flexible, raw SQL
+
+                            Con: Use carefully and between of SQL injection(??)
+
+                            "name = '#{subject_name}' AND visible = true"
+                            subject_name = "'-- hacker code --'"
+
+                            Suggestion: should stick to hardcoded value rather than variable
+
+                        -   Array
+
+                            ["name = ? AND visible = true", "First Subject"]
+
+                            Pro: Flexible, escaped SQL, safe from SQL injection
+
+                        -   Hash
+
+                            {:name => "First Subject", :visible => true}
+
+                            Pro: Simple, escaped SQL, safe from SQL injection
+                            Con: Only supports equality, range, and subset checking. No OR, like, less than, or greater than
+                            
+                            Each key-value pair is joined with AND
+    
+                    -   Order, Limit, Offset
+
+                        -   Query Methods:
+                    
+                            -   order(sql_fragment)
+                            -   limit(integer)
+                            -   offset(integer)
+                        
+                            Example: 
+
+                            Subject.order("position ASC").limit(20).offset(40)
+
+                        -   Order SQL Format
+
+                            table_name.column_name ASC/DESC
+
+                        -   Order SQL Table Disambiguation
+
+                            -   Not necessary for single table
+                            -   Recommended with joined tables
+                            -   Required when joined tables have some columns names
+
+                                order("subject.created_at ASC")
+
+                                order("subject.name ASC", "subjects.visible DESC")
+
+                    -   Name Scopes
+
+                        Format 1:
+
+                        scope: active, lambda {where(:active => true)}
+
+                        Format 2:
+
+                        scope: active, -> {where(:active => true)}
+
+                        -   Queries defined in a model
+                        -   Defined using ActiveRelation query methods
+                        -   Can be called like ActiveRelation methods
+                        -   Can accept parameters
+                        -   Rails 4 requires lambda syntax(Rails 3 is optional)
+    
+                        -   Examples
+                                
+                            1. 
+
+                                In your class model, do this:
+
+                                def self.active
+                                    where(:active => true)
+                                end
+
+                                In your client code, do this:
+            
+                                Customer.active
+
+                            2.
+
+                                scope :with_content_type, lambda{|ctype|
+                                    where(:content_type => ctype)
+                                }
+
+                                def self.with_content_type(ctype)
+                                    where(:content_type => ctype)
+                                end
+
+                                Section.with_content_type('html')
+
+                        -   Why use name scopes?
+
+                            #Evaluate when called, not when defined
+
+                            scope :recent, lambda {
+                                where(:created_at => 1.week.go..Time.now)
+                            }
+
+                            #Chaining scopes
+
+                            Article.recent.visible.newest_first
+
+                        -   More examples:
+
+                            scope :visible, lambda {where(:visible => true)}
+                              scope :invisible, lambda {where(:visible => false)}
+                              scope :sorted, lambda {order("subjects.position DESC")}
+                              scope :newest_first, lambda {order("subjects.created_at DESC")}
+                              scope :search, lambda {|query|
+                                where(["name LIKE ?", "%#{query}%"]) #??the video says %% is a "present sign"? what is this?
+                            }
+
+    -   Relational database associations
+
+        -   One-to-one
+
+            Classroom has_one :teacher
+            Teacher belongs_to :classroom
+
+            -   scenario 1:
+
+            Unique items a person or thing can have only one of 
+
+            Employee has_one :office
+            Student has_one :id_card    
+
+            -   scenario 2:
+
+            Sometimes used to break up a single table
+
+            Customer has_one :billing_address
+            Stage has_one :lighting_configuration
+
+            For the above example, if lighting_configuration has many columns, it is wise to seperate it from Stage to avoid many columns in a
+            single table.
+
+            -   My example:
+
+            Subject - Page
+
+            Subject has_one :page
+            Page belongs_to :subject
+
+            !! Things to remember
+
+            1)  Class with "belongs_to" should have the foreign key
+            2)  Always define both sides of the relationship
+
+            subject.page
+
+            subject.page = page
+
+            In the Subject model, do this:
+
+            has_one :page
+
+            In the Page mode, do this:
+
+            belongs_to :subject
+
+            In your client code:
+
+            first_page = Page.new(:name => "First page", :permalink => "first", :position => 1)
+            subject = Subject.find(1)
+            subject.page = first_page #!!It sets the relationship between subject and first_page and saves to the database table accordingly   
+
+            Page Load (1.4ms)  SELECT "pages".* FROM "pages" WHERE "pages"."subject_id" = 1 LIMIT 1
+            => nil
+
+            -   Remove the one-to-one relationship, do this:
+
+            subject.page = nil #!!This doesn't remove the page entry but just removes page and subject's relationship.
+
+            -   Delete the page entry
+
+            subject.page.destroy
+
+            if you run: subject.page, the page is still there but in frozen stage. For completely removes it, do:
+
+            subject.page(true)
+
+
+        -   One-to-many
+    
+            Teacher has_many :courses
+            Course belongs_to :teacher
+
+            -   Scenario 1:
+
+                Used when an object has many objects which belong to it exclusively
+
+                Photographer has_many :photographs
+                Style has_many :products
+
+                Subject has_many :pages
+                Page belongs_to :subject
+
+            -   has_many Methods:
+
+                subject.pages #pages is an array
+                subject.pages << page
+                subject.pages = [page, page, page]
+                subject.pages.delete(page) #remove a page. It is a Ruby array method
+                subject.pages.destroy(page) #remove a page and destroy page from the database table.
+                subject.pages.clear #remove all pages
+                subject.pages.empty?
+                subject.pages.size
+                
+
+        -   Many-to-Many
+
+            Note: Where the foreign keys in Many-to-Many Relationship? They go in a join table?? as no table is the child of another. 
+
+            Course has_and_belongs_to_many :students
+            Student has_and_belongs_to_many :courses
+            
+            (When join table is simple, using only the foreign keys)
+
+            Used when an object has many objects which belong to it but not exclusively
+
+            project has_and_belongs_to_many :collaborators
+            Blogpost has_and_belongs_to_many :categories
+
+            It requires a join table
+                Two foreign keys; index both keys together
+                No primary key column (:id false)
+
+            Same instance methods get added to the class.
+
+            -   Example:
+
+            AdminUser - Page
+
+            AdminUser has_and_belongs_to_many :pages
+            Page has_and_belongs_to_many :admin_users
+
+                -   Join Table Naming
+
+                    first_table + _ + second_table
+
+                    Both table names are plural
+                    Alphabetical order
+                    Default name can be configured
+
+                    For example: 
+    
+                    example 1: Project - Collaborator => collaborators_projects
+                    example 2: AdminUser - Page => admin_users_pages
+
+
+                -   One example: AdminUser - Page
+
+                    Step 1: 
+
+                    In CMD line: 
+
+                    rails generate migration CreateAdminUsersPagesJoin
+
+
+                    In the model class called AdminUser do this:
+
+                    has_and_belongs_to_many :pages
+
+                    In the model class called Page do this:
+
+                    has_and_belongs_to_many :admin_users
+
+                    Note: 
+
+                    1)  It doesn't make any sense to add admin_users and if you want to change the name, you can do this:
+                        has_and_belongs_to_many :editors, class_name => "AdminUser"
+
+                    2)  If you don't want to follow the join table naming convention, specify the join table here e.g.
+
+                        has_and_belongs_to_many :admin_users, join_table => "admin_user_other_pages"
+
+                        "admin_user_other_pages" is the name of the actual table.
+
+                    In your client code:
+
+                    me = AdminUser.create(:first_name => "Alex", :last_name => "Yu", :username => "alexyu")
+                    page = Page.find(2)
+                    page.editors << me
+
+                -   Rich join
+
+                    -   Compared to many-to-many simple association
+
+                        -   Still uses a join table, with two indexed foreign keys
+                        -   Requires a primary column
+                        -   Join table has its own model
+                        -   No table name convention to follow
+
+                            -   Names ending in "-ments" or "-ships" works well
+
+                    -   One example: AdminUser - Section
+
+                            AdminUser has_many :section_edits
+                            SectionEdit belongs_to :admin_user
+
+                            Section has_many :section_edits
+                            SectionEdit belongs_to :section
+
+                        -   Steps
+
+                            In CMD line, run: rails generate model SectionEdit
+
+                    
+
+                    
+
+                    
+
+        
+                            
 
 -   Questions
 
@@ -1437,3 +2444,9 @@ Beginning_Ruby_From_Novice_to_Professional
         sudo bundle install
 
         After running all those steps, the bundler creates a file called Gemfile.lock based on the file Gemfile
+
+    3.  Heroku
+
+        
+
+        
