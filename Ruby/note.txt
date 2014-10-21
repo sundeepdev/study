@@ -1352,7 +1352,7 @@ Beginning_Ruby_From_Novice_to_Professional
 
             Gemfile is the file to tell Bundler which gems are needed for this project and what versions.
 
-            Run: bundle install so that the bundler translates Gemfile into Gemfile.locso that the bundler translates Gemfile into Gemfile.lock
+            Run: bundle install so that the bundler translates Gemfile into Gemfile.lock so that the bundler translates Gemfile into Gemfile.lock
 
             Tip:
 
@@ -2437,16 +2437,48 @@ Beginning_Ruby_From_Novice_to_Professional
 
     2.  Install rails
 
-        sudo apt-get install libpq-dev
+        sudo apt-get install libpq-dev (Linux)
         sudo gem install pg
 
         (go to the site root directory)
-        sudo bundle install
+        sudo bundle install (Linux)
 
         After running all those steps, the bundler creates a file called Gemfile.lock based on the file Gemfile
 
+        -   Notes for Mac
+
+            Since the mac system will look at the file /usr/local/bin/pg_config when doing gem 'pg'
+
+            Before you run: bundle install. you need to do:
+
+            mv /usr/local/bin/pg_config /usr/local/bin/pg_config_orig
+            
+            PATH=$PATH:/Library/PostgreSQL/9.3/bin/ (assuming "/Library/PostgreSQL/9.3/bin/" is the path pointing you installed postgres sql's pg_config file)
+            
+
     3.  Heroku
 
-        
+        -   Check your Heroku config
 
+            Heroku config
+
+        -   Web related commands:
+
+            heroku open #open a a remote web service based on your latest production code
+            heroku ps:scale web=1 #create 1 web process (the free user can only have one web process)
+            heroku ps:scale web=0 #close all web processes
+
+        -   Postgres related commands
+
+            heroku run rake db:migrate              #run remote migrate
+            heroku run rake db:migrate:status       #check remote migrate status
+            herokuy pg:info                         #check    
+            
+        -   Git related commands
+
+            git heroku push master
+
+        -   Console commands
+
+            heroku run rails console 
         

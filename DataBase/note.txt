@@ -1917,6 +1917,10 @@ Notes from Learning MySQL:
             CREATE ROLE regina LOGIN PASSWORD 'queen!penultimate'
             SUPERUSER VALID UNTIL '2020-10-20 23:00';
 
+        -   Change an Account(Role)'s attributes
+
+            ALTER ROLE alexyu SUPERUSER CREATEDB;
+
         -   Creating Group Roles
 
             Group roles are generally roles that have no login rights but have other roles as members.
@@ -2021,6 +2025,13 @@ Notes from Learning MySQL:
 
                     pg_ctl restart -D /var/lib/postgresql/9.3/main/
 
+                    Note: the above data directory is for Linux postgres. For mac, the data directory is stored in
+                    e.g. /Library/PostgreSQL/9.3/data. First, you need to login the postgres user and run the restart
+                    command:
+
+                    sudo su postgres
+                    pg_ctl restart -D/Library/PostgreSQL/9.3/data 
+
             -   psql -U
 
                 -U only specifies the postgres user but NOT the Linux user.
@@ -2055,6 +2066,9 @@ Notes from Learning MySQL:
 
                 mysql:          USE datname
                 postgres        \c datname
+
+                mysql:          ??
+                postgres:       \du show all users
     
             -   The Schema
                 
