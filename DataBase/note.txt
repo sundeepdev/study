@@ -1994,8 +1994,15 @@ Notes from Learning MySQL:
                 Obtain the client's operating system user name from the operating system and check if it matches the requested database user name. 
                 This is only available for local connections.
 
+            -   Location diff between Linux and Mac
+
+                Linux:  fhe file is in /etc/postgres/9.3
+                Mac:    the fils is in /Library/PostgreSQL/9.3/data
+                
+
 
         -   Organizing Your Database Using Schemas
+
 
             The general format of the pg_hba.conf file is a set of records, one per line.
 

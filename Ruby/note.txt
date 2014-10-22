@@ -2377,7 +2377,27 @@ Beginning_Ruby_From_Novice_to_Professional
                     page = Page.find(2)
                     page.editors << me
 
-                -   Rich join
+                -   Rich join 
+
+                    -   Why rich join?
+
+                        -   We don't need to maintain the naming convention in the join table
+                        -   Can store more info in the join table
+
+                    -   One example: courses - students
+
+                        Course
+
+                            has_many :course_enrollments
+                        
+                        Student
+
+                            has_many :course_entollments
+
+                        CourseEnrollment
+
+                            belongs_to :course
+                            belongs_to :student
 
                     -   Compared to many-to-many simple association
 
@@ -2386,7 +2406,7 @@ Beginning_Ruby_From_Novice_to_Professional
                         -   Join table has its own model
                         -   No table name convention to follow
 
-                            -   Names ending in "-ments" or "-ships" works well
+                            -   Good to have: Names ending in "-ments" or "-ships" works well
 
                     -   One example: AdminUser - Section
 
@@ -2463,7 +2483,8 @@ Beginning_Ruby_From_Novice_to_Professional
             Heroku config
 
         -   Web related commands:
-
+            
+            heroku apps:create alexyu-demo #create an app named "alexyu-demo"
             heroku open #open a a remote web service based on your latest production code
             heroku ps:scale web=1 #create 1 web process (the free user can only have one web process)
             heroku ps:scale web=0 #close all web processes
@@ -2472,7 +2493,7 @@ Beginning_Ruby_From_Novice_to_Professional
 
             heroku run rake db:migrate              #run remote migrate
             heroku run rake db:migrate:status       #check remote migrate status
-            herokuy pg:info                         #check    
+            heroku pg:info                          #check the remote postgres status   
             
         -   Git related commands
 
@@ -2481,4 +2502,11 @@ Beginning_Ruby_From_Novice_to_Professional
         -   Console commands
 
             heroku run rails console 
-        
+
+        -   Process related
+
+            heroku ps
+       
+        -   Addon related commands
+
+            heroku addons
