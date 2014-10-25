@@ -2800,6 +2800,52 @@ Beginning_Ruby_From_Novice_to_Professional
 
         3.  Map a new URL syntax to controller actions
 
+            Change Rails routes
+
+        4.  Modify existing links and forms to use new URL syntax
+
+            Learn about RESTful route helpers
+
+    -   REST HTTP Verbs
+
+        Use     Objective                           Usage           Multiple requests   Cache Boomark
+                
+        GET     Retrieve items from resource        links           yes                 yes
+        POST    Create new item in resource         forms           no                  no
+        PUT     Replace existing ite in resource    forms           yes                 no
+        PATCH   Update existing item in resource    forms           no/yes              no
+        DELETE  Delete existing item in resource    forms/links     yes                 no
+
+    -   RESTful Routes
+
+        #/config/routes.rb
+        
+        resources :subjects do
+          member do
+            get :delete
+          end
+        end
+
+        for example:
+
+        URL                     HTTP Verb       Action      Description
+        /subjects               GET             index       show all items
+        /subjects/new           GET             new         Show new form
+        /subjects               POST            create      Create an item
+        /subjects/:id           GET             show        Show item with :id
+        /subjects/:id/edit      GET             edit        Show edit form form item with :id
+        /subjects/:id           PATCH           update      Update item with :id
+        /subjects/:id/delete    GET             delete      Show delete form for item with :id
+        /subjects/:id           DELETE          destroy     Delete item with :id
+    
+        Note: to see the restful routes, type: rake routes
+        
+        It is acceptable to have Restful routes and basic routes in our application.
+
+        
+            
+        
+
         
 
 -   Chapter 17  Debugging and error handling
