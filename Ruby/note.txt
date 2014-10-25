@@ -573,7 +573,7 @@ Beginning_Ruby_From_Novice_to_Professional
             
             2
 
-            -   Basci Hash Methods
+            -   Basic Hash Methods
 
                 -   Iterate through Hash Elements
 
@@ -2418,12 +2418,405 @@ Beginning_Ruby_From_Novice_to_Professional
 
                         -   Steps
 
-                            In CMD line, run: rails generate model SectionEdit
+                            -   Step 1: Edit the new model: SectionEdit's migration file
+
+                            In CMD line, run: rails generate model SectionEdit. In the migration code: do:
+
+                            class CreateSectionEdits < ActiveRecord::Migration
+                              def up
+                                create_table :section_edits do |t|
+                                  t.references :admin_user
+                                  t.references :section
+                                  t.string :summary
+                                  t.timestamps
+                                end
+                                add_index :section_edits, ["admin_user_id", "section_id"]
+                              end
+                              
+                              def down
+                                drop_table :section_edits
+                              end
+                            end
+
+                            -   Step 2: Edit the model AdminUser:
+
+                                has_many :section_edits
+
+                            -   Step 3: Edit the model Section:
+
+                                has_many :section_edits
+
+                            -   Step 4: 
+
+                                Edit the model SectionEdit
+
+                                belongs_to :editor, :class_name => "AdminUser", :foreign_key => "admin_user_id"
+                                belongs_to :section
+                                
+                                Note: editor is the nick name of the class AdminUser
+
+                            -   In your client code
+
+                                user = AdminUser.find(1)
+                                section = Section.find(1)
+            
+                                section_edit = SectionEdit.new
+                                section_edit.summary = "Test Edit"
+
+                                section.section_edits << edit #!!Save the table section_edits automatically
+                                section_edit.editor = user << !!It doesn't save the table section_edits. So you should do the following step in order to save it.
+                                section_edit.save
+
+                                user.save #!! We also need to save user as well
+
+                                #Or you can do all of these in one step
+                                SectionEdit.create(:editor => user, :section => section, :summary => "BLABLA")
+                                user.section_edit(true) # Don't forget to save user
+                                section.section_edit(true) #Don't forget to save section
+                            
+                            
+                    -   Traversing a Rich Association
+
+                            In the above example, how can we let AdminUser and Section talk to each directly? One in-direct way
+                            of doing this is: 
+
+                            section.section_edits.map {|se| se.editor}
+
+                            [admin_user1, admin_user2]
+
+                            -   has_many :through
+
+                                Allow "reaching across" a rich join
+                                    -   Treats rich join like an HABTM(has_and_belongs_to_many)
+
+                                Create a functional rich join first
+
+                            -   AdminUser - Section
+
+                                    AdminUser has_many :section_edits
+                                    AdminUser has_many :sections, :through => :section_edits
+                                
+                                    Section has_many :section_edits
+                                    Section has_many :admin_users, :through => :section_edits
+
+                            -   Steps
+
+                                Step 1: In AdminUser model, add this:
+
+                                    has_many :sections, :through => :section_edits
+
+                                Step 2: In Section model, add this:
+
+                                    has_many :editors, :class_name => "AdminUser", :through => :section_edits
+
+                                Step 3: In your client code:
+
+                                    user = AdminUser.find(1)
+                                    section = Section.find(1)
+
+                                    user.sections
+                                    section.editors
+
+                                Note:   you can try section.editors << bob but this is not recommended because you cannot not set the summary
+                                        of section_editors. In some applications, this may cause problems.
+
+-   Chapter 9 Basic CRUD
+
+        -   Standard CRUD actions
+
+            CRUD        Action      concept
+
+            create      new         display new record form
+            create      create      process new record form
+            read        index       list records
+            read        show        display a single record
+            update      edit        display edit record form
+            update      update      process edit record form
+            delete      delete      display delete record form
+            delete      destroy     process delete record form
+
+        -   Generate new controllers
+
+            SubjectsController, PagesController, SectionsController
+
+        -   Often: one controller per model; user plural names
+
+        -   Allow for clear URLs
+
+            subjects/new, pages/new, sections/new
+            subjects/edit, pages/edit, sections/edit
+
+        -   An example:
+
+            rails generate controller Subjects index show new edit delete
+
+            note: "index show new edit delete" are the associated actions of the controller and they need templates(views) to show to your browser.
+
+        -   Read Action
+
+        -   Show Action
+
+            -   Step 1
+                    
+                In your index view, add this line for example:
+
+                <%= link_to("Show", {:action => 'show', :id => subject.id}, :class => 'action show') %>
+
+                When the user clicks the link, it will direct the action called "show" with the id to the controller
+
+            -   Step 2
+                
+                In your controller, add the following line:
+    
+                  def show
+                    @subject = Subject.find(params[:id])
+                  end
+
+            -   Step 3
+
+                In your show view, add html code based on the instance variable @subject
+
+        -   Form Basics
+
+            -   Rails/ERB vs. HTML
+
+                Any template code that can be written with Rails/ERB can also be written with simple HTML.
+
+            -   Easier/More poserful if you choose Rails/ERB
+
+            -   link vs form
+
+                links are get requests
+                forms are post requests
+
+                params variable can be used for both get requests or post requests. E,g,
+
+                subject = Subject.new(:name => params[:name],
+                                      :position => params[:position],
+                                      :visible => params[Lvisible])
+
+                There is a better way of doing the above tedidious method:
+
+                <form action="/subjects/create" method="post">
+                    <input type = "text" name="subject[name]" />
+                    <input type = "text" name="subject[position]" />
+                    <input type = "text" name="subject[visible]" />
+                    
+                    <input type="submit", name="commit" value="Create Subject">
+                </form>
+
+                Then you can access those parameters by:
+
+                params[subject][:name]
+                params[:position][:position]
+                params[:position][:visible]
+
+                params[:position] {:name => 'About us', :position => '5', :visible => '1'}
+
+                Or you can create a subject with those parameters as well
+
+                subject = Subject.new(params[:subject])
+
+            -   Rails form, array of parameters 
+
+                <% form_tag(:action => 'create') do %>
+                  <% text_field_tag('subject[name]') %>
+                  <% text_field_tag('subject[position]') %>
+                  <% text_field_tag('subject[visible]') %>
+                  
+                  <% submit_tag("Create Subject") %>
+                <% end %>
+
+            -   Rails form, object-aware
+
+                <% form_tag(:action => 'create') do %>
+                  <% text_field(:subject, :name) %>
+                  <% text_field(:subject, :position) %>
+                  <% text_field(:subject, :visible) %>
+                  
+                  <% submit_tag(Create Subject) %>
+                <% end %>
+
+            -   Rails form, form_for :object
+
+                <%  form_for(:subject, :url => {:action => 'create'}) do |f| %>
+                  <% f.text_field(:name) %>
+                  <% f.text_field(:position) %>
+                  <% f.text_field(:visible) %>
+
+                  <% submit_tag("Create Subject") %>
+                <% end %>
+
+        -   New Action
+
+            -   Mass Assignment and Strong Parameters
+
+                -   Mass Assignment
+
+                    Rails term for passing a hash of values to an object to be assigned as attributes. E.g.
+
+                    Subject.new(params[:subject])
+                    Subject.create(params[:subject])
+                    @subject.update_attribtes(params[:subject])
+
+                    Problem arises because Hackers can change some parameters such as password of the user. Therefore when you do mass assignment,
+                    it will update the password field for a specified user as well.
+
+                -   Mass Assignment filtering
+
+                    Rails v1-2: Blacklisting of attributes
+                    Rails v3:   Whitelisting of attributes
+                    Rails v4:   Strong parameters
+
+                -   Strong Parameters
+
+                    params.permit(:first_name, :last_name)
+                    params.require(:subject) # returns :subject hash, similar to params[:subject]
+
+                    params.require(:subject).permit(:name, :position, :visible)
+
+        -   Create Action
+
+            -   Create Form Processing
+
+                -   Instantiate  a new object using form parameters
+                -   Save the object
+                -   If save succeeds, redirect to the index action
+                -   If save fails, redisplay the form so user can fix problems
+
+        -   Edit Action
+                
+                -   Create vs. Update
+
+                    1)  params[:id]
+
+                        New and create do not need an ID
+                        Edit and update require an ID and an existing record
+
+                    2)  Form processing
+
+                        Create uses new and save
+                        Update uses find and update_attributes
+
+        -   Delete Action
+
+            -   Delete and Destroy
+
+                -   params[:id]
+
+                    Delete and destroy require an ID and an existing record
+
+                -   Form processing
+
+                    Destroy uses find and destroy
+
+                -   Delete Form?
+
+                    Form might include
+    
+                    Delete confirmation
+                    Warnnings
+                    Display record attributes
+
+                -   Delete action is often ommited(??)
+
+        -   Flash Hash
+
+            -   HTML is stateless
+
+                -   Each request is distinct, no previous information
+                -   Cookies and sessions allow data between requests
+
+                    Sites send browser data to store in browser cookie
+                    Every future browser request includes cookie data
+                    Site can use data or look up information based on data
+
+            -   Flash Hash
+
+                -   Stores message in session data
+                -   Clears old messages after every request
+                -   Use for messages needed after a redirect
+
+                flash[:notice] = "The subject was created successfully."
+                flash[:error] = "You don't have enough access privileges."
+
+        -   Challenges Objectives
+
+            -   Generate a PagesController and SectionController
+            -   Write controller actions
+
+                -   index, show, new, create, edit, update, delete, destroy
+
+                -   Copy the HTML from subjects templates
+
+                    -   modify to work with the new controllers and actions
+                    -   Use text_field helper for all form fields
+
+-   Chapter 10  Layouts, partials and view helpers
+
+    -   Rails layputs
+
+        Rails' layout is in /app/views/layouts
+
+-   Chapter 11  Assets
+
+-   Chapter 12  Forms
+
+-   Chapter 13  Data validation
+
+-   Chapter 14  User authentication
+
+-   Chapter 15  Improving the simple CMS
+
+-   Chapter 16  Rest and Restful routes
+
+    -   What is REST?
+
+        -   REST is short for: Representational State Transfer. 
+        -   Don't perform procedures. 
+        -   Perform state transformation upon resources. We usually denote models as resources.
+
+    -   Do you need to use REST?
+
+        -   Default routes(using hashes) works just fine.
+
+        -   REST is Rails default; optimized for it.
+
+        -   Most professional Rails developers use REST
+
+        -   Gives an application an API for free
+
+        -   Provides conventions, consistent structure, and simplicity
+
+    -   REST Paradigm Requirements
+
+        1.  Organize code into resources
+
+            Rails encourage one controller for each model
+
+        2.  Learn HTTP verbs for working with resources
+
+            Consider which CRUD actions are suited for each
+
+        3.  Map a new URL syntax to controller actions
+
+        
+
+-   Chapter 17  Debugging and error handling
+
+-   Chapter 18  Introduction more advanced topics
+
+        
+                
+
+            
 
                     
 
-                    
+            
 
+            
+                
                     
 
         
@@ -2445,6 +2838,42 @@ Beginning_Ruby_From_Novice_to_Professional
 
     %w(foo, bar) is a shortcut for ["foo", "bar"]. Meaning it's a notation to write an array of strings seperated by spaces instead of commas and without
     quotes around them.
+
+    3.  meaning?
+
+   <% link_to("Show", '#', :class => 'action delete') %> 
+
+-   Naming convention in Rails
+
+    Table: orders
+    Class: Order
+    File: /app/models/order.rb
+    Primary Key: id
+    Foreign Key: customer_id
+    Link Tables: items_orders
+
+    Controller Naming Convention
+
+    Class: OrdersController
+    File: /app/controllers/orders_controller.rb
+    Layout: /app/layouts/orders.html.erb
+
+    View Naming Convention
+
+    Helper: /app/helpers/orders_helper.rb
+    Helper Module: OrdersHelper
+    Views: /app/views/orders/… (list.html.erb for example)
+
+    Tests Naming Convention
+
+    Unit: /test/unit/order_test.rb
+    Functional: /test/functional/orders_controller_test.rb
+    Fixtures: /test/fixtures/orders.yml
+
+    Rails Generate commands Convention:
+
+    Model               rails generate model Subject
+    Controller          rails generate controller Subjects
 
 -   Notes for my project
 

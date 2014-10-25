@@ -1959,6 +1959,10 @@ Notes from Learning MySQL:
 
                 UPDATE pg_database SET datistemplate=true WHERE datname='mydb';
 
+            -   Change the owner of a database
+
+                ALTER DATABASE yero OWNER to yero;
+
         -   The pg_hba.conf File
 
             Client authentication is controlled by a configuration file, which traditionally is named pg_hba.conf and is 
@@ -1996,7 +2000,7 @@ Notes from Learning MySQL:
 
             -   Location diff between Linux and Mac
 
-                Linux:  fhe file is in /etc/postgres/9.3
+                Linux:  fhe file is in /etc/postgres/9.3/main
                 Mac:    the fils is in /Library/PostgreSQL/9.3/data
                 
 
@@ -2041,7 +2045,9 @@ Notes from Learning MySQL:
 
             -   psql -U
 
-                -U only specifies the postgres user but NOT the Linux user.
+                -U only specifies the postgres user but NOT the Linux user. It is used for non-peer login. E.g.
+
+                psql -U postgres
 
             -   Install the following packages in Ubuntu to begin with postgresSQL:
 
