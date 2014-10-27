@@ -2842,10 +2842,33 @@ Beginning_Ruby_From_Novice_to_Professional
         
         It is acceptable to have Restful routes and basic routes in our application.
 
-        
-            
-        
+    -   REST URL Helpers
+ 
+        URL                     HTTP Verb       Action      URL helper
+        /subjects               GET             index       subjects_path
+        /subjects/new           GET             new         new_subject_path
+        /subjects               POST            create      subjects_path
+        /subjects/:id           GET             show        subject_path(:id)
+        /subjects/:id/edit      GET             edit        edit_subject_path(:id)
+        /subjects/:id           PATCH           update      subject_path(:id)
+        /subjects/:id/delete    GET             delete      delete_subject_path(:id)
+        /subjects/:id           DELETE          destroy     subject_path(:id)
 
+        E.g.
+
+        <%= link_to('All Subjects', subjects_path) %>
+        <%= link_to('Show Subject', subject_path(@subject.id)) %>
+        <%= link_to('Edit Subject', edit_subject_path(@subject.id)) %>
+        <%= link_to('Edit Subject', eidt_subject_path(@subject.id, :page => 1, :sort => 'name')) >
+
+        -   REST form Helpers
+
+            form_for(:subject, :url => subject_path(@subject.id), :html => { :method => :patch}) do |f|
+            ...
+            end
+
+
+    
         
 
 -   Chapter 17  Debugging and error handling
