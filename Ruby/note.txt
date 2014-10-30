@@ -807,6 +807,12 @@ Beginning_Ruby_From_Novice_to_Professional
         It's not necessary to use return to return values from methods in Ruby. The last expression within the method is used as the return bu default.
         If it feels right for the situation or seems clearer to you, however, you can certainly use return with impunity!
 
+    -   methods
+
+        If you want to check all the methods of a specific object, do this:
+
+        object.methods.sort
+
     -   Local, Global, Object and Class Variables
 
         -   Local variables
@@ -1795,6 +1801,15 @@ Beginning_Ruby_From_Novice_to_Professional
 
                         rake db:migrate VERSION=#of_a_specified_version
 
+                        If you want to add one column to an existing database. You can do:
+
+                        rails g migration add_avatar_to_admin_users avatar:string
+                        rake db:migrate
+
+                        Note: add_avatar_to_admin_users is the migration file name and avatar:string is the new column that is being added to
+                        the data base "admin_users"
+        
+
                     -   Reversing Migration
 
                         rake db:migrate VERSION=0
@@ -2754,11 +2769,113 @@ Beginning_Ruby_From_Novice_to_Professional
 
 -   Chapter 10  Layouts, partials and view helpers
 
-    -   Rails layputs
+    -   Rails layouts
 
         Rails' layout is in /app/views/layouts
 
+        Let's look at one simple example:
+
+        <html>
+          <head>
+            <title>Simple CMS</title>
+          </head>
+          <body>
+            <%= yield %>
+          </body>
+        </html>
+
 -   Chapter 11  Assets
+
+    -   Asset Pipeline
+
+        Help you manager you assets such as javascripts, images, CSS files...
+
+        -   Benefits
+
+            1.  Concatenates CSS and JavaScript files (??)
+            2.  Compresses/minifies CSS and JavaScript
+            3.  Precompiles CSS and JavaScript (??)
+            4.  Allow writing assets in other languages (Coffee scripts) (??)
+            5.  Add asset fingerprinting (??)
+
+        -   Files in public directory
+
+            e.g.
+    
+            public/images
+            public/javascripts
+            public/stylesheets
+
+            With Asset Pipeline, all those files are in:
+
+            app/assets/images
+            app/assets/javascripts
+            app/assets/stylesheets
+
+            Files in public directory
+
+            -   Served exactly as-is
+            -   No concatenation, compression, minification
+            -   Can't use Sass, CoffeeScript, ERB
+            -   Don't get asset fingerprinted
+                -   No cache busting
+
+        -   Manifest Files
+
+            -   Contain directives for including asset files
+            -   Files are loaded, processed, concatenated, compressed
+            -   Better to serve one file, but still develop with many
+            -   Processed top-to-bottom
+                
+                -   require_tree directive uses unspecified order
+
+        -   Development vs. Production
+
+            -   Development
+
+                Skip concatenation
+                Skips compression
+                Skips fingerprinting
+                Does file processing
+
+            -   Production
+
+                Does not do any asset processing
+                Assumes that assets have been precompiled
+
+                -   Why we need precompilation?
+
+                    Processing, concatenation, compression, fingerprinting
+                    Slow(can easily take 1-5 minutes)
+                    RAILS_ENV=production bundle exec rake assets:precompile
+
+
+    -   Images
+
+        Location
+            -   With asset pipeline: /app/assets/images
+            -   Without asset pipeline: /public/images
+            -   User-upload images: /public/images
+
+        As you can see, User-upload images are not assisted by asset pipeline as their store location is in /public/images. But you can use some GEMs to
+        help manage images upload:
+
+        -   Image Upload Gems
+
+            Paperclip, CarrierWave
+
+        -   Image Helpers
+
+            #HTML tag
+            <image src="/assets/logo.png">
+
+            #Rails helper
+            <%= image_tag('logo.png') %>
+    
+            <%= image_tag('logo.png', :size => '90x55', :alt => 'logo') %>
+
+            <%= image_tag('logo.png', :width=> 90, :height => 55) %>
+            
 
 -   Chapter 12  Forms
 
@@ -2867,18 +2984,176 @@ Beginning_Ruby_From_Novice_to_Professional
             ...
             end
 
+            form_for(@subject) do |f|
+                ...
+            end
 
+        -   Using Non-Standard Resources
+
+            resources :admin_user, :except => [:show] #there is no "show" action for admin_users resources
+            resources :products, :only => [:index, :show]
+
+            resources :subjects do
+              member do #member means this method works for a single member of the resources
+                get :delete # delete_subject_path(:id)
+              end
+              
+              collection do #collection means this method works for the entire group of resources
+                get :export # export_subjects_path
+              end
+            end
+
+        -   Nested Resources
+
+            resources :subjects do
+              member do
+                get :delete
+              end
+
+              resources :pages do
+                member do
+                  get :delete
+                end            
+              end
+            end
     
+        URL                     HTTP Verb       Action      URL helper
+        /subjects               GET             index       subjects_path
+        /subjects/new           GET             new         new_subject_path
+        /subjects               POST            create      subjects_path
+        /subjects/:id           GET             show        subject_path(:id)
+        /subjects/:id/edit      GET             edit        edit_subject_path(:id)
+        /subjects/:id           PATCH           update      subject_path(:id)
+        /subjects/:id/delete    GET             delete      delete_subject_path(:id)
+        /subjects/:id           DELETE          destroy     subject_path(:id)
+
+        =>
+
         
+        URL                                     HTTP Verb       Action      URL helper
+        /subjects/:subject_id/pages             GET             index       subject_pages_path(:sid)
+        /subjects/:subject_id/pages/new         GET             new         new_subject_page_path(:sid)
+        /subjects/:subject_id/pages             POST            create      subject_pages_path(:sid)
+        /subjects/:subject_id/pages/:id         GET             show        subject_page_path(:sid, :id)
+        /subjects/:subject_id/pages/:id/edit    GET             edit        edit_subject_page_path(:sid, :id)
+        /subjects/:subject_id/pages/:id/        PATCH           update      subject_page_path(:sid, :id)
+        /subjects/:subject_id/pages/:id/delete  GET             delete      delete_subject_page_path(:sid, :id)
+        /subjects/:subject_id/pages/:id         DELETE          destroy     subject_page_path(:sid, :id)
+
+        -   RESTFUL URL Helpers
+
+            <%= link_to('All Pages', subject_pages_path(@subject.id)) %>
+            <%= link_to('Show Page', subject_page_path(@subject.id, @page.id)) %>
+            <%= link_to('Edit Page', edit_subject_page_path(@subject.id, @page.id)) %>
+            <%= link_to('All Sections', subject_page_sections_path(@subject.id, @page.id)) %>
+
+    -   The benefits
+
+        The benefits that accrue to you when use Rails' REST support fall into two categories:
+        
+        1)  Convenience and automatic best practices for you
+        2)  A RESTful interface to your application's services for everyone else.
+
+        
+
 
 -   Chapter 17  Debugging and error handling
 
 -   Chapter 18  Introduction more advanced topics
 
-        
-                
+-   Chapter 19  Layouts and Rendering in Rails
 
-            
+    http://guides.rubyonrails.org/layouts_and_rendering.html
+
+    -   Overview
+
+        The controller is responsible for orchestrating the whole process of handling a
+        request in Rails, though it normally hands off any heavy code to the Model. But
+        then, when it's time to send a response back to the user, the Controller hands
+        things off to the View.
+
+    -   Creating Responses
+
+        -   Call render to create a full response to send back to the browser
+        -   Call redirect_to to send an HTTP redirect status code to the browser
+        -   Call head to create a response consisting solely of HTTP headers to send back to the browser
+
+        By default, controllers in Rails automatically render views with names that corresponds to valid routes
+
+        E.g. 
+        
+        Rails will automatically render app/views/subjects/index.html.erb. When you navigate to /subjects
+
+    -   Rendering nothing
+        
+        render nothing: true
+
+    -   Rendering json
+
+        render json: @subjects
+
+    -   Rendering an Action's Template from another Controller
+
+        render "pages/new"
+
+    -   Rendering Text
+
+        render plain: "OK"
+
+        ...
+
+    -   Options for render
+
+        Calls to render method generally accept four options:
+
+        :content_type
+        :layout
+        :location
+        :status
+
+    -   Using redirect_to
+
+        render tells Rails which view (or other asset) to use in constructing a response, whereas redirect_to method does something
+        completely different. The tells the browser to send a new request for a different URL. You can use redirect_to with any
+        arguments that you could use with link_to or url_for.
+
+        E.g.
+
+        redirect_to :back #a special redirect that sends the user back to the page they just came from
+
+    -   Difference between render and redirect_to
+
+        Consider these actions to see the difference:
+
+        def index
+          @books = Book.all
+        end
+         
+        def show
+          @book = Book.find_by(id: params[:id])
+          if @book.nil?
+            render action: "index"
+          end
+        end
+
+        With the code in this form, there will likely be a problem if the @book variable is nil. Remember, a render :action doesn't run 
+        any code in the target action, so nothing will set up the @books variable that the index view will probably require. One way to 
+        fix this is to redirect instead of rendering:
+
+        def index
+          @books = Book.all
+        end
+         
+        def show
+          @book = Book.find_by(id: params[:id])
+          if @book.nil?
+            redirect_to action: :index
+          end
+        end
+
+        With this code, the browser will make a fresh request for the index page, the code in the index method will run, and all will be well.
+
+...
 
                     
 
@@ -2944,6 +3219,17 @@ Beginning_Ruby_From_Novice_to_Professional
     Model               rails generate model Subject
     Controller          rails generate controller Subjects
 
+-   In a specific controller, you can turn off the layout with the following command:
+
+    layout false
+
+    What is that mean??
+
+-   band versions of create, save, and update
+
+    The bang versions (e.g. save!) raise an exception if the record is invalid. The non-bang versions don't, 
+    save and update return false, create just returns the object.
+
 -   Notes for my project
 
     1.  Install those gems
@@ -2992,6 +3278,7 @@ Beginning_Ruby_From_Novice_to_Professional
             heroku run rake db:migrate              #run remote migrate
             heroku run rake db:migrate:status       #check remote migrate status
             heroku pg:info                          #check the remote postgres status   
+            heroku pg:psql                          #login the postgres database
             
         -   Git related commands
 
@@ -3008,3 +3295,119 @@ Beginning_Ruby_From_Novice_to_Professional
         -   Addon related commands
 
             heroku addons
+
+        
+
+    4.  carrierwave
+
+        This gem provides a simple and extremely flexible way to upload files from Ruby applications. It works 
+        well with Rack based web application, such as Ruby-on-Rails.
+
+        Usage:
+
+        1.  Add the following lines in Gemfile:
+
+            gem 'carrierwave'
+            gem 'carrierwave_backgrounder'
+
+        2.  Add the following lines in config/application.rb
+
+            require 'carrierwave'
+            require 'carrierwave/orm/activerecord'
+
+        3.  Assuming you have already created a model called "AdminUsers". In cmd line under you project's root folder:
+
+            rails g migration add_avatar_to_admin_users avatar:string
+
+            The command above generates a migration called add_avatar_to_admin_users which is going to add a column avatar:string
+            to the db admin_users.
+
+            To bring up the migration, you need to:
+
+            rake db:migrate
+
+        4.  How to use uploader
+
+            -   Edit your model file
+
+                Open your model file admin_user.rb and add the following line:
+
+                mount_uploader :avatar, AvatarUploader
+
+                class AdminUser < ActiveRecord::Base
+                  ...
+                  mount_uploader :avatar, AvatarUploader
+                  ...  
+                end
+
+            -   Restart your application
+
+            -   login in the rails server: rails console 
+
+            -   Demo
+           
+                user = AdminUser.new
+                user.avatar = File.open('/home/alexyu/Desktop/gnu_linux.png')
+                user.save!
+                u.avatar.url # => '/url/to/file.png'
+                u.avatar.current_path # => 'path/to/file.png'
+                u.avatar.identifier # => 'file.png'
+
+        5.  CarrierWave Backgrounder
+
+            This gem addresses delay issue created by CarrierWave while uploading a file. It offloads processing or storage/processing to a background
+            task. We currently support Delayed Job, Resque, Sidekiq, SuckerPunch, Girl Friday, Qu, and Queue Classic.
+
+            -   Installation
+
+                1)  In your Gemfile, gem 'carrierwave_backgrounder'
+                2)  Run the generator which will create an initializer in config/initializers
+
+                    rails g carrierwave_backgrounder:install
+
+                3)  You can pass additional configuration options to Girl Friday(??) and Sidekiq(??)
+
+                    CarrierWave::Backgrounder.configure do |c|
+                      c.backend :girl_friday, queue: :awesome_queue, size: 3, store: GirlFriday::Store::Redis
+                    end
+
+                4)  In your CarrierWave uploader file:
+
+                    class AvatarUploader < CarrierWave::Uploader::Base
+                      include ::CarrierWave::Backgrounder::Delay
+
+                      #etc...
+                    end
+
+            -   Usage
+
+                -   To use process_in_background
+
+                    In your model:
+
+                    mount_uploader :avatar, AvatarUploader
+
+                    Optionally you can add a column to the database which will be set to true when the 
+                    background processing is start and to false when the background processing is complete.
+
+                    add_column :users, :avatar_processing, :boolean, null: false, default: false
+
+                -   To use store_in_background
+
+                    In your model:
+                
+                    mount_uploader :avatar, AvatarUploader
+                    store_in_background :avatar
+
+                    Add a column to the model you want to background which will store the temp file location:
+            
+                    add_column :users, :avatar_tmp, :string
+                
+        
+
+           
+
+            
+
+                
+
