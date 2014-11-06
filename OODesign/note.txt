@@ -268,7 +268,7 @@ Chapter 5 One of a Kind Objects.
       getInstance() method, E.g.
 
         public class Singleton {
-            private static singleton uniqueInstance;
+            private static Singleton uniqueInstance;
 
             private Singleton(){}
 

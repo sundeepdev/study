@@ -22,7 +22,7 @@ class MergeSort {
       R.add(null);//Add an extra element at the end and set it to null
       
       i = j = 0;
-      for (k = p; k < r; k++) {
+      for (k = p; k <= r; k++) { //why not k <= r??
          if ( L.get(i).compareTo(R.get(j)) <= 0 ) {
             A.set(k, L.get(i));
             i++;

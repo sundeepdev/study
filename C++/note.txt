@@ -13,11 +13,31 @@
 
 -  How to use std::map??
 
--  How the "const" is used for here??
+-  How the "const" is used for here!!
 
    T value() const { return iValue; }
 
-   -> That tells 
+   Answer: const after a function declaration means that the function is not allowed to change any class members(except one that are marked mutable).
+   So this use of const only makes sense, and hence only allowed, for member functions. E.g. A method:
+
+   int Foo:Bar(int random_arg)
+
+   (without the const at the end) results in a function like this:
+
+   int Foo_Bar(Foo* const this, int random_arg)
+
+   And a call like Foo f; f.bar(4); will result in something like 
+
+   Foo f; Foo_Bar(&f, 4)
+
+   Now adding the const at the end: int Foo:Bar(int random_arg) const can then be understood a declaration with a const this pointer:
+
+   int Foo_Bar(const Foo* const this, int random_arg)
+
+   Noted that in the above statement, const locates before and after "*" therefore the content that this pointint to cannot be changed. and of course
+   "this" pointer cannot be changed too.
+        
+    
 
 -  How does the c++ namespace work??
 
@@ -215,3 +235,55 @@
     static_cast can also cast through inheritance hierarchies. It is unnecessary when casting upwards (towards a base class), but when casting downwards it 
     can be used as long as it doesn't cast through virtual inheritance. It does not do checking, however, and it is undefined behavior to static_cast down a 
     hierarchy to a type that isn't actually the type of the object.   
+
+-   Volatile variable
+
+    A variable or object declared with the volatile keyword usually has special properties related to optimization and/or threading. Generally speaking, the volatile
+    keyword is intended to prevent the compiler from applying certain optimizations which it might have otherwise applied because ordinarily it is assumed variables
+    cannot change value "on their own".
+
+    In C/C++, the volatile keyword is intended:
+
+    -   allow access to memory mapped devices;
+    -   allow uses of variables between setjmp and longjmp
+    -   allow uses of sig_atomic_t variables in signal handlers
+
+    Operations on volatile variables are not atomic, nor do they establish a proper happens-before relationship for threading. This is according to the 
+    relevant standards (C, C++, POSIX, WIN32), and this is the matter of fact for the vast majority of current implementations. Thus, the usage of 
+    volatile keyword as a portable synchronization mechanism is discouraged by many C/C++ groups.
+
+    Example of memory-mapped I/O in C:
+
+    static int foo;
+    void bar(void) {
+        foo = 0;
+     
+        while (foo != 255)
+             ;
+    }
+
+    An optimizing compiler will notice that no other code can possibly change the value stored in foo, and will assume that it will remain equal to 0 
+    at all times. The compiler will therefore replace the function body with an infinite loop similar to this:
+
+    void bar_optimized(void) {
+        foo = 0;
+     
+        while (true)
+             ;
+    }
+
+   However, foo might represent a location that can be changed by other elements of the computer system at any time, such as a hardware register of a 
+   device connected to the CPU. The above code would never detect such a change; without the volatile keyword, the compiler assumes that the current 
+   program is the only part of the system that could change the value (which is by far the most common situation). To prevent the compiler from 
+   optimizing code as above, the volatile keyword is used:
+
+   static volatile int foo;
+ 
+   void bar (void) {
+       foo = 0;
+    
+       while (foo != 255)
+           ;
+   }
+
+   With this modification the loop condition will not be optimized away, and the system will detect the change when it occurs.
