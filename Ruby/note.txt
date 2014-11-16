@@ -3068,13 +3068,19 @@ Beginning_Ruby_From_Novice_to_Professional
         def custom_method
           # ...
         end
-                
-            
-
-            
             
 
 -   Chapter 14  User authentication
+
+    -   Ticket analogy
+
+        1)  Admin creates a user in the database
+        
+        2)  User logs in via a login form
+
+        3)  
+
+        
 
 -   Chapter 15  Improving the simple CMS
 

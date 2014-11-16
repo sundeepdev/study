@@ -236,3 +236,17 @@
 28. Solve annoying "System Program Problem Detected" problem.
 
     sudo sed -i 's/enabled=1/enabled=0/g' /etc/default/apport
+
+29. ssh commands
+
+    -   start the ssh-agent
+
+        ssh-agent -s
+
+        Note: this is the necessary step do add your private key if your Linux doesn't kick off the ssh-agent
+
+    -   add ssh private key
+
+        ssh-add your_private_key
+
+        Note: before you add you key, you should do: sudo chmod 660 your_private_key
