@@ -1,5 +1,25 @@
 Beginning_Ruby_From_Novice_to_Professional
 
+-   Upgrade Ruby
+
+    By default, ruby program has been installed in the Ubuntu. To upgrade, you need 'rbenv'. E.g.
+
+    sudo apt-get update
+    sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties
+
+    cd ~
+    git clone git://github.com/sstephenson/rbenv.git .rbenv
+    git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+    
+    After tha, add the following lines in ~/.bashrc
+
+    export PATH="/home/alexyu/.rbenv/bin:$PATH"
+    eval "$(rbenv init -)"
+
+    last but not least, run:
+
+    source ~/.bashrc
+
 -   Chapter 2 Programming == JOY: A Whistle-stop tour of Ruby and Object
     Orientation
 
@@ -2881,6 +2901,179 @@ Beginning_Ruby_From_Novice_to_Professional
 
 -   Chapter 13  Data validation
 
+    -   Validation methods
+    
+        validates_presence_of
+        validates_length_of
+        validates_numericality_of
+        validates_inclusion_of
+        validates_exclusion_of
+        validates_format_of
+        validates_uniqueness_of
+        validates_acceptance_of
+        validates_confirmation_of
+        validates_associated_of
+
+        -   validates_presence_of
+
+            Attribute must not be blank(nil, false, "", " ", [], {})
+            
+            :message => "can't be blank"
+        
+        -   validates_length_of
+
+            Attribute must meet length requirements
+
+            :is, :minimum, :maximum, :within, :in
+            :wrong_length => "is the wrong length(should be {{count}} characters)"
+            :too_short => "is too short (minimum is {{count}} characters)"
+            :too_long => "is too long (minimum is {{count}} characters)"
+
+        -   validates_numericality_of
+
+            Attributes must be an integer or floating point number
+
+            :equal_to, :greater_than, :less_than,
+            :greater_than_or_equal_to, :less_than_or_equal_to,
+            :odd, :even, :only_integer
+
+            :message => "is not a number"
+
+        -   validates_inclusion_of
+
+            Attribute must be in a list of choices(an array or range)
+
+            :in
+
+            :message => "is not included in the list"
+
+        -   validates_exclusion_of
+
+            Attribute must not be in a list of choices(array of range)
+
+            :in
+            :message => "is reserved"
+
+        -   validates_format_of
+
+            Attributes must match a regular expression
+
+            :with
+            :message => "is invalid"
+
+        -   validates_uniqueness_of
+
+            Attribute must not exist in the database(for given scope)
+
+            :case_sensitive
+            :scope
+
+            :message => "has already been taken"
+
+        -   validates_acceptance_of
+
+            Attributes must be "accepted" (??)
+            Creates virtual attribute when no table column
+            
+            :accept (expected value, "1")
+            :message => "must be accepted"
+
+        -   validates_confirmation_of
+
+            Attribute must be confirmed by entering it twice
+            Creates a virtual attribute for the confirmation
+            Only validates when confirmation attributes is not nil
+
+            :message => "doesn't match confirmation"
+
+        -   validates_associated
+
+            Associated object or objects must all be valid
+            First argument is an association name, not attribute
+            Calls #valid? on the object or array of objects
+            Does not fail if object does not exist
+            Beware of infinite loops and long cascades
+
+    -   Most methods accept the options
+    
+        -   :allow_nil => true
+
+            Skips validation if attribute is nil(no value set)
+
+        -   :allow_blank => true
+
+            Skips validation if attribute is blank
+
+        -   :on => :save / :create / :update
+        
+            Only validates if this is a new record(:create) or an existing record (:update)
+
+            :save validates in both cases and is the default
+
+        -   :if => :method / :unless => :method
+            
+            :method is a method defined in the model that should return true or false
+
+            Only validates when the returned boolean value indicates it should
+
+    -   Writing validations
+
+        The first thing comes to you mind is 
+
+        -   what are your data concerns?
+
+            Decide what good/bad data looks like
+
+        -   What restrictions does your database impose?
+
+            Field types, field lengths, null allowed
+
+        -   Waht would stop your application from working?
+
+            <%= page.name.upcase %>
+
+        -   Not: IDs, foreign keys, timestamps
+
+    -   Use irb to validate your model instance
+
+        s = Subject.new
+        s.valid? #check if the instance is valid
+        s.errors #check if the instance has errors. Noted that we should run s.valid? first before running s.errors
+        s.errors.full_messages #just prints the message from errors
+        s.errors.clear #clear the error message 
+   
+    -   Shortcuts of validations 
+
+        validates :email, :presence => true,
+                          :length => {:maximum => 50},
+                          :uniqueness => true,
+                          :format => { :with => EMAIL_REGEX },
+                          :confirmation => true
+
+        Let's take a look at the full syntax of the validation:
+
+        validates :attribute, :presence => boolean,
+                              :numerically => boolean,
+                              :length => options_hash,
+                              :format => { :with => regex },
+                              :inclusion => { :in => array_or_range },
+                              :exclusion => { :in => array_or_range },
+                              :acceptance => boolean,
+                              :uniqueness => boolean
+                              
+    -   Custom validations
+
+        validate :custom_method
+        
+        def custom_method
+          # ...
+        end
+                
+            
+
+            
+            
+
 -   Chapter 14  User authentication
 
 -   Chapter 15  Improving the simple CMS
@@ -3155,13 +3348,161 @@ Beginning_Ruby_From_Novice_to_Professional
 
 ...
 
+Chapter E2 RSpec
+
+    -   Introduction
+
+        RSpec is a Ruby domain specific language for specifying the desired behavior of Ruby code. Its strongest appeal is the RSpec scripts(or simply specs)
+        can achieve a remarkable degree of readability.
+
+        RSpec::Rails, a drop-in replacement for the Rails testing subsystem supplies verification, mocking, and stubbing features customized for use with Rails
+        models, controllers and views. Since switching to RSpec I have never needed to touch Test::Unit for anything significant again. RSpec is simply that good.
+
+    -   RSpec scripts are collections of behaviors, which in turn have collections of examples.
                     
+Chapter E1 A Guide to testing Rails applications
+
+    -   The test environment
+
+        By default, every Rails application has three environments: development, test and production. The database for each of them is configured in config/database.yml.
+        Tests can mangle test data confidence, that won't touch the data in the development or production databases.
+
+    -   Rails creates a test folder as soon as you create a Rails project using rails new application_name. 
+
+        ls -F test
+
+        controllers/  fixtures/  helpers/  integration/  mailers/  models/  test_helper.rb
+
+        controllers folder is meant to hold tests for your controllers;
+        models folder it meant to hold tests for your models;
+        integration directory is meant to hold tests that involve any number of controllers interacting.
+
+    -   Fixtures
+
+        For good tests, you'll need to give some thought to setting up test data. In Rails, you can handle this by defining and customizing fixtures.
+
+        Fixtures is a fancy word for sample data. Fixtures allow you to populate your testing database with predefined data before you tests run. Fixtures
+        are database independent written in YAML. There is one file per model. When you run rails generate model to create a new model fixture stubs will be 
+        automatically created and placed in this directory.
+
+        E.g.
+
+        # lo & behold! I am a YAML comment!
+        david:
+          name: David Heinemeier Hansson
+          birthday: 1979-10-15
+          profession: Systems development
+         
+        steve:
+          name: Steve Ross Kellock
+          birthday: 1974-09-27
+          profession: guy with keyboard
+
+        Each fixture is given a name followed by an indented list of colon-separated key/value pairs. Records are typically separated by a blank space.
+
+        If you are working with associations, you can simply define a reference node between two different fixtures. Here is an example with a belongs_to
+        /has_many association:
+
+        # In fixtures/categories.yml
+        about:
+          name: About
+         
+        # In fixtures/articles.yml
+        one:
+          title: Welcome to Rails!
+          body: Hello world!
+          category: about
+
+        -   ERB'in It Up
+
+            ERB allows you to embed Ruby code within templates. The YAML fixture format is pre-processed with ERB when Rails load fixtures. This allows
+            you to use Ruby to help you generate some sample data. E.g. the following code generates a thousand users:
+
+            <% 1000.times do |n| %>
+            user_<%= n %>:
+              username: <%= "user#{n}" %>
+              email: <%= "user#{n}@example.com" %>
+            <% end %>
+
+            ?? what is that mean: user_<%= n %>
+            ?? whatis that mean: username: <%= "user#{n}" %>
+
+        -   Fixtures in Action
+
+            Rails by default automatically loads all fixtures from the test/fixtures folder for your model and controllers test. loading involves three steps:
+
+            1)  Remove any existing data from the table corresponding to the fixture
+            2)  Load the fixture data into the table
+            3)  Dump the fixture data into a variable in case you want to access it directly
+
+        -   Fixtures are Active Record objects
+
+            Fixtures are instances of Active Record. As mentioned in point #3 above, you can access the object directly because it is automatically setup as 
+            a local variable of the test case. For example:
+
+            # this will return the User object for the fixture named david
+            users(:david)
+
+            # this will return the property for david called id
+            users(:david).id
+
+            # one can also access methods available on the User class
+            email(david.girlfriend.email, david.location_tonight)
+
+        -   Unit Testing Your Models
+
+            In Rails, models tests are what you write to test your models.
+
+            When you use rails generate scaffold, for a resource among other things it creates a test stub in the test/models folder:
+
+            $ bin/rails generate scaffold post title:string body:text
+
+            ...
+            create  app/models/post.rb
+            create  test/models/post_test.rb
+            create  test/fixtures/posts.yml
+            ...
+
+            The default test stub in test/models/post_test.rb looks like this:
+
+            require 'test_helper'
+ 
+            class PostTest < ActiveSupport::TestCase
+              # test "the truth" do
+              #   assert true
+              # end
+            end
+
+            only the test macro allows a more readable test name. You can still use regular method definitions though. The above test case acts as if you had written:
+
+            def test_the_truth
+              assert true
+            end
+
+        -   Running Tests
+    
+            $ bin/rake test test/models/post_test.rb
+
+            You can also run a particular test method from the test case by running the test and providing the test method name:
+
+            $ bin/rake test test/models/post_test.rb test_the_truth
+
+            The .(dot) above indicates a passing test. When a test fails you see an F; when a test throws an error you see an E in its place.
+            
+            To see how a test failure is reported, you can add a failing test to the post_test.rb test case:
+
+            test "should not save post without title" do
+              post = Post.new
+              assert_not post.save
+            end
 
             
 
             
-                
-                    
+
+            
+                        
+                            
 
         
                             
@@ -3229,6 +3570,80 @@ Beginning_Ruby_From_Novice_to_Professional
 
     The bang versions (e.g. save!) raise an exception if the record is invalid. The non-bang versions don't, 
     save and update return false, create just returns the object.
+
+-   Scaffold
+
+    Scaffolding is a technique supported by some model-view-controller frameworks, in which the programmer can specify how the application database may be used.
+
+    The compiler or framework uses this specification, together with pre-defined code templates, to generate the final code that the application can use to create, 
+    read, update and delete database entries, effectively treating the templates as a "scaffold" on which to build a more powerful application.
+
+    -   Run time vs Design time Scaffolding
+
+        Scaffolding can occur at two different phases of the program lifecycle: design time and run time.
+
+        1)  Design time Scaffolding(??)
+
+            Design time scaffolding produces files of code that can later be modified by the programmer ot customize the way the application database is used. However,
+            for large-scale applications this approach may be difficult to maintain due to the sheer number of files produced. and the fact that the files was largely
+            fixed when then were generated or copied from the original templates. 
+
+        2)  Run time Scaffolding(??)
+
+            Alternatively, run time scaffolding produces code on the fly. It allows changes to the design of the templates to be immediately reflected throughout the 
+            application. But modifying the design of the templates may be more difficult or impractical in the case of run time scaffolding.
+
+    -   Server side vs Client side Scaffolding
+
+        1)  Server side Scaffolding
+
+            Server side web frameworks commonly perform operations directly against database entries, and code generation for these operations may be considered Server 
+            side Scaffolding.
+
+        2)  Client side Scaffolding
+
+            Alternatively, Client side development often uses frameworks that perform data transport operations instead of directly accessing the database. The focus of 
+            Client side Scaffolding is thus more on generating a starter template for the application as a whole, rather than generating code to access a database.
+
+    -   Getting Up Running
+
+        Rails scaffolding is a quick way to generate some of the major pieces of an application. If you want to create the models, views, and controllers for a new 
+        resource in a single operation, scaffolding is the tool for the job.
+
+        -   Creating a Resource
+
+            rails generate scaffold Post name:string title:string content:text
+
+            The scaffold generator will build several files in your application, along with some folders, and edit config/routes.rb. Here’s a quick overview of what it creates:
+
+            File	                                    Purpose
+            db/migrate/20100207214725_create_posts.rb	Migration to create the posts table in your database (your name will include a different timestamp)
+            app/models/post.rb	                        The Post model
+            test/unit/post_test.rb	                    Unit testing harness for the posts model
+            test/fixtures/posts.yml	                    Sample posts for use in testing
+            config/routes.rb	                        Edited to include routing information for posts
+            app/controllers/posts_controller.rb	        The Posts controller
+            app/views/posts/index.html.erb	            A view to display an index of all posts
+            app/views/posts/edit.html.erb	            A view to edit an existing post
+            app/views/posts/show.html.erb	            A view to display a single post
+            app/views/posts/new.html.erb	            A view to create a new post
+            app/views/posts/_form.html.erb	            A partial to control the overall look and feel of the form used in edit and new views
+            test/functional/posts_controller_test.rb	Functional testing harness for the posts controller
+            app/helpers/posts_helper.rb	                Helper functions to be used from the post views
+            test/unit/helpers/posts_helper_test.rb	    Unit testing harness for the posts helper
+            app/assets/javascripts/posts.js.coffee	    CoffeeScript for the posts controller
+            app/assets/stylesheets/posts.css.scss	    Cascading style sheet for the posts controller
+            app/assets/stylesheets/scaffolds.css.scss	Cascading style sheet to make the scaffolded views look better
+
+            Note: While scaffolding will get you up and running quickly, the code it generates is unlikely to be a perfect fit for your application. You'll most
+            probably want to customize the generated code. Many experienced Rails developers avoid scaffolding entirely, preferring to write all or most of their 
+            source code from scratch. Rails, however, makes it really simple to customize templates for generated models, controllers, views and other source files. 
+            You’ll find more information in the Creating and Customizing Rails Generators & Templates guide.
+
+            
+            
+
+            
 
 -   Notes for my project
 
