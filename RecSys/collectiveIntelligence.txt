@@ -1,0 +1,50 @@
+Chapter 1   Introduction
+
+-   Limits of Machine Learning
+
+    1)  While humans have a vast amount of cultural knowledge and 
+        experience to draw upon, as well as remarkable ability to 
+        recognize similar situations when making decisions about 
+        new information, ML methods can only generalize based on 
+        the data that has already been seen, and even then in a very 
+        limited manner.
+
+    2)  All machine-learning methods suffer from the the possibility of
+        overgeneralizing. As with most things in life, strong 
+        generalizations based on a few examples are rarely entirely
+        accurate. E.g.
+
+        You may receive an email from a friend that contains message 
+        "online pharmacy".
+
+Chapter 2   Recommendation system
+
+-   Collaborative Filtering
+
+    A collaborative filtering algorithm usually works by searching a large
+    group of people and finding a smaller set with tastes similar to yours.
+    It looks at other things they like and combines them to create a ranked
+    list of suggestions.
+
+-   Euclidean Distance Score
+
+    1)  Score two users' similarities.
+
+    2)  for each item, do: 
+
+    sum_of_squares=sum([pow(prefs[person1][item]-prefs[person2][item],2)
+    for item in prefs[person1] if item in prefs[person2]])
+
+    3)  return 1 + sqrt(sum_of_squares)
+
+-   Pearson Correlation Score
+
+    The correlation coefficient is a measure of how well two sets of data fit on a straight line.
+    Comparing to Euclidean Distance Score, it tends to give better resutls in situations
+    where the data isn't well normalized - e.g. if critics' movies rankings are
+    routinely more harsh than average.
+
+
+    
+
+    
