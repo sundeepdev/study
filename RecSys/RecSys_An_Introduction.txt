@@ -1,0 +1,126 @@
+-   Analytical Framework
+
+    -   Domain
+
+        -   Content to Commerce and Beyond
+
+            -   News, information, "text"
+            -   Products, vendors, bundles
+            -   Matchmaking(other people)
+            -   Sequences(e.g., music playlists)
+
+        -   One particularly interesting property
+
+            -   New items(e.g., movies, books, ...)
+            -   Re-recommend old ones(e.g., groceries, music)
+
+    -   Purpose
+
+        -   Sales
+        -   Information
+        -   Education of user/customer
+        -   Build a community of users/customers around products or
+            content
+        
+    -   Recommendation Context
+
+        -   What is the User doing at the time of recommendation?
+
+            -   Shopping
+            -   Listening to Music
+            -   Hanging out with other people
+
+        -   How does the context constrain the recommender?
+
+            -   Groups, automatic consumption (vs. suggestion),
+                level of attention, level of interruption?
+
+    -   Whose Opinions
+
+        -   "Experts"
+        -   Ordinary "phoaks"
+        -   People like you
+
+    -   Personalization Level
+
+        -   Generic / Non-Personalized
+
+            -   Everyone receives same recommendations
+
+        -   Demographic
+
+            -   Matches a target group
+
+        -   Ephemeral
+
+            -   Matches current activity
+
+        -   Persistent
+        
+            -   Matches long-term interests
+
+    -   Privacy and Trustworthiness
+
+        -   Who knows what about me?
+
+            -   Personal information revealed
+            -   Identity
+            -   Deniability
+
+        -   Is the recommendation honest?
+
+            -   Biases built-in by operator
+
+                -   "bussiness rules"
+
+            -   Vulnerability to external manipulation
+
+            -   Transparency of "recommenders"; Reputation
+
+    -   Interfaces
+
+        -   Types of Output
+            
+            -   Predictions
+            -   Recommendations
+            -   Filtering
+            -   Organic vs. explicit presentation
+                
+                -   Agent/Discussion Interface
+
+        -   Types of Input
+
+            -   Explicit
+            -   Implicit
+
+    -   Recommendation Algorithms
+
+        -   Non-Personalized Summary Statistics
+            
+        -   Content-Based Filtering
+            
+            -   Information Filtering
+            -   Knowledge-Based
+
+        -   Collaborative Filtering
+
+            -   User-User
+            -   Item-Item
+            -   Dimensionality Reduction
+
+        -   Others
+
+            -   Critique / Interview Based Recommendations
+            -   Hybrid Techniques
+
+        -   From the abstract to the specific
+
+            -   Basic Model
+
+                -   Users
+
+                -   Items
+
+                -   Ratings
+
+                -   (Community)

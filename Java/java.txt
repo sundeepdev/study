@@ -3876,10 +3876,30 @@ Veggie veggies[] = { new Garlic(), new Onion(), new Mushroom(), new RedPepper() 
         mon.wait();
     } 
 
--   What is String pool(!!)?
+-   What is String pool
 
     String pool is a pool of Strings stored in Java heap memory. String Pool is possible only because String is immutable in Java and it's implementation of String
-    Interning concept(??). String Pool is also example of Flyweight design pattern.
+    Interning concept. String Pool is also example of Flyweight design pattern.
+
+    E.g.
+
+    String s = "0";
+
+    for (int x = 1; x < 10; x++)
+    {
+        s = s + x;
+    }
+
+    What's actually happening is that you're creating ten String objects(with values "0", "01", "012", through "0123456789"). In the end s is referring to the String
+    with the value "0123456789", but at this point there are ten Strings in existence!
+
+    Whenever you make a new String, the JVM puts it into a special part of memory called the "String Pool". If there is already a String in the String Pool with the
+    same value, the JVM doesn't create a duplicate. it simply refers your reference variable to the existing entry. The JVM can get away with this because Strings
+    are immutable; one reference variable can't change a String's value out from under another reference variable referring to the same String.
+
+    The other issue with String Pool is that the Garbage Collector doesn't go there. So in our example, unless by coincidence you later happen to make a String called
+    "01234", for instance, the first nine Strings created in our for loop will just sit around wasting memory.
+    
 
 -   Why String is immutable or final in Java
 
@@ -4060,3 +4080,103 @@ Veggie veggies[] = { new Garlic(), new Onion(), new Mushroom(), new RedPepper() 
     Surprisingly, HashSet is actually HashMap except that the all entries' value uses the same static default values called PRESENT:
 
     private static final Object PRESENT = new Object();
+
+-   String and StringBuffer/StringBuilder Methods(!!)
+
+    String are immutable but StringBuffer/StringBuilder class can be a lot more efficient if you're manipulating a String. As of Java 5.0 you should use StringBuilder
+    class instead of StringBuffer, unless your String manipulations need to be thread-safe, which is not common. Here's a brief overview of the key methods in these
+    classes:
+
+    1)  Both String and StringBuffer/StringBuilder classes have:
+
+    char charAt(int index);                 //what char is at a certain position
+    int length();                           //how long is this
+    String substring(int start, int end);   //get part of this
+    String toString();                      //what's the String value of this
+
+    2)  To concatenate Strings:
+    
+    String concat(String);                  //for the String class
+    String append(String);                  //for StringBuffer & StringBuilder
+
+    3)  The String class has:
+
+    String replace(char old, char new);     //replace all occurence of a char
+    String substring(int begin, int end);   //get a portion of a String
+    char [] toCharArray();                  //convert to an array of chars
+    String toLowerCase();                   //convert all characters to lower case
+    String toUpperCase();                   //convert all characters to upper case
+    String trim();                          //remove whitespace from the ends
+    String valueOf(char []);                //make a String out of a char array
+    String valueOf(int i);                  //make a String out of a primitive
+                                            //other primitives are supported as well
+
+    4)  The StringBuffer & StringBuilder classes have:
+
+    StringBxxxx delete(int start, int end);                     //delete a portion
+    StringBxxxx insert(int offset, any primitive or a char[]);  //insert something
+    StringBxxxx replace(int start, int end);                    //replace this part with this String
+    StringBxxxx reverse(int start, int end);                    //replace a given character
+    
+
+    StringBuffer is a thread-safe, mutable sequence of characters. A string buffer is like a String, but can be modified. At any point in time
+    it contains some particular sequence of characters, but the length and content of the sequence can be changed through certain method calls.
+
+    String buffers are safe for use by multiple threads. The methods are synchronized where necessary so that all the operations on any particular instance behave 
+    as if they occur in some serial order that is consistent with the order of the method calls made by each of the individual threads involved.
+
+-   JUnit
+
+    -   Unit test
+
+        A unit test target is a small unit of code, e.g. a method or a class. The percentage of code which is tested by unit tests is typically called test coverage
+
+    -   Functional and integration tests
+
+        An integration test has the target to test the behavior of a component or the integration between a set of components. The term functional test
+        is sometimes used as synonym for integration test.
+
+    -   Behavior vs. state testing
+
+        A test is behavior test (also called interaction test) if it does not validate the result of a method call, but checks if certain methods were called with
+        the correct input parameters.
+
+        State testing is about validating the result, while behavior testing is about testing the behavior of the application under test.
+
+    -   Test Organization for Java projects
+
+        Typically unit tests are created in a seperate project or seperate source folder to avoid that the normal code and the test code is mixed.
+
+    -   Test Frameworks for Java
+
+        -   JUnit
+
+            Typically a JUnit test is a method contained in a class which is only used for testing. This is called a Test class.
+
+            To write a test with the JUnit 4.x framework you annotate a method with the @org.junit.Test annotation. 
+            In this method you use a method provided by the JUnit framework to check the expected result of the code execution versus the actual result.
+
+-   CLASSPATH
+
+    The CLASSPATH variable is one way to tell applications, including the JDK tools, where to look for user classes. To set the classpath, it is in most 
+    cases better to use the the -cp or -classpath argument when calling javac and java. It gives you more flexibility to use different classpaths for 
+    different java applications.
+
+    With the -cp and -classpath arguments your classpath can contain multiple jars and multiple locations separated with a : (colon)
+
+    javac -cp ".:/somewhere/A.jar:/elsewhere/B.jar" MyClass.java
+    java -cp ".:/somewhere/A.jar:/elsewhere/B.jar" MyClass
+
+    The classpath entry in the example sets the classpath to contain the current working directory (.), and the two jar files A.jar and B.jar.
+
+    If you want to use the CLASSPATH environment variable you can do
+
+    export CLASSPATH=".:/somewhere/A.jar:/elsewhere/B.jar"
+    javac MyClass.java
+    java MyClass
+
+-   what is the following import statement mean?
+
+import static org.junit.Assert.assertEquals;
+
+    
