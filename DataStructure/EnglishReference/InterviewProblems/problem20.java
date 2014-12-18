@@ -220,8 +220,8 @@ class Tree<E extends Comparable<? super E>> {
     /*
         Since getBalance2() cannot solve the chainning-tree problem, here I propose my own solution:
         1) If the root has more than one child, the difference of min depth and max depth should not exceed 1,
-        2) If the root has only one child, the difference of max depth and 0 should not exceed 0.
-        3) If the root has no child, it is always balance.
+        2) If the root has only one child, the difference of max depth and 0 should not exceed 1.
+        3) If the root has no child, it is always balanced
     */
     public boolean getBalance3() {
         int maxDepth = maxDepth(root);
