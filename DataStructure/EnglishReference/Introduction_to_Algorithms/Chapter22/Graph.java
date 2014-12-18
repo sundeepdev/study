@@ -26,7 +26,7 @@
 *     similar to those in breadth-first search.
 *
 *     It is named so because it expands the frontier between discovered and undiscovered vertics uniformly across the breadth of
-*     the frontier. That is, the algorithm discovers all vertices at distance K from s before discovering any vertices at distance k+1(??).
+*     the frontier. That is, the algorithm discovers all vertices at distance K from s before discovering any vertices at distance k+1.
 *
 *     To keep track of progress, breadth-first search colors each vertex white, gray, or black: 
 *     1) All vertics start out white and may
