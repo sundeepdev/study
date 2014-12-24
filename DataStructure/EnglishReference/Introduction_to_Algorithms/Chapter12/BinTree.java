@@ -360,7 +360,7 @@ public class BinTree<E> {
       }
       
       if ( v != null ) {
-         v.setParent(u.parent());
+         v.setParent(u.getParent());
       }
    }
 
