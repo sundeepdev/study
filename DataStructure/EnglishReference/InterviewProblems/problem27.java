@@ -1,14 +1,17 @@
 /*
-    You have two very large binary trees: T1, with million of nodes, and T2, with hundred of nodes. 
-    Create an algorithm to decide if T2 is a subtree of T1.
-    
+    You are given a binary tree in which each node contains a value. Design
+    an algorithm to print all paths which sum up to that value. Note that it
+    can be any path in the tree
+
+    -   it does not have to start at the root.
+
+        
 */
 
 import java.util.*;
 import java.lang.*;
 import org.junit.*;
 import static org.junit.Assert.assertEquals;
-
 
 class Node {
 
@@ -202,73 +205,9 @@ class BinTree {
         return minDepth + 1;
     }
 
-    //return true if t2 is a subtree of t1; return false otherwise
-    public static boolean isSubTree(BinTree t1, BinTree t2) {
-        //step 1: find if t2's root is one of t1's nodes
-        //Iterate through all the nodes in t1. This takes O(n1), n1 is the # of nodes in t1
+    public static void findSum(TreeNode head, int sum, ArrayList<Integer> buffer, )
 
-        ArrayList<Node> occurances = new ArrayList<Node>();
-        search(t1.getRoot(), t2.getRoot(), occurances);
-        
-        //step 2: inorder rt1 and rt2 to make sure their elements are orderly matched
-        //This takes O( k * n2), n2 is the # of nodes in t2 and k is the occurances of t2's root in t1. 0<= k <= n1.
-        for (Node rt : occurances) {
-            if (match(rt, t2.getRoot())) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public static void search(Node rt, Node rt2, ArrayList<Node> occurances) {
-        if (occurances == null) {
-            occurances = new ArrayList<Node>();
-        }
-
-        if (rt != null) {
-            if (rt.getValue() == rt2.getValue()) {
-                occurances.add(rt);
-            }
-
-            Node left = rt.getLeft();
-            Node right = rt.getRight();
-
-            if (left != null) {
-                search(left, rt2, occurances);
-            }
-
-            if (right != null) {
-                search(right , rt2, occurances);
-            }
-        }
-    }
-
-    public static boolean match(Node rt1, Node rt2) {
-
-        if ( rt1 == null || rt2 == null) {
-            if (rt1 == null && rt2 == null) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-
-        if (rt1.getValue() != rt2.getValue()) {
-            return false;
-        }
-
-        boolean l = match(rt1.getLeft(), rt2.getLeft());
-        boolean r = match(rt1.getRight(), rt2.getRight());
-
-        if (l == true && r == true) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
-    public static void testIsSubTree() {
+    public static void testPrintAllPaths() {
       Node node_0 = new Node(15);
       Node node_1= new Node(6);
       Node node_2 = new Node(18);
@@ -316,34 +255,11 @@ class BinTree {
       node_11.setRight(node_12);
       node_12.setParent(node_11);
 
-      Node node_13 = new Node(8);
-      Node node_14 = new Node(7);
-      Node node_15 = new Node(13);
-      Node node_16 = new Node(9);
-      Node node_17 = new Node(10);
-
-      node_13.setLeft(node_14);
-      node_13.setRight(node_15);
-      node_14.setParent(node_13);
-      node_15.setParent(node_13);
-
-      node_15.setLeft(node_16);
-      node_16.setParent(node_15);
-
-      node_16.setRight(node_17);
-      node_17.setParent(node_16);
-
       BinTree bTree = new BinTree(node_0);
-      BinTree bTree2 = new BinTree(node_13);
-
-      boolean result = isSubTree(bTree, bTree2);
-
-      System.out.println(result);
 
     }
 
-    public static void main(String[] args) {
-        testIsSubTree();
+    public static void main(String[] args) {    
+        testPrintAllPaths();
     }
 }
-
