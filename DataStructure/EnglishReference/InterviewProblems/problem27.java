@@ -5,6 +5,11 @@
 
     -   it does not have to start at the root.
 
+    -   My thought: 
+
+        Foreach node n in tree T
+            
+
         
 */
 

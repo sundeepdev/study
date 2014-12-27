@@ -80,5 +80,62 @@ Chapter 2 Data
     -   Easy for preprocessing
     -   Use relationships among data to do analysis
 
--   Anomaly 
-    
+-   Types of Data
+
+    A data set can often be viewed as a collection of data objects. Data objects are described by a number of attributes
+    that capture the basic characteristics of an object.
+
+    -   Attributes
+
+        An attribute is a property or characteristic of an object that may vary, either from one object to another
+        from one time to another.
+
+    -   Measurement scale
+
+        A measurement scale is a rule(function) that associates a numerical or symbolic value with an attribute
+        of an object. E.g. we classify someone as male or female.
+
+    -   The Different Types of an attribute
+
+        1.  Distinctness = and !=
+        2.  Order <, <=, >, >=
+        3.  Addition + and -
+        4.  Multiplication * and /
+
+        Given these properties, we define four types of attributes: nominal, ordinal, interval, and ratio.
+
+        -   More details:
+
+            -   Nomial: The value of a nominal attribute are just different names; i.e., nominal values 
+                provide only enough information to distinguish one object from another(=, !=)
+
+                Examples: zip code, employee ID, eye color, gender
+
+                Operations: mode, entropy, contingency, correlation, X.^2 test
+
+            -   Ordinal: The values of an ordinal attribute provide enough information to order objects. (<, >)
+
+                Examples: hardness of minerals{good, better, best}, grades, street numbers
+
+                Operations: median, percentiles, rank correlation, run tests, sign tests.  
+
+            -   Interval: For interval attributes, the differences between values are meaningful, i.e., a unit
+                of measurement exists. 
+
+                Examples: calendar dates, temperature in Celsius or Fahrenheit
+
+                Operations: mean, standard deviation, Pearson's correlation, t and F tests.
+
+            -   Ratio: For ratio variables, both differences and ratios are meaningful(*, /)
+
+                Examples: temperature in Kelvin, monetary quantities, counts, age, mass, length, electrical
+                current
+
+                Operations: geometric mean, harmonic mean, percent variation
+
+            -   We can also categorize the four attributes into 2:
+
+                Qualitative(Categorical): Nominal, Ordinal
+                Quantitative(Numeric): Interval, Ratio
+                
+                
