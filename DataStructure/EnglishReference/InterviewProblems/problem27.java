@@ -1,10 +1,25 @@
 /*
-    You are given a binary tree in which each node contains a value. Design
+    (!!)You are given a binary tree in which each node contains a value. Design
     an algorithm to print all paths which sum up to that value. Note that it
     can be any path in the tree
 
-    !!
+    Let's approach this problem by simplifying it. What if the path had to start at the
+    root? In that case, we would have a much easier problem:
 
+        Start from the root and branch left and right, computing the sum thus far on each
+        path. When we find the sum, we print the current path. Note that we don't stop
+        just because we found the sum. Why? Because we could have the following path 
+        (assume we are looking for the sum 5): 2 + 3 -4 + 3 + 1 + 2. If we stpped once we
+        hit 2 + 3, we'd miss several paths(2 + 3 + -4 + 3 + 1 and 3 + -4 + 3 + 1 + 2). So 
+        we keep going along every possible path.
+
+    Now, if the path can start anywhere? In that case, we make a small modification. On
+    every node, we look "up" to see if we've found the sum. That is - rather than asking
+    "does the node start a path with the sum?", we ask "does this node complete a path
+    with the sum?"
+
+    
+    
         
 */
 
@@ -205,7 +220,74 @@ class BinTree {
         return minDepth + 1;
     }
 
-    public static void findSum(TreeNode head, int sum, ArrayList<Integer> buffer, )
+    public boolean containsTree(Node t1, Node t2) {
+        if (t2 == null) {
+            return true;
+        } else {
+            return subTree(t1, t2);
+        }
+    }
+
+    public boolean subTree(Node r1, Node r2) {
+        if (r1 == null) {
+            return false; //big tree empty & subtree still not found
+        }
+
+        if (r1.getValue() == r2.getValue()) {
+            if (matchTree(r1, r2)) {
+                return true;
+            }
+        }
+
+        return (subTree(r1.getLeft(), r2) || subTree(r1.getRight(), r2));
+    }
+
+    public boolean matchTree(Node r1, Node r2) {
+        if (r2 == null && r1 == null) {
+            return true;
+        }
+
+        if (r1 == null || r2 == null) {
+            return false;
+        }
+
+        if (r1.getValue() != r2.getValue()) {
+            return false;
+        }
+
+        return (matchTree(r1.getLeft(), r2.getLeft()) && 
+                matchTree(r1.getRight(), r2.getRight()));
+    }
+
+    @SuppressWarnings("unchecked")
+    public void findSum(Node head, int sum, ArrayList<Integer> buffer, int level) {
+        if (head == null) {
+            return;
+        }
+
+        int tmp = sum;
+        buffer.add(head.getValue());
+        for (int i = level; i > -1; i--) {
+            tmp -= buffer.get(i);
+            if (tmp == 0) {
+                print(buffer, i, level);
+            }
+        }
+        ArrayList<Integer> c1 = (ArrayList<Integer>)buffer.clone();
+        ArrayList<Integer> c2 = (ArrayList<Integer>) buffer.clone();
+        findSum(head.getLeft(), sum, c1, level+1);
+        findSum(head.getRight(), sum, c2, level+1);
+    }
+
+    public void print(ArrayList<Integer> buffer, int level, int i2) {
+        for (int i = level; i <= i2; i++) {
+            System.out.println(buffer.get(i) + " ");
+        }
+
+        System.out.println();
+    }
+
+
 
     public static void testPrintAllPaths() {
       Node node_0 = new Node(15);
