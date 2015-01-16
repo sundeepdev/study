@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p id="demo"></p>
+</body>
+
+<script>
+/*
+    JavaScript statements can be labeled. To label JavaScript
+    statements you precede the statements with a label name
+    and a colon:
+
+    label:
+    statements
+
+    The break and the continue statements are the only Javascripts
+    statements that can "jump out of" a code block.
+
+    Syntax:
+
+    break labelname;
+    continue labelname;
+*/
+
+cars = ["BMW", "Volvo", "Saab", "Ford"];
+text = "";
+
+list: {
+    text += cars[0] + "<br>";
+    text += cars[1] + "<br>";
+    text += cars[2] + "<br>";
+    break list;
+    text += cars[3] + "<br>";
+    text += cars[4] + "<br>";
+    text += cars[5] + "<br>";
+}
+
+document.getElementById("demo").innerHTML = text;
+</script>
+
+</html>

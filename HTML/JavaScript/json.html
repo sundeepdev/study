@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Create Object from JSON String</h2>
+
+<p id="demo"></p>
+
+<script>
+
+/*
+    JSON stands for JavaScript Object Notation. It is a format
+    for storing and transporting data. JSON is often used when
+    data is sent from a server to a web page. Noted that JSON
+    uses JavaScript syntax, but the JSON format is text only.
+    Text can be read and used as a data format by any programming
+    language.
+
+    JSON Example
+
+    {"employees":[
+        {"firstName":"John", "lastName":"Doe"}, 
+        {"firstName":"Anna",	"lastName":"Smith"},
+        {"firstName":"Peter", "lastName":"Jones"}
+    ]}
+
+    JavaScript program can easily convert JSON data into native
+    JavaScript objects.
+
+    JSON Syntax Rules:
+
+    Data is in name/value pairs
+    Data is seperated by commas
+    Curly braces hold objects
+    Square brackets hold arrays
+
+-   Converting a JSON Text to a JavaScript Object
+
+    A common use of JSON is to read data from a web server, and
+    display the data in a web page. 
+
+*/
+
+var text = '{"employees":[' +
+'{"firstName":"John", "lastName":"Smith" }, ' +
+'{"firstName":"Anna", "lastName":"Smith"}, ' +
+'{"firstName":"Peter", "lastName":"Jones" } ]}';
+
+obj = JSON.parse(text);
+document.getElementById("demo").innerHTML =
+obj.employees[1].firstName + " " + obj.employees[1].lastName;
+
+</script>
+
+</body>
+</html>

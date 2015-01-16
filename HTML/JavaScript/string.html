@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p id="demo"></p>
+
+<script>
+
+/*
+    Because strings must be written within quotes, JavaScript
+    will misunderstand this string:
+
+    var y = "We are the so-called "Vikings" from the north."
+
+    The string will be chopped to "We are the so-called". The solution
+    is to use \escape character. Here is the list of special characters:
+
+    \'	single quote
+    \"	double quote
+    \\	backslash
+    \n	new line
+    \r	carriage return
+    \t	tab
+    \b	backspace
+    \f	form feed
+*/
+
+var x = 'It\'s alright'
+var y = "We are the so-called \"Vikings\" from the north."
+
+document.getElementById("demo").innerHTML = x + "<br>" + y;
+
+</script>
+
+</body>
+
+</html>

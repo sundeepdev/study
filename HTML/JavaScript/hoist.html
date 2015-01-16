@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p id="demo"></p>
+
+<script>
+
+/*
+
+In JavaScript, a variable can be declared after it has been used.
+In other words; a variable can be used before it has been declared.
+
+Hoisting is JavaScript's default behavior of moving all declarations to
+the top of the current stope(to the top of the current script or the 
+current function). JavaScript only hoists declarations, not initializations.
+
+Hoisting is (to many developers) an unknown or overlooked behavior
+of JavaScript. If a developer doesn't understand hoisting, programs
+may contain bugs(errors). To avoid bugs, always declare all variables
+at the beginning of every scope. Since this is how JavaScript interprets
+the code, it is always a good rule. 
+
+*/
+
+var x = 5;
+
+elem = document.getElementById("demo"); //Find an element
+elem.innerHTML = x + " " + y; //declaration is hoisted but the value is undefined.
+
+var y = 7; //initialization is not hoisted
+
+</script>
+
+</body>
+</html>

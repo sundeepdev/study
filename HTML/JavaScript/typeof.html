@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p id="demo"></p>
+<script>
+/*
+    You can use the JavaScript typeof operator to find the type
+    of a JavaScript variable
+
+    typeof "John"                // Returns string 
+    typeof 3.14                  // Returns number
+    typeof false                 // Returns boolean
+    typeof [1,2,3,4]             // Returns object
+    typeof {name:'John', age:34} // Returns object
+
+    -   Null
+
+        Null is "nothing". It is supposed to be something that doesn't
+        exist. Unfortunately, in JavaScript, the data type of null is
+        an object.
+
+        You can empty an object by setting it to null:
+
+        var person = null;
+
+        You can also empty an object by setting it to undefined:
+
+        var person = undefined; //Value is underfined, type is underfined.
+
+    -   Undefined
+
+        In JsvaScript, undefined is a variable with no value.
+        The typeof a variable with no value is also undefined.
+
+        var person;     //Value is undefined, type is undefined.
+
+        Any variable can be emptied, by setting the value to undefined. 
+        The type will also be undefined. 
+        person = undefined;
+
+        Difference Between Undefined and Null
+
+        typeof undefined    //undefined
+        typeof null         //object
+        null === undefined  //false
+        null == undefined   //true
+*/
+document.getElementById("demo").innerHTML =
+typeof undefined + "<br>" +
+typeof null + "<br>" +
+(null === undefined) + "<br>" +
+(null == undefined);
+</script>
+
+</body>
+
+</html>

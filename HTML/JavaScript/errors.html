@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>Please input a number between 5 and 10:</p>
+
+<input id="demo" type="text">
+<button type="button" onclick="myFunction()">Test Input</button>
+<p id="message"></p>
+
+<script>
+
+/*
+-   try:    test a block of code for errors
+-   catch:  lets you handle the error.
+-   throw:  lets you create custom errors
+
+    The exception can be a JavaScript String, a Number, a Boolean
+    or an Object:
+
+    throw "Too big";    // throw a text
+    throw 500;          //throw a number
+
+    If you use throw together with try and catch, you 
+    can control program flow and generate custom error messages(!!).
+
+-   finally:lets you execute code, after try and catch, regardless of the
+            result.
+
+*/
+
+function myFunction() {
+    var message, x;
+    message = document.getElementById("message");
+    message.innerHTML = "";
+    x = document.getElementById("demo").value;
+    try {
+        x = Number(x); //create an x number object
+        if (x == "") throw "is empty";
+        if (isNaN(x)) throw "is not a number";
+        if (x > 10) throw "is too high";
+        if (x < 5) throw "is too low";
+    } catch(err) {
+        message.innerHTML = "input " + err;
+    }
+}
+
+</script>
+
+</body>
+</html>

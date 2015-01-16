@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<body>
+<p id="demo"></p>
+
+<script>
+/*
+    JavaScript numbers can be written with, or without decimals:
+    var x = 34.00; // A number with decimals
+    var y = 34; //A number without decimals
+
+    extra large or extra small numbers can be written with scientific
+    (exponent) notation:
+
+    var x = 123e5;  //12300000
+    var y = 123e-5; //0.00123
+
+    JavaScript Numbers are always 64-bit Floating Point
+
+    Unlike other programming languages, JavaScript numbers are always
+    stored as double precision floating point numbers, following the
+    IEEE 754 standard. This format stores numbers in 64 bits, where 
+    the number (the fraction) is stored in bits 0 to 51, the exponent 
+    in bits 52 to 62, and the sign in bit 63.
+
+    Infinity(-Infinity) is the value JavaScript will return if you 
+    calculate a number outside the largest possible number.
+     
+    Division by 0 also generates Infinith:
+
+    var x = 2 / 0: //x will be Infinity   
+    var y = -2 / 0: //y will be -Infinity
+
+    NaN - Not a Number
+
+    It is a JavaScript reserved word indicating that a value is not a 
+    number. Trying to do arighmetic with a non-numeric string will
+    result in NaN(Not a Number)
+
+    var x = 100 / "Apple"; //x will be NaN (Not a Number)
+
+    However, if the string contains a numeric value, the result will
+    be a number:
+
+    var x = 100 / "10"; //x will be 10
+
+    Number properties belongs to the JavaScript's number object wrapper
+    called Number. These properties can only by accessed as 
+    Number.MAX_VALUE. Using myNumber.MAX_VALUE, where myNumber is a
+    variable, expression, or value, will return undefined.
+*/
+
+    var x = 6;
+    document.getElementById("demo").innerHTML = x.MAX_VALUE;
+
+</script>
+
+</body>
+</html>

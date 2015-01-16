@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>
+In HTML, all global variables will become window variables
+</p>
+
+<p id="demo"></p>
+
+<script>
+/*
+    The lifetime of a JavaScript variable starts when
+    it is declared. Local variables are deleted when
+    the function is completed. Global variables are
+    deleted when you close the page. In HTML, the golbal
+    scope is the window object: All global variables
+    belong to the window objects.
+*/
+
+myFunction();
+document.getElementById("demo").innerHTML = 
+"I can display " + window.carName;
+
+function myFunction() {
+    carName = "Toyota";
+}
+
+</script>
+
+
+</body>
+
+
+</html>

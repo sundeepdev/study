@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<p id="demo"></p>
+<button onclick="myFunction()">Try pop()</button>
+<body>
+
+<script>
+var cars = ["Saab", "Volvo", "BMW"];
+document.getElementById("demo").innerHTML = cars;
+
+/*
+    JavaScript variables can be objects. Arrays are special kind
+    of objects. Because of this, you can have variables of different
+    types in the same Array. You can have objects in an Array. You
+    can have functions in an Array. You can have arrays in an Array.
+
+    myArray[0] = Date.now;
+    myArray[1] = myFunction;
+    myArray[2] = myCars;
+
+    Javascript does not supprt associated arrays. If you use a named
+    index, when accessing an array, JavaScript will redefine the array
+    to a standard object, and all array methods and properties will
+    produce underfined or incorrect results.
+
+    var person = [];
+    person["firstName"] = "John";
+    person["lastName"] = "Doe";
+    person["age"] = 46;
+    var x = person.length;         // person.length will return 0
+    var y = person[0];             // person[0] will return undefined
+
+    How to recognize an Array?
+
+    The problem is that the JavaScript operator typeof returns "object":
+
+    var fruits = ["Banana", "Orange", "Apple", "Mango"];
+    typeof fruits;  //typeof returns object
+
+    The typeof operator returns object because a JavaScript array is
+    an object. To solve this problem you can create your own isArray()
+    function:
+
+    function isArray(myArray) {
+        return myArray.constructor.toString().indexOf("Array") > -1;
+    }
+
+    The above always return true if the argument is an array.
+
+    Or more precisely: it returns true if the object prototype of the 
+    argument is "[object array]".
+*/
+
+function myFunction() {
+    cars.pop();
+    document.getElementById("demo").innerHTML = cars;
+}
+
+</script>
+
+</body>
+</html>

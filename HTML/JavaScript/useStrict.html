@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<body>
+<p>Glogal "use strict" declaration.</p>
+
+<p>Activate debugging in your browser to see the error report.</p>
+
+<script>
+
+
+/*
+    The "use strict" directive is new in JavaScript 1.8.5(ECMAScript
+    version 5). It is not a statement, but a literal expression, ignored
+    by earlier version of JavaScript. The purpose of "use strict" is
+    to indicate that the code should be executed in "strict mode". With
+    strict mode, you can not, for example, use undeclared variables.
+
+    Strict mode is declared by adding "use strict"; to the beginning
+    of a JavaScript file, or a JavaScript function. Declared at the
+    beginning of a JavaScript file, it has global scope(all code will
+    execute in strict mode). Declared inside a function, it has local
+    scope(only the code inside the function is in strict mode).
+
+    Why Strict Mode? Strict mode makes it easier to write "secure"
+    Javascript. Strict mode changes previously accepted "bad syntax"
+    into real error. In strict mode, any assignment to a non-writable 
+    property, a getter-only property, a non-existing property, a 
+    non-existing variable, or a non-existing object, will throw an error.
+
+    Note: The "use strict" directive is only recognized at the beginning
+    of a script or a function.
+*/
+
+"use strict";
+y = 3.14; //This cause an error.
+myFunction(); 
+
+function myFunction() {
+    x = 3.14;//This will also cause an error.
+}
+</script>
+
+</body>
+</html>

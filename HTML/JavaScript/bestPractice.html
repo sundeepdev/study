@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<script>
+
+/*
+JavaScript Best Practices
+
+-   Avoid Global Variables
+
+    Minimize the use of global variables. This includes all
+    data types, objects, and functions. Global variables and
+    functions can be overwritten by other scripts. Use local
+    variables instead, and learn how to use closures.
+
+-   Always Declare Local Variables
+
+    Local variables (with a function) must be declared with the
+    var keyboard, otherwise they will become global variables.
+
+-   Declarations on Top
+
+    It is good coding practice, to put all declarations at the
+    top of each script or function. This makes it easier to avoid
+    unwanted(implied) global variables. It also gives cleaner code,
+    and reduces the possibility of unwanted re-declarations.
+
+-   Never Declare Number, Strings, or Booleans as Objects
+
+    Always treat numbers, strings, or booleans as primitive values. 
+    Not as objects.
+
+-   Don't Use new Object():
+
+    Use {} instead of new Object()
+    Use "" instead of new String()
+    Use 0 instead of new Number()
+    Use false instead of new Boolean()
+    Use [] instead of new Array()
+    Use /(:)/ instead of new RegExp()
+    Use function (){} instead of new function()
+
+    for example:
+
+    var x1 = {};           // new object
+    var x2 = "";           // new primitive string
+    var x3 = 0;            // new primitive number
+    var x4 = false;        // new primitive boolean
+    var x5 = [];           // new array object
+    var	x6 = /()/;         // new regexp object
+    var x7 = function(){}; // new function object
+
+-   Beware of Automatic Type Conversions
+
+    Beware that numbers can accidentally be converted to strings 
+    or NaN (Not a Number).
+
+    JavaScript is loosely typed. A variable can contain different data 
+    types, and a variable can change its data type:
+
+    var x = 5 + 7;       // x.valueOf() is 12,  typeof x is a number
+    var x = 5 + "7";     // x.valueOf() is 57,  typeof x is a string
+    var x = "5" + 7;     // x.valueOf() is 57,  typeof x is a string
+    var x = 5 - 7;       // x.valueOf() is -2,  typeof x is a number
+    var x = 5 - "7";     // x.valueOf() is -2,  typeof x is a number
+    var x = "5" - 7;     // x.valueOf() is -2,  typeof x is a number
+    var x = 5 - "x";     // x.valueOf() is NaN, typeof x is a number
+
+    Subtracting a string from a string, does not generate an error 
+    but returns NaN (Not a Number):
+
+    "Hello" - "Dolly"    // returns NaN
+
+-   Use === Comparison
+
+    The == comparison operator always converts (to matching types)
+    before comparison. The === operator forces comparison of values
+    and type.
+
+    example:
+
+    0 == "";        // true
+    1 == "1";       // true
+    1 == true;      // true
+
+    0 === "";       // false
+    1 === "1";      // false
+    1 === true;     // false
+
+-   Use Parameter Defaults
+
+    If a function is called with a missing argument, the value of 
+    the missing argument is set to undefined.
+
+    Undefined values can break your code. It is a good habit to assign 
+    default values to arguments.
+
+    Example:
+
+    function myFunction(x, y) {
+    if (y === undefined) {
+        y = 0;
+    }
+
+    Or, even simpler:
+
+    function myFunction(x, y) {
+        y = y || 0;
+    }
+
+-   Avoid Using eval()
+
+    The eval() function is used to run text as code. In almost all
+    cases, it should not be necessary to use it. Because it allows
+    arbitrary code to be run, it also represents a security problem.
+}
+
+*/
+</script>
+
+</body>
+
+</html>
