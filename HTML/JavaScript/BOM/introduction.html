@@ -1,0 +1,70 @@
+<html>
+<body>
+
+<p id="demo"></p>
+
+<script>
+
+/*
+
+The Browser Object Model(BOM)
+
+There are not official standards for the Browser Object Model
+
+-   The Window Object
+
+The window object is supported by all browsers. It represents the
+browser's window. All global JavaScript objects, functions, and
+variables automatically become members of the window object.
+
+Global variables are properties of the window object.
+Global functions are methods of the window object.
+The document object(of the HTML DOM) is a property of the window object:
+
+window.document.getElementById("header"); 
+
+is the same as:
+
+document.getElementById("header");
+
+-   Window Size
+
+Three different properties can be used to determine the size of the
+browser window(the browser viewport, NOT including toolbars and
+scrollbars). For Internet Explorer, Chrome, Firefox, Opera, and
+Safari:
+
+-   window.innerHeight - the inner height of the browser window
+-   window.innerWidth - the innder width of the browser window
+
+For Internet Explorer 8, 7, 6, 5:
+
+-   document.documentElement.clientHeight
+-   document.documentElement.clientWidth
+-   or
+-   document.body.clientHeight
+-   document.body.clientWidth
+
+-   Some other methods:
+
+    -   window.open() - open a new window
+    -   window.close() - close the current window
+    -   window.moveTo() - move the current window
+    -   window.resizeTo() - resize the current window
+
+*/
+var w = window.innerWidth
+|| document.documentElement.clientWidth
+|| document.body.clientWidth;
+
+var h = window.innerHeight
+|| document.documentElement.clientHeight
+|| document.body.clientHeight;
+
+var x = document.getElementById("demo");
+x.innerHTML = "Browser inner window width: " + w + ", height: " +
+h + ".";
+</script>
+
+</body>
+</html>

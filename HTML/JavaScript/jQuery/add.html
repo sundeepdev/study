@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script>
+/*
+ 
+    jQuery - Add Elements
+
+    With jQuery, it is easy to add new elements/content.
+
+    Add New HTML Content
+
+    -   append() - Inserts content at the end of the selected elements
+
+        The jQuery append() method inserts content AT THE END of the selected HTML elements.
+
+        $("p").append("Some appended text.");
+
+    -   prepend() - Inserts content at the beginning of the selected elements
+
+        The jQuery prepend() method inserts content AT THE BEGINNING of the selected HTML elements.
+
+        $("p").prepend("Some prepended text.");
+
+    -   Add Several New Elements With append() and prepend()
+
+        However, both the append() and prepend() methods can take an infinite number of new elements 
+        as parameters. The new elements can be generated with text/HTML (like we have done in the examples 
+        above), with jQuery, or with JavaScript code and DOM elements.
+
+    -   after() - Inserts content after the selected elements
+
+        The jQuery after() method inserts content AFTER the selected HTML elements.
+
+        $("img").after("Some text after");
+
+    -   before() - Inserts content before the selected elements
+
+        The jQuery before() method inserts content BEFORE the selected HTML elements.
+
+        $("img").before("Some text before");
+
+    -   Add Several New Elements With after() and before()
+
+        
+    
+
+*/
+$(document).ready(function(){
+  $("#btn1").click(function() {
+    $("p").append(" <b>Appended text</b>.");
+  });
+
+  $("#btn2").click(function() {
+    $("ol").append(" <li>Appended item</li>");
+  });
+});
+
+function appendText() {
+    var txt1 = "<p>Text.</p>"; //Create text with HTML
+    var txt2 = $("<p></p>").text("Text."); //Create text with jQuery
+    var txt3 = document.createElement("p");
+    txt3.innerHTML = "Text." //Create text wiht DOM
+
+    $("body").append(txt1, txt2, txt3); //Append new elements
+    
+}
+</script>
+</head>
+<body>
+<p>This is a paragraph.</p>
+<p>This is another paragraph.</p>
+<ol>
+<li>List item 1</li>
+<li>List item 2</li>
+<li>List item 3</li>
+</ol>
+
+<p>This is another paragraph.</p>
+<button id="btn3", onclick="appendText()">Append several text</button>
+
+<button id="btn1">Append text</button>
+<button id="btn2">Append list items</button>
+
+</body>
+</html>

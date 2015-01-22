@@ -121,7 +121,7 @@ function mouseOut(obj) {
     , finally, when the mouse-click is completed, the onclick event is triggered.
 */
 function mouseDown(obj) {
-    obj.style.backgroundColor = "#lec5e5";
+    obj.style.backgroundColor = "#1ec5e5";
     obj.innerHTML = "Release Me";
 }
 
@@ -142,8 +142,9 @@ style="background-color:#D94A38;width:120px;height:20px;padding:40px;">
 Mouse Over Me</div>
 
 <br><br>
-<div onmouse>
-
+<div onmousedown="mouseDown(this)" onmouseup="mouseUp(this)"
+style="background-color:#D94A38;width:90px;height:20px;padding:40px;">
+Click Me</div>
 
 </body>
 </html>

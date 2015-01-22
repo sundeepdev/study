@@ -1,0 +1,31 @@
+<html>
+<body>
+
+<script>
+
+/*
+    The window.history object can be written without the window prefix
+    To protect the privacy of the users, there are limitations of how
+    JavaScript can access this object.
+
+    Some methods:
+
+    -   history.back() - same as clicking back in the browser
+    -   history.forward() - same as clicking forward in the browser
+*/
+
+function goBack() {
+    window.history.back();
+}
+
+function goForward() {
+    window.history.forward();
+}
+
+</script>
+
+<input type="button" value="Back" onclick="goBack()">
+<br><br>
+<input type="button" value="Forward" onclick="goForward()">
+</body>
+</html>

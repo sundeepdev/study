@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>Click the button to display the entire URL of the current
+page.</p>
+
+<button onclick="myFunction()">Try it(href)</button>
+<p id="demo_href"></p>
+
+<br><br>
+<p>Click the button to display the hostname(and the port if 
+not 80) of the current URL.
+</p>
+<button onclick="myFunction2()">Try it(host)</button>
+<p id="demo_host"></p>
+</body>
+
+<br><br>
+<p>Click the button to display the pathname of the current URL.
+</p>
+<button onclick="myFunction3()">Try it(pathName)</button>
+<p id="demo_pathname"></p>
+</body>
+
+<br><br>
+<p>Click the button to display the protocol portion of the current URL.
+</p>
+<button onclick="myFunction4()">Try it(protocol)</button>
+<p id="demo_protocol"></p>
+</body>
+
+<br><br>
+<input type="button" value="Load new document" onclick="newDoc()">
+
+<script>
+
+/*
+
+JavaScript Window Location
+
+The window.location object can be used to get the current page
+address(URL) and to redirect the browser to a new page.
+
+Window Location
+
+The window.location object can be written without the window prefix.
+
+Some examples:
+
+    -   winddow.location.href returns the href (URL) of the current page
+    -   window.location.hostname returns the domain name of the web host
+    -   window.location.pathname returns the path and filename of the
+        current page
+    -   window.location.protocol returns the web protocol used(http://
+        or https://)
+    -   window.location.assign loads a new document
+
+*/
+
+function myFunction() {
+    document.getElementById("demo_href").innerHTML = 
+    window.location.href;
+}
+
+function myFunction2() {
+    document.getElementById("demo_host").innerHTML =
+    window.location.hostname; //! it seems hostname doesn't work
+}
+
+function myFunction3() {
+    document.getElementById("demo_pathname").innerHTML =
+    window.location.pathname;
+}
+
+function myFunction4() {
+    document.getElementById("demo_protocol").innerHTML =
+    window.location.protocol;
+}
+
+function newDoc() {
+    window.location.assign("http://www.google.com");
+}
+
+</script>
+
+</html>

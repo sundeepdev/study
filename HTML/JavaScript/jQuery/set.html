@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script>
+/*
+    jQuery - Set Content and Attributes
+
+    -   Set Content - text(), html(), and val
+
+    -   A Callback Function for text(), html(), and val()
+
+        All of the three jQuery methods above: text(), html(), and val(), also come with a callback function. The callback function has two
+        parameters: the index of the current element in the list of elements selected and the original (old) value. You then return the 
+        string you wish to use as the new value from the function.
+
+    -   Set Attributes - attr()
+
+        The jQuery attr() method is also used to set/change attribute values.
+
+        The following example demonstrates how to change (set) the value of the href attribute in a link:
+
+    -   A Callback Function for attr()
+
+       The jQuery method attr(), also come with a callback function. The callback function has two parameters: the index of the current 
+       element in the list of elements selected and the original (old) attribute value. You then return the string you wish to use as 
+       the new attribute value from the function. 
+
+    
+
+*/
+$(document).ready(function(){
+    $("#btn1").click(function(){
+      $("#test1").text("Hello world!");
+    });
+    $("#btn2").click(function(){
+      $("#test2").html("<b>Hello world!</b>");
+    });
+    $("#btn3").click(function(){
+      $("#test3").val("Dolly Duck");
+    });
+    $("#btn4").click(function(){
+      $("#test4").text(function(i,origText){
+        return "Old text: " + origText + " New text: Hello world! (index: " + i + ")";
+      });
+    });
+
+    $("#btn5").click(function(){
+      $("#test5").html(function(i, origText){
+        return "Old html: " + origText + " New html: Hello <b>world!</b> (index: " + i + ")";
+      });
+    });
+
+    $("#btn6").click(function(){
+      $("#w3s").attr("href", "http://www.w3schools.com/jquery");
+    });
+});
+</script>
+</head>
+<body>
+
+<p id="test1">This is a paragraph</p>
+<p id="test2">This is anohter paragraph</p>
+<p>Input field: <input type="text" id="test3" value="Mickey Mouse"></p>
+
+<br><br>
+
+
+<p id="test4">This is a <b>bold</b> paragraph.</p>
+<p id="test5">This is anohter <b>bold</b> paragraph.</p>
+
+
+<button id="btn1">Set Text</button>
+<button id="btn2">Set HTML</button>
+<button id="btn3">Set Value</button>
+<button id="btn4">Show Old/New Text</button>
+<button id="btn5">Show Old New HTML</button>
+
+<br><br>
+<p><a href="http://www.w3schools.com" id="w3s">W3Schools.com</a> </p>
+<p>Mouse over the linke(or click on it) to see that the value of the href attributes has changed.</p>
+<button id="btn6">change href value</button>
+
+</body>
+</html>

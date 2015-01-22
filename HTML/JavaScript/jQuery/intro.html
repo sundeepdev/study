@@ -1,0 +1,99 @@
+<html>
+<body>
+
+<script>
+
+/*
+    There are a couple javaScript libraries for you such as jQuery, 
+    Prototype, MooTools and so on.
+
+    All of these frameworks have functions for common JavaScript tasks like
+    animation, DOM manipulation, and Ajax handling.
+
+    jQuery is the most popular javaScript framework on the Internet today.
+    It uses CSS selectors to access and manipulate HTML elements
+    (DOM Objects) on a web page. jQuery also provides a companion UI(user
+    interface) framework and numerous other plug-ins.
+
+    The purpose of jQuery is to make it much easier to use JavaScript on your website.
+
+    jQuery takes a lot of common tasks that require many lines of JavaScript code to
+    accomplish, and wraps them into methods that you can call with a single line
+    of code. 
+
+    jQuery also simplifies a lots of the complicated things from JavaScrpt, like AJAX calls
+    and DOM manipulation.
+
+    The jQuery library contains the following features:
+
+        -   HTML/DOM manipulation
+        -   CSS manipulation
+        -   HTML event methods
+        -   Effects and Animations
+        -   AJAX
+        -   Utilities
+
+    -   CDN - Content Delivery Networks
+
+    You always want your web pages to be as fast as possible. You want to
+    keep the size of your pages as small as possible, and you want the
+    browser to cache as much as possible.
+
+    -   Before you decide to use a JavaScript framework, it might be a
+        good idea to test the framework first. 
+
+        JavaScript frameworks are very easy to test.
+
+    -   jQuery Described
+
+        The main jQuery function is the $() function (the jQuery function).
+        If you pass DOM objects to this function, it returns jQuery object,
+        with jQuery functionality added to them.
+
+        jQuery allows you to select elements by CSS selectors.
+
+        In JavaScript, you can assign a function to handle the window's
+        load event: 
+
+        In JavaScript, you can assign a function to handle the window's load event:
+
+        The JavaScript Way:
+
+        function myFunction() {
+            var obj = document.getElementById("h01");
+            obj.innerHTML = "Hello jQuery";
+        }
+        onload = myFunction;
+
+        The jQuery equivalent is different:
+
+        function myFunction() {
+            $("#h01").html("Hello jQuery");
+        }
+        $(document).ready(myFunction);
+
+        The last line of the code above, passes the HTML DOM document object to jQuery: $(document).
+        When you pass DOM objects to jQuery, jQuery returns new jQuery objects wrapped around HTML DOM objects.
+        The jQuery function returns a new jQuery object, where ready() is a method.
+
+*/
+
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script>
+function myFunction() {
+    $('#h01').html("Hello jQuery");
+}
+$(document).ready(myFunction);
+
+function myFunction2() {
+    $('#h02').attr("style", "color":red).html("Hello jQuery again!");
+}
+$(document).ready(myFunction2);
+</script>
+
+<h1 id="h01"></h1>
+<h2 id="h02"></h1>
+</body>
+</html>

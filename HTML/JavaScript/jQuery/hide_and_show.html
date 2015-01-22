@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script>
+/*
+    jQuery hide() and show()
+
+    With jQuery, you can hide and show HTML elements with the hide() and show() method:
+
+    Syntax:
+
+    -   $(selector).hide(speed, callback);
+    -   $(selector).show(speed, callback);
+
+    The optional speed parameter specifies the speed of the hiding/showing, and can take the following values: 
+    "slow", "fast" or milliseconds
+
+    The callback function will be executed after the hide() or show() method completes.
+
+    -   jQuery toggle()
+
+    With jQuery, you can toggle between the hide() and show() methods with the toggle() method.
+    Shown elements are hidden and hidden elements are shown:    
+
+*/
+$(document).ready(function(){
+  $("#hide").click(function(){
+    $("p").hide();
+  });
+  $("#show").click(function(){
+    $("p").show();
+  });
+  $("#toggle").click(function(){
+    $("p").toggle();
+  });
+});
+    
+
+</script>
+</head>
+<body>
+<p>If you click on the "Hide" button, I will disappear.</p>
+<button id="hide">Hide</button>
+<button id="show">Show</button>
+<button id="toggle">Toggle</button>
+
+</body>
+</html>

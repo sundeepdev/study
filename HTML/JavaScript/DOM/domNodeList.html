@@ -1,0 +1,68 @@
+<html>
+<body>
+
+<p>Hello World!</p>
+<p>The DOM is very useful!</p>
+<p id="demo"></p>
+
+<p>This is the last p element.</p>
+
+<button onclick="myFunction()">Try it</button>
+
+<script>
+
+/*
+    HTML DOM Node List
+    
+    The getElementByTagName() method returns a node list. A node
+    list is an array-like collection of nodes. The following code
+    selects all <p> nodes in a document:
+
+    Example:
+
+    var x = document.getElementByTagName("p");
+
+    The nodes can be accessed by an index number. To access the second
+    <p> node you can write:
+
+    y = x[1];
+
+    To get the length of the node list:
+
+    Example:
+
+    var myNodeList = document.getElementsByTagName("p");
+    document.getElementById("demo").innerHTML = myNodeList.length;
+
+    To change the background color of all <p> elements in a node list:
+
+    var myNodeList = document.getElementsByTagName("p");
+    var i;
+    for (i = 0; i < myNodeList.length; i++) {
+        myNodeList[i].style.backgroundColor = "red";
+    }
+
+    Note: a node list may look like an array, but it is not. You can
+    loop through the code list and refer to its nodes like an array.
+    However, you cannot use Array Methods, like valueOf() or join()
+    on the node list.
+
+*/
+var myNodeList = document.getElementsByTagName("p");
+document.getElementById("demo").innerHTML = 
+"The innerHTML of the second paragraph is: " + 
+myNodeList[1].innerHTML;
+
+function myFunction() {
+    var myNodeList = document.getElementsByTagName("p");
+    var i;
+    for(i = 0; i < myNodeList.length; i++) {
+        myNodeList[i].style.backgroundColor = "red";
+    }
+}
+
+</script>
+
+
+</body>
+</html>

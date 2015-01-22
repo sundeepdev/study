@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script>
+/*
+    jQuery - Get Content and Attributes
+
+    jQuery contains powerful methods for changing and manipulating HTML elements and attributes
+
+    -   jQuery DOM Manipulation
+
+    One very important part of jQuery is the possibility to manipulate the DOM.
+
+    jQuery comes with a bunch of DOM related methods that makes it easy to access and manipulate
+    elements and attributes
+
+    -   Get Content - text(), html(), and val()
+
+        -   text() - Sets of returns the text content of selected elements
+        -   html() - Sets of returns the content of selected elements(including HTML markup)
+        -   val()  - Sets or returns the value of form fields
+
+    -   Get Attributes - attr()
+*/
+$(document).ready(function(){
+    $("#btn1").click(function(){
+      alert("Text: " + $("#test").text());
+    });
+    $("#btn2").click(function(){
+      alert("Text: " + $("#test").html());
+    });
+    $("#btn3").click(function(){
+      alert($("#w3s").attr("href"));
+    });
+});
+    
+</script>
+</head>
+<body>
+
+<p id="test">This is some <b>bold</b> text in a paragraph.</p>
+<br><br>
+
+<p><a href="http://www.w3schools.com" id="w3s">W3Schools.com</a>
+
+<button id="btn1">Show Text</button>
+<button id="btn2">Show HTML</button>
+<button id="btn3">Show href value</button>
+
+</body>
+</html>

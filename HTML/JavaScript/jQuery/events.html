@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("#p1").mousedown(function(){
+        alert("Mouse down over p1!");
+    });
+});
+</script>
+</head>
+
+<script>
+
+/*
+    The term "fires" is often used with events. Example: "The keypress event fires the moment you press a key."
+    Here are some common DOM events:
+
+    Mouse Events        Keyboard Events         Form Events         Document/Window Events
+    click               keypress                submit              load
+    dblclick            keydown                 change              resize
+    mouseenter          keyup                   focus               scroll
+    mouseleave                                  blur                unload
+
+    -   jQuery Syntax For Event Methods
+
+        To assign a click event to all paragraphs on a page, you can do this:
+    
+        $("p").click();
+
+        The next step is to define what should happen when the event fires. You must pass a function to the event:
+
+        $("p").click(function() {
+            //action goes here!!
+        });
+
+*/
+
+</script>
+
+<body>
+
+<p id="p1">This is a paragraph.</p>
+
+</body>
+</html>

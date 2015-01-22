@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script>
+/*
+    Stop Animation
+
+        The jQuery stop() method is used to stop animations or effects before it is finished.
+
+        The stop() method works for all jQuery effect functions, including sliding, fading and custom animations.
+
+        Syntax:
+
+        $(selector).stop(stopAll,goToEnd);
+
+        The optional stopAll parameter specifies whether also the animation queue should be cleared or not. Default 
+        is false, which means that only the active animation will be stopped, allowing any queued animations to be performed afterwards.
+
+        The optional goToEnd parameter specifies whether or not to complete the current animation immediately. Default is false.
+
+        So, by default, the stop() method kills the current animation being performed on the selected element.       
+
+}); 
+    
+
+*/
+$(document).ready(function(){
+  $("#start").click(function(){
+    var div = $("div");
+    div.animate({height:'300px', opacity:'0.4'}, 'slow');
+    div.animate({width:'300px', opacity:'0.8'}, 'slow');
+    div.animate({height:'100px', opacity:'0.4'}, 'slow');
+    div.animate({width:'100px', opacity:'0.8'}, 'slow');
+    div.animate({fontSize: '3em'}, 'slow');
+  });
+});
+
+$(document).ready(function(){
+  $("#stop").click(function(){
+    var div = $("div");
+    div.stop(true);
+  });
+});
+
+</script>
+<style>
+</style>
+
+</head>
+<body>
+
+<button id="start">Start Animation</button>
+<button id="stop">Stop Animation</button>
+
+<p>By default, all HTML elements have a static position, and
+cannot be moved. To manipulate the position, remember to first
+set the CSS position property of the element to relative, fixed,
+or absolute.</p>
+
+<div
+style="background:#98bf21;height:100px;width:100px;position:absolute;">
+Hello World!</div>
+
+</body>
+</html>
