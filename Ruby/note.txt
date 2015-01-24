@@ -251,7 +251,7 @@ Beginning_Ruby_From_Novice_to_Professional
                     You can embed expressions (and even logic ) directly into strings. This is so called interpolation. The way of interpolate
                     a string is to place the expression within #{and} symbols. E.g.
 
-                    puts "100 * 5" = #{100 * 5}"
+                    puts "100 * 5 = #{100 * 5}"
 
                     The #{100 * 5} section interpolates the result of 100 * 5(500) into the string at that position, resulting in th output shown.
 
@@ -292,7 +292,7 @@ Beginning_Ruby_From_Novice_to_Professional
                                        
                     For more complicated examples such as to replace the first two characters of a string with 'Hello'
 
-                    puts "this is a test.gsub(/^../, "Hello")"
+                    puts "this is a test.gsub"(/^../, "Hello")
                     Hellois is a test
             
                     The ^ is an anchor, meaning the regular expression will match from the beginning of any lines within the string

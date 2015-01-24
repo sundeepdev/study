@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script>
+/*
+ 
+    jQuery - Remove Elements
+
+    Remove Elements/Content
+
+    To remove elements and contents, there are mainly two jQuery methods:
+
+    remove() - Removes the selected element(and its child elements)
+    empty() - Removes the child elements from the selected element
+
+    -   Filter the Elements to be Removed
+
+    The jQuery remove() method also accepts one parameter, which allows you to filter the elements to be removed.
+    The parameter can be any of the jQuery selector syntaxes. The following example removes all <p> elements with
+    class="italic"
+    
+    
+*/
+
+$(document).ready(function(){
+  $("#btn1").click(function(){
+    //$("#div1").remove();
+    $("#div1").empty();
+  });
+
+  $("#btn2").click(function(){
+    $("p").remove(".italic");
+  });
+  
+});
+
+</script>
+
+
+
+</head>
+<body>
+
+<div id="div1" style="height:100px;width:300px;border:1px solidblack;background-color:yellow;">
+This is some text in the div.
+<p>This is a paragraph in the div.</p>
+<p>This is another paragraph in the div.</p>
+</div>
+
+<p class="italic"><i>This is another paragraph in the div.</i></p>
+<p class="italic"><i>This is another paragraph in the div.</i></p>
+
+<br>
+<button id="btn1">Remove div element</button>
+<button id="btn2">Remove all p elements with class="italic"</button>
+
+</body>
+</html>

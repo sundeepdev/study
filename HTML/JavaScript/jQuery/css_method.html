@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script>
+/*
+    jQuery - css() Method
+
+    The css() method sets or returns one or more style properties
+    for the selected elements.
+
+    -   Return a CSS property
+
+        To return the value of a specified CSS property, use the
+        the following syntax:
+
+        css("propertyname");
+        
+        The following example will return the background-color value
+        of the FIRST matched element:
+
+        Example:
+
+        $("p").css("background-color");
+
+    -   Set a CSS Property
+
+        To set a specified CSS property, use the following syntax:
+
+        css("propertyname", "value");
+
+        The following example will set the background-color value for ALL matched elements:
+
+        $("p").css("background-color","yellow");
+
+    -   Set Multiple CSS Properties
+
+        To set multiple CSS properties, use the following syntax:
+
+        css({"propertyname":"value", "propertyname":"value",...})
+        
+*/
+
+$(document).ready(function() {
+  $("#btn1").click(function() {
+    alert("Background color = " + $("p").css("background-color"));
+  });
+
+  $("#btn2").click(function() {
+    //$("p").css("background-color", "yellow");
+    $("p").css({"background-color":"yellow", "font-size":"200%"});
+  });
+});
+
+$(document).ready(function(){
+});
+
+</script>
+</head>
+<body>
+<p style="background-color:#ff0000">This is a paragraph.</p>
+<p style="background-color:#00ff00">This is a paragraph.</p>
+<p style="background-color:#0000ff">This is a paragraph.</p>
+<button id="btn1">Return background-color of p</button>
+<button id="btn2">Set background-color of p</button>
+</body>
+</html>

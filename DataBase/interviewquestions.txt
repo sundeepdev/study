@@ -1,0 +1,78 @@
+General principles:
+
+Designing a database is in fact fairly easy, but there are a few rules
+to stick to. Standardization makes your data model flexible and that
+makes working with your data much easier. 
+
+A good database design starts with a list of the data that you want to
+include in your database and what you want to be able to do with the 
+database later on. 
+
+-   Identifying Entities
+
+The types of information that are saved in the database are called
+"entities". These entities exist in four kinds: people, things, events
+, and locations. Everything you could want to put in a database fits
+into one of these categories. Those info which do not fit into those
+categories are probably not entities but properties of of entities,
+or attributes.
+
+-   Identifying Relationships
+
+The next step is to determine the relationships between the entities
+and to determine the cardinality of each relationship. The cardinality
+shows how much of one side of the relationship belongs to how much of
+the other side of the relationship.
+
+Cardinality exists in four types: one-to-one, one-to-many, many-to-one,
+and many-to-many. In the database design, this is indicated as 1:1, 1:N
+, M:1, and M:N.
+
+Here is an example:
+
+Customers --> Sales; 1 customer can buy something several times 1:N
+Sales --> Customers; 1 sale is always made by 1 customer at the time ; 1:1
+
+In this example above, the total cardinality is therefore "1:N": A customer
+can make multiple 'sales', but each 'sale' has just one customer.
+
+The true cardinality can be calculated through assigning the biggest values
+for left and right, for which 'N' and 'M' are greater than "1". 
+
+Questions 1: Suppose you are now in the context where developers 
+participate in hackathon events. each project can be developed by 
+multiple developers but one developer can only develop one project. 
+Also, each hackathon event can have multiple projects.
+
+Design your database entiries and write a SQL to return the 
+
+name of each project and its number of developers who are developeing
+that projects. Noted that you should return 0 if there is no one developing
+for that projects.
+
+
+Projects        |       number of developers
+"One machine"   |       1
+"smart robot"   |       5
+"predictor"     |       2
+...             |       ...
+
+analysis:
+
+-   Identifying entities
+
+developers are people
+projects are things
+hackathons are events
+
+-   Identifying relationships
+
+Developers --> Projects: 1 developer can work on one project
+Projects --> Developers: 1 project can be worked by multiple developers
+
+Developers --> hackathons: 1 developer can parcipate one hackathon
+Hackathons --> Developers: 1 Hackathons can have multiple developers
+
+Projects --> Hackathons: 1 project can exist in multiple hackathons
+Hackathons --> Projects: 1 hackaton can have multiple projects.
+

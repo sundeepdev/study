@@ -43,6 +43,22 @@
 
     -   Add Several New Elements With after() and before()
 
+        Also, both the after() and before() methods can take an infinite number of new elements as parameters. 
+        The new elements can be generated with text/HTML (like we have done in the example above), with jQuery, 
+        or with JavaScript code and DOM elements.
+
+        In the following example, we create several new elements. The elements are created with text/HTML, jQuery, 
+        and JavaScript/DOM. Then we insert the new elements to the text with the after() method (this would have worked 
+        for before() too) :
+
+        function afterText() {
+        var txt1 = "<b>I </b>";                    // Create element with HTML  
+        var txt2 = $("<i></i>").text("love ");     // Create with jQuery
+        var txt3 = document.createElement("b");    // Create with DOM
+        txt3.innerHTML = "jQuery!";
+        $("img").after(txt1, txt2, txt3);          // Insert new elements after img
+}
+
         
     
 

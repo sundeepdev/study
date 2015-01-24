@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script>
+/*
+ 
+    jQuery - Dimensions
+
+    With jQuery, it is easy to work with the dimensions of elements and browser window.
+
+    -   jQuery Dimension Methods
+
+        jQuery has several methods for working with dimensions:
+
+        -   width()
+        -   height()
+        -   innerWidth()
+        -   innerHeight()
+        -   outerWidth()
+        -   outerHeight()
+
+    -   jQuery width() and height() Methods
+
+        The width() method sets or returns the width of an element (including NO padding, border, or margin).
+
+        The height() method sets or returns the height of an element(including NO padding, border, or margin).
+
+    -   jQuery innerWidth() and innerHeight() Methods
+
+        The innerWidth() method returns the width of an element (includes padding).
+
+        The innerHeight() method returns the height of an element (includes padding).
+
+    -   jQuery outerWidth() and outerHeight() Methods
+
+        The outerWidth() method returns the width of an element (includes padding and border).
+
+        The outerHeight() method returns the height of an element (includes padding and border).
+
+        The following example returns the outer-width/height of a specified <div> element:
+        
+
+*/
+
+$(document).ready(function(){
+  $("button").click(function() {
+    var txt="";
+    txt += "Width: " + $("#div1").width() + "<br>";
+    txt += "Height: " + $("#div1").height();
+    $("#div1").html(txt);
+  });
+});
+</script>
+</head>
+<body>
+
+<div id="div1" 
+style="height:100px;width:300px;padding:10px;margin:3px;border:1px solid blue;background-color:lightblue;"
+</div>
+<br>
+<button>Display dimensions of div</button>
+<p>width() - returns the width of an element.</p>
+<p>height() - returns the height of an element.</p>
+
+</body>
+</html>
