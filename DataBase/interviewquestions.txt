@@ -33,11 +33,14 @@ Here is an example:
 Customers --> Sales; 1 customer can buy something several times 1:N
 Sales --> Customers; 1 sale is always made by 1 customer at the time ; 1:1
 
+The true cardinality can be calculated through assigning the biggest values
+for left and right, for which 'N' and 'M' are greater than "1". 
+
 In this example above, the total cardinality is therefore "1:N": A customer
 can make multiple 'sales', but each 'sale' has just one customer.
 
-The true cardinality can be calculated through assigning the biggest values
-for left and right, for which 'N' and 'M' are greater than "1". 
+
+
 
 Questions 1: Suppose you are now in the context where developers 
 participate in hackathon events. each project can be developed by 
