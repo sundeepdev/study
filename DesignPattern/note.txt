@@ -1,0 +1,743 @@
+Chpater 1 Intro to Design Patterns
+
+-  Design Principle 1
+   
+   Identify the aspects of your application that vary
+   and seperate them from what stays the same.  
+
+-  Design Principle 2
+
+   Program to an interface, not an implementation.
+
+-  Design Principle 3
+
+   Favor composition over inheritance (HAS-A can be better than Is-A)
+
+   Composition: put two classes together. Creating systems using composition
+   gives you a lot more flexibility. Not only does it let you encapsulate a
+   family of algorithms into their own set of classes, but it also lets you
+   change behavior at run time. As long as the object you're composing with
+   implements the correct behavior interface. Composition is used in many design
+   patterns and you'll see a lot more about its advantage and disadvantage throughout
+   the book.
+
+-  The power of shared pattern vocabulary
+
+Chapter 2 Keeping your objects in the know.
+
+-  Publishers + Subscribers = Observer Pattern
+
+   -  The subject and observers define the one-to-many relationship. The observers are depedent
+      on the subject such that when the subject's state chagnes, the observers get notified. 
+
+      The Observer Pattern defined:
+
+      The class diagram:
+
+                              Observers
+      <<interface>>        --------------->  <<interface>>
+         Subject                                Observer
+      registerObserver()                        update()
+      removeObserver()
+      notifyObservers()
+
+                              subject
+      ConcreteSubject      <--------------   ConcreteObserver
+      registerObserver                         update()
+      removeObserver                          //Other Observer specific methods
+      notifyObservers
+      getState()
+      setState()
+
+      Note: the arrow ------> means one-to-many relationship
+            the arrow <------ means many-to-one relationship
+
+   -  Design Principle 4: Strive for loosely coupled designs between objects that interact. The power of Loose Coupling
+
+      When two objects are loosely coupled, they can interact, but have little knowledge of each other.
+      
+      The Observer Pattern provides an object design where subjects and observers are loosely coupled. Why?
+
+      1. The only thing the subject knows about an observer is that it implements a certain interface.
+      2. We can add new observers at any time.
+      3. We never need to modify the subject to add new types of observers.
+      4. We can reuse subjects or observers independently of each other.
+      5. Changes to either the subject or an observer will not affect the other.
+
+      Loosely coupled designs allow us to build flexible OO systems that can handle changes because they minimize
+      the interdependency between objects.
+
+   -  Using Java's built-in Observer Pattern
+      
+      Java already has built-in support in several of its APIs. The most general is the Observer interface and the Observable class in
+      the java.util.package.
+
+      1. For an Object to become an observer
+
+      As usual, implement the Observer interface (this time the java.util.Observer interface) and call addObserver() on any Observable object. 
+      Likewise, to remove yourself as an observer just call deleteObserver();
+
+      2. For the Observable to send notifications
+
+      2.1   You first must call the setChanged() method to signify that the state has changed in your object.
+
+      2.2   Then call one of the two notifyObservers() methods:
+
+            either notifyObservers() or notifyObservers(Object arg) <---This version takes an arbitrary data object that gets passed to each Observer when it is notified.
+
+   -  For an Observer to receive notifications
+
+      It implements the update method, as before, but the signature of the method is a bit different.
+
+      update(Observer o, Object arg)
+
+      If you want to "push" data to the observers, you can pass the data as a data object to the notifyObserver(arg) method. If not, then the Observer has to "pull" the data
+      it wants from the Observable object passed to it.
+
+   -  The setChanged() method is used to signify that the state has changed and that notifyObservers(), when it is called, should update its observers. 
+
+      setChanged() {
+         changed = true;
+      }
+
+      notifyObservers(Object arg) {
+         if (changed) {
+            for every observer on the list {
+               call update(this, arg)
+            }
+            changed = false;
+         }
+      }
+
+      notifyObservers() {
+         notifyObservers(null);
+      }
+
+      Why is the necessary? The setChanged() method is meant to give you more flexibility in how you update observers by allowing you to optimize the notifications. E.g.
+
+      If the temperature readings were constantly fluctuating, we might want to send out notifications only if the temperature changes more than half of a degree and we
+      could call setChanged() only after that. If the functionality is useful to you, you may also want to use the clearChanged() method, which sets the changed state back
+      to false, and the hasChanged() method, which tells you the current state of the changed flag.
+
+   -  The darkside of java.util.Observable
+
+      1. Observable is a class
+
+         You have to subclass it. That means you can't add on the Observable behavior to an existing class that already extends another class(Java doesn't support multiple
+         inheritance). That limits its reuse potential. This violates Principle 2: program an interface, not in implementation.
+
+         Note: Observer is an interface therefore it doesn't have the same problem.
+
+      2. Observable protects crucial methods
+
+         The setChanged() method is protected. That means you can't call setChanged() unless you've subclassed Observable. That means you can't even create an instance of the
+         Observable class and compose it with your own objects, you have to subclass. The design violates a second design principle here...favor composition over inheritance.
+
+Chapter 3: Decorating Objects.
+
+   -  Design Principle 5; Classes should be open for extension, but closed for modification.
+
+   -  The Decorator Pattern defined
+
+      -  Decorators have the same supertypes as the objects they decorate.
+
+      -  You can use one or more decorators to wrap an object.
+      
+      -  Given the decorator has the same supertype as the object it decorates, we can pass around a decorated object in place of the original (wrapped) object. Key Point!!
+
+      -  Objects can be decorated at anytime, so we can decorate objects dynamically at runtime with as many decorators as we like.
+
+      The Decorator Pattern: attaches additional responsibilities to an object dynamically. Decorators provide a flexible alternative to subclassing for extending functionality.
+      
+   -  Real World Decorators: Java I/O
+
+      Java I/O isn't so different from the StarBuzz design. It also points out the downsides of the Decorator Pattern: designs using this pattern often result in a large number
+      of small classes that can be overwhelming to a developer trying to use the Decorator-based API. 
+
+Chapter 4: Baking with OO Goodness
+      
+   -  Declaring a factory method
+
+      A factory method handles object creation and encapsulates it in a subclass. This decouples the client code in the 
+      superclass from the object creation code in the subclass.
+
+      Questions: What is client code??
+      
+      A factory method isolates the clients (the code in the superclass, like orderPizza()) from knowing what kind of
+      concrete Product is actually created:
+
+      abstract Product factoryMethod(String type)
+
+      Note:
+      abstract:   A factory method is abstract so the subclasses are counted on to handle object creation.
+      Product:    A factory method returns a Product that is typically used within methods defined in the superclass.
+
+   -  An example
+
+      PizzaStore
+         (abstract)createPizza()
+         orderPizza()
+
+      NYPizzaStore extends PizzaStore
+         createPizza()
+   
+      ChicagoPizzaStore extends PizzaStore
+         createPizza()
+
+      -  Classes that produce products are called concrete creator(NYPizzaStore and ChicagoPizzaStore)
+      -  The createPizza() method is our factory method. It produces products.
+
+   -  Factory Method Pattern defined
+
+      It's time to roll out the official definition of the Factory Method Pattern:
+
+      The Factory Method Pattern defines an interface for creating an object, but lets subclass decide which class to instantiate. Factory Method lets a class
+      defer instantiation to subclasses.
+
+      (abstract)Creator
+         (abstract)factoryMethod()
+         anOperation()
+
+      ^
+      |
+      |
+      ConcreteCreator ------> ConcreteProduct --------->(abstract)Product //All the products must implement the same interface
+         factoryMethod           //The ConcreteProduct is responsible for creating one or more concrete products. It is the only class that has the knowledge of how to create
+                                 //these products
+
+   -  The Dependency Inversion Principle
+
+      Design Principle 6: Depend upon abstractions. Do not depend upon concrete classes.
+
+      A "high-level" component is a class with behavior defined in terms of other "low-level" components. For example, PizzaStore is a high-level component because
+      its behavior is defined in terms of pizzas - it creates all the different pizza objects, prepares, bakes, cuts and boxes them, while the pizzas it uses are
+      low-level components.
+
+      Why is called Dependency Inversion? Because now the low-level components depend on a higher level abstraction.
+
+   -  A few guidelines to help you follow the principle(!!):
+
+      The following guidelines can help you avoid OO designs that violate the Dependency Inversion Principle:
+
+      1. No variable should hold a reference to a concrete class. -> Use a factory to get around that.
+      2. No class should derive from a concrete class.a -> Derive from an abstraction, like an interface or abstract class. 
+      3. No method should override an implemented method of any of its base classes.
+
+      These guidelines are built upon the fact that the class is likely to change in the future. Some Classes, e.g. the String class, are unliklely to change do not HAVE to
+      follow the above guidelines.
+
+   -  Abstract Factory Pattern defined.
+
+      We are adding yet another pattern to our pattern family, one that lets us create families of products. 
+
+      The Abstract Factory Pattern: provides an interface for creating families of related dependent objects without specifying their concrete classes. We've certainly seen that
+      Abstract Factory allows a client to use an abstract interface to create a set of related products without knowing (or caring) about the concrete products that are actually
+      produced.
+
+   -  Method and Abstract Factory compared(What are the difference between them??).
+
+      Abstract Factory: Provide an interface for creating families of related or depedent on objects without specifying their concrete classes.
+
+      Factory Method: Define an interface for creating an object, but let subclasses decide which class to instantiate. 
+
+      In summary, create "family" of objects are the main purpose using Abstract Factory.
+
+Chapter 5 One of a Kind Objects.
+
+   -  There are many objects we only need one of: thread pools, caches, dialog boxes, objects that handle preferences and registry settings, objects used for logging, and
+      objects that act as device drivers to devices like printers and graphics cards. In fact, for many of these types of objects, if we were to instantiate more than one
+      we'd run into all sorts of problems like incorrect program behavior, overuse of resources, or inconsistent results.
+
+   -  In many ways, the Singleton Pattern is a convention for ensuring one and only one object is instantiated for a given class. 
+
+   -  The concise definition of the pattern:
+
+      The Singleton Pattern: ensures a class has only one instance, and provides a global point of access to it.
+
+      The diagram:
+
+      Singleton:
+
+      static uniqueInstance
+      //Other useful Singleton
+
+      static getInstance()
+      //Other useful Singleton methods
+
+   -  For most Java applications, we obviously need to ensure that the Singleton work in the presence of multiple threads. But it looks fairly expensive to synchronize 
+      getInstance() method, E.g.
+
+        public class Singleton {
+            private static Singleton uniqueInstance;
+
+            private Singleton(){}
+
+            public static synchronized Singleton getInstance() {   //<-------It fixes the problem it is very Synchronization is very expensive.
+                if (instance == null) {
+                    instance = new Singleton();
+                }
+                
+                return instance;
+            }
+        }
+
+        so what do we do? We have a few options:
+
+      1. Do nothing if the performance of getInstance() isn't critical to your application. 
+   
+         Just keep in mind that synchronizing a method can decrease performance by a factor of 100(??), so if a high traffic part of your code begins using getInstance(), you must
+         have to reconsider.
+
+      2. Move to an eagerly created instance rather than a lazily created one.
+
+         If your application always creates and uses an instance of the Singleton or the overhead of creation and runtime aspects of the Singleton are not onerous(??).
+
+         public class Singleton {
+            private static singleton uniqueInstance = new Singleton(); //Go ahead and create an instance of Singleton in a static initializer. This code is guaranteed to be thread safe!
+
+            private Singleton() {}
+
+            public static Singleton getInstance() {
+               return uniqueInstance;//We have already got an instance, so just return it.
+            }
+         }
+
+         Using this method, we relay on the JVM to create the unique instance of the Singleton when the class is loaded. The JVM guarantees that the instance will be created before
+         any thread accesses the static uniqueInstance variable.
+
+        Note: What is static initializer?
+
+        E.g. 
+            public class Test {
+                private static final int a;    
+                static {
+                    a = 5;
+                    doSomething(a);
+                }
+                private static int doSomething(int x) {
+                    return (x+5);
+                }
+            }
+
+            The above block with the static modifier signifies a class initializer; without the static modifier, the code block is an instance initializer.
+            
+            Static initializers are executed in the order they are defined (top down, just like simple variable initializers) when the class is loaded (actually, 
+            when it's resolved, but that's a technicality).
+
+            Instance initializers are executed in the order defined when the class is instantiated, immediately before the constructor code is executed, immediately 
+            after the invocation of the super constructor.
+
+            If you remove static from int a, it becomes an instance variable which is not initialized at construction. If you also remove static from the initializer 
+            block, it then becomes an instance initializer and so int a is initialized at construction.
+            
+
+      3. Use "double-checked locking" to reduce the use of synchronization in getInstance()
+
+         With double-checked locking, we first check to see if an instance is created, and if not, THEN we synchronize. This way, we only synchroniza the first time through, just
+         what we want.
+
+         public class Singleton {
+            private volatile static Singleton uniqueInstance; //The volatile keyword ensures that multiple threads handle the uniqueInstance variable correctly when it is being
+                                                              //initialized to the Singleton instance.
+
+            private Singleton() {}
+
+            public static Singleton getInstance() { //Check for an instance and if there isn't one, enter a synchronized block.
+               if (uniqueInstance == null) { //Note we only synchronized the first time through!
+                  synchronized(Singleton.class) { //?? It passes Singleton.class to the sunchronized method??
+                     if (uniqueInstance == null) {
+                        uniqueInstance = new Singleton(); //Once in the block, check again and if still null, create an instance
+                     }
+                  }
+               }
+               return uniqueInstance;
+            }
+         }
+
+         This method of implementing the Singleton can drastically reduce the overhead.
+
+      Note: If you are using a JVM earlier than 1.5, the double-checked locking implementation is not thread safe.
+
+            Why "volatile" keyword can ensures that multiple threads handle the uniqueInstance variable correctly when it is being initialized to the Singleton instance.
+
+            -   (In all versions of Java) There is a global ordering on the reads and writes to a volatile variable. This implies that every thread accessing a 
+                volatile field will read its current value before continuing, instead of (potentially) using a cached value. (However, there is no guarantee 
+                about the relative ordering of volatile reads and writes with regular reads and writes, meaning that it's generally not a useful threading construct.)
+            -   (In Java 5 or later) Volatile reads and writes establish a happens-before relationship, much like acquiring and releasing a mutex.
+
+Chapter 6: Encapsulating Invocation
+
+   -  Diner or a brief introduction to the Command Pattern
+
+      Customers: createOrder()
+      Waitress: takeOrder(), orderUp()
+      Chef: makeBurger(), makeShake(), output()
+
+      All the methods are based on a single object: An Order Slip
+
+      We have a Dinner with a Waitress who is decoupled from the Cook by an Order Slip, so what? 
+
+      Think of the Dinner as a model for an OO design pattern that allows us to seperate an object making a request from the objects that receive and execute those requests.
+
+   -  Command Pattern
+
+              1.createCommandObject()           2. setCommand() (called by Client again)
+      Client: -----------------------> Command: --------------> Invoker: setCommand()
+         |                                                         ^
+         |                            3.                           |
+         |----------------------------------------------------------
+
+                                          4. execute()
+      (continued)Invoker: setCommand() -----------------> Receiver: action1(), action2()...
+
+      Client:     createCommandObject()
+      Invoker:    setCommand()
+      Command:    execute()
+      Receiver:   action1(), action2()...
+      
+      Note:
+
+      1. The client creates a command object.
+      2. The client does a setCommand to store the command object in the invoker.
+      3. Later...the client asks the invoker to execute the command. Note: as you'll see later in this chapter, once the command
+         is loaded into the invoker, it may be used and discarded, or it may remain and be used many times.
+      4. At some point in the future, the invoker calls the command object's execute() method.
+
+   -  The Command Pattern defined
+
+      The Command Pattern: encapsulates a request as an object, thereby letting you parameterize other objects with different
+      requests, queue or log requests, and support undoable operations.
+
+      A command object encapsulates a request by binding together a set of actions on a specific receiver. To achieve this, 
+      it packages the actions and the receiver up into an object that exposes just one method, execute(). When called, 
+      execute() causes the actions to be invoked on the receiver.
+      
+      The diagram is shown below:
+
+      Client              Invoker:  ------>Command<<interface>>:
+       | |                setCommand()       execute()
+       | |                                   undo()
+       | |                                        |(inheritance)
+       | --------->Receiver:<-------------ConcreteCommand
+       |           action()                   execute()
+       |-------------------------------->     undo()   
+
+
+      Client:  it is reponsible for creating ConcreteCommand and setting its Receiver
+      Invoker: it holds a command and at somepoint asks the command to carry out a request by calling its execute() method.
+      Command: it declares an interface for all commands. A command is invoked through its execute() method, which asks a receiver to perform an action.
+               we will cover undo later on.
+      ConcreteCommand:  it defines a binding between an action and a receiver(!!). The invoker makes a request by calling execute() and the ConcreteCommand
+                        carries it out by calling one or more actions on the Receiver.
+      Receiver:   it knows how to perform the work needed to carry out the request. Any class can act as a Receiver(!!).
+
+      Question: How does the design of the Command Pattern support the decoupling of the invoker of a request and the receiver of the request?
+      
+Chapter 7 the Adapter and Facade Patterns  
+
+   -  Object Oriented Adapters
+   
+         
+      Your existing ------> Vendor Class (Their interface doesn't match the one you've written your code against.)
+
+      |
+      |
+      v
+      
+      Your existing ------> Adapter -----> Vendor Class (The adpter implements the interface you classes expect; and talks to the vendor interface to service your requests.)
+
+      
+   -  The Adapter Pattern explained
+
+               request()             translateRequest()
+      Client -------------> Adapter -------------------> Adaptee
+      
+      Client: The Client is implemented against the target interface
+      
+      Adapter: The Adapter implements the target interface and holds an instance of the Adaptee.
+
+      Adaptee: Turkey was the adaptee interface
+
+      This is how the Clients use the Adapter
+
+      1. The client makes a request to the adapter by calling a method on it using the target interface.
+      2. The Adapter translates that request into one or more calls on the adaptee using the adaptee interface.
+      3. The client receives the results of the call and never knows there is an adapter doing the translation.
+
+      Note that the Client and Adaptee are decoupled - neither knows about the other.
+
+   -  Adapter Pattern defined
+
+      The Adapter Pattern converts the interface of a class into another interface the clients expect. Adapter lets classes work together that couldn't otherwise because of
+      incompatible interfaces.
+
+      This acts to decouple the client from the implemented interface, and if we expect the interface to change over time, the adapter encapsulates that change so that the
+      the client doesn't have to be modified each time it needs to operate against a different interface.
+
+      Client -----> <<interface>>
+                       Target
+                      request()
+                         ^
+                         | 
+                         |
+                         |
+                       Adapter -----> Adaptee
+                      request()       specifiedRequest()
+
+      Client: The client sees only the Target interface
+      Adapter: The Adapter implements the Target interface; The Adapter is composed with the Adaptee.
+
+   -  Object and class adapters
+
+      There are actually two kinds of adapters: object adapters and class adapters. The previous example shows object adapters and the class diagram on the previous page
+      is a diagram of an object adapter.
+
+      Client -----> Target       Adaptee
+                    request()    sepcifiedRequest()
+                         ^          ^
+                         |          |
+                         |          |
+                          \        /
+                           \      /
+                           Adapter   
+                           request()
+
+      The only difference is that with class adapter we subclass the Target and the Adaptee, while with object adapter we use composition to pass requests to an Adaptee.
+
+      Note: Java doesn't support multiple inheritance.
+
+   -  Real World problem
+
+      The early collections types (Vector, HashTable and a few others) implements a method elements(), which return an Enumeration. The Enumeration interface allows you
+      to step through the elements of a collection without knowing the specifis of how they are managed in the collection.
+
+      When Sun released their more recent Collections classes they began using an Iterator interface that, like Enumeration, allows you to iterate through a set of items
+      in a collection, but also add the ability to remove items.
+
+      <<interface>>
+      Enumeration
+      hasMoreElements()
+      nextElements()
+
+      <<interface>>
+      iterator
+      hasNext()
+      next()
+      remove() ---> the new method to remove items.
+
+      And today...
+
+      We are often faced with leagcy(old) code that exposes the Enumerator interface, yet we'd like for our new code to only use Iterators. It looks like we need to build an adapter.
+
+      -  Adapting an Enumeration to an Iterator.
+
+      
+      <<interface>>                       <<interface>>
+      Enumeration<---Adaptee interface    iterator <---The target interface
+      hasMoreElements()                   hasNext()  <---- can be easily map to hasMoreElements()
+      nextElements()                      next()   <---- can be easily map to nextElements()
+                                          remove() <---- How about this one?
+
+      How to deal with remove() method?
+
+      Since Enumeration is "read only" interface, there is no way to implement a fully functioning remove() method on the adapter. Luckily, the designers of the Iterator
+      interface foresaw this need and defined the remove() method so that it supports an UnsupportedOperationException.
+
+      This is a case where the adapter isn't perfect; clients will have to watch out for potential exceptions, but as long as the client is careful and the adapter is well
+      documented this is a perfectly reasonable solution.
+
+      public class EnumerationIterator implements Iterator { <<---Since were adapting Enumeration to Iterator, our Adapter implements the Iterator interface...It has to look like an 
+                                                                  iterator.
+         Enumeration enum;
+
+         public EnumerationIterator(Enumeration enum) {
+            this.enum = enum;
+         }
+
+         public boolean hasNext() {
+            return enum.hasMoreElements();
+         }
+
+         public boolean Next() {
+            return enum.nextElements();
+         }
+
+         public void remove() {
+            throw new UnsupportedOperationException();
+         }
+      }
+
+   -  The Facade Pattern
+
+      We are going to introduce a new pattern: Facade Pattern, which makes an interface simpler
+
+      Pattern           Intent
+      Decorator         Converts one interface to another(??). A decorator wraps an object to add new behaviors and responsibilities
+      Adapter           Doesn't alter the interface, but adds responsibility(??)
+      Facade            Makes an interface simpler. A facade "wraps" a set of objects to simplify.
+
+      -  Home Sweet Home Theater
+
+      A facade not only simplifies an interface, it decouples a client from a subsystem of components. Facades and adapters may wrap multiple classes, but a
+      facade's intent is simplify, while an adapter's is to convert the interface to something different.
+
+      -  Facade Pattern defined
+
+      It provides a unified interface to a set of interfaces in a subsystem. Facade defines a higher level interface that makes the subsystem easier to use.
+
+      -  Design Principle 7: Principle of Least Knowledge - talk only to your immediate friends.
+
+      It means when you are designing a system, for any object, be careful of the number of classes it interacts with and also how it comes to interact with those classes.
+      This principle prevents us from creating designs that have a large number of classes coupled together so that changes in one part of the system cacade to other parts.
+      When you build a lot of dependencies between many classes, you are building a fragile system that will be costly to maintain and complex for others to understand.
+
+      -  How NOT to Win Friends and Influence Objects.
+
+      How do you keep from doing this? The principle provides some guidelines: take any object; now from any method in that object, the principle tells us that we should
+      only invoke methods that belong to:
+
+      -  The object itself(??Any example).
+      -  Objects passed in as a parameter to the method.
+      -  Any object the method creates or instantiates.
+      -  Any components of the object.
+
+      Notice that these guidelines tell us not to call methods on objects that were returned from calling other methods!!
+      The last guideline: Think of a "component" as any object that is referenced by an instance variable. In other words
+      think of this as HAS-A relationship.
+
+      E.g.
+
+      Without the Principle:
+
+      public float getTemp() {
+         Thermometer thermometer = station.getThermometer();
+         return thermometer.getTemperature();
+      }
+
+      With the Principle:
+
+      public float getTemp() {
+         return station.getTemperature();//we add a method to the Station class that makes the request to the thermomoter for us. The reduces the number of classes we're dependent on.
+      }
+      
+      Another example:
+
+      public class Car {
+         Engine engine; //Here's a component of this class. We can call its methods.
+         //other instance variables;
+
+         public Car() {
+            //instialize engine, etc.
+         }
+
+         public void start(Key key) { //You can call a method on an object passed as a parameter
+            Doors doors = new Doors();//Here we are creating a new object, its methods are legal.
+
+            boolean authorized = key.turns();//You can call a method on an object passed as a parameter;
+         
+            if (authorized) {
+               engine.start();//You can call a method on a componet of the object.
+               updateDashboardDisplay();//You can call a local method within the object.
+               doors.lock();  //You can call a method on an object you create or instantiate
+            }
+         }
+
+         public void updateDashboardSiaplay() {
+            //update display
+         }
+      }
+
+Chapter 8 The Template Method Pattern
+
+-  StarBuzz Coffee Recipe
+
+   1) Boil some water
+   2) Brew coffee in boiling water
+   3) Pour coffee in cup
+   4) Add sugar and milk
+
+-  Starbuzz Tea Recipe
+
+   1) Boil some water
+   2) Steep tea in boiling water
+   3) Pour tea in cup
+   4) Add lemon
+
+-  Template Method
+
+   The Template Method defines the steps of an algorithm and allows subclasses to provide the implementation for one or more steps. In the above example, 
+
+   1) and 3) can be extraced as generalizations. 3) and 4) are for subclasses to provide the implementations.
+
+   The Template Method Pattern defines the skeleton of an algorithm in a method, deferring some steps to subclasses. Template Method lets subclasses 
+   redefine certain steps of an algorithm without changing the algorithm's structure.
+
+   abstract class AbstractClass {
+      final void templateMethod() {
+         primitiveOperation1();
+         primitiveOperation2();
+         concreteOperation();
+         hook();
+      }
+
+      abstract void primitiveOperation1(); //must be implemented by concrete subclasses.
+      abstract void primitiveOperation2(); //must be implemented by concrete subclasses.
+
+      final void concreteOperation() {
+         //Implementation here
+         //A concrete operation is defined in the abstract class. This one is declared final so that subclasses can't override it. It may be used in the template method
+         //directly, or used by subclasses.
+      }
+
+      void hook() {} A concrete method but it does nothing. Please see the following for the reason why we need an hook() method.
+   }
+
+-   flyweight pattern
+
+    Flyweight design pattern is used when we need to create a lot of Objects of a class. Since every object consumes memory space that can be crucial for low memory 
+    devices, such as mobile devices or embedded systems, flyweight design pattern can be applied to reduce the load on memory by sharing objects.
+
+    Before we apply flyweight design pattern, we need to consider the following factors:
+
+    -   The number of Objects to be created by application should be huge.
+    -   The object creation is heavy on memory and it can be time consuming too.
+    -   The object properties can be divided into intrinsic and extrinsic properties, extrinsic properties of an Object should be defined by the client program.
+
+    To apply flyweight pattern, we need to divide Object property into intrinsic and extrinsic properties. Intrinsic properties make the Object unique 
+    whereas extrinsic properties are set by client code and used to perform different operations. For example, an Object Circle can have extrinsic 
+    properties such as color and width.
+
+-   Prototype Design Pattern
+
+    Intention:
+
+    -   Specify the kinds of objects to create using a prototypical instance, and create new objects by copying this prototype.
+    -   Co-opt one instance of a class for use as a breeder of all future instances.
+    -   The new operator is considered harmful.
+
+    Problem:
+
+    Application "hard wires" the class of object to create in each "new expression"
+
+    Discussion:
+    
+    Declare an abstract class that specifies a pure virtual "clone" method, and, maintains a directionary of all "cloneable" concrete derived classes.
+    Any class that needs a "polymorphic constructor" capability: derives classes. Any class that needs a "polymorphic constructor" capability: derives
+    itself from the abstract base class, registers its prototypical instance, and implements the clone() operation.
+
+    The client then, instead of writing code that invokes the "new" operator on a hard-wired class name, calls a "clone" operation on the abstract base class, 
+    supplying a string or enumerated data type that designates the particular concrete derived class desired.
+
+    Example:
+
+    The Prototype pattern specifies the kind of objects to create using a prototypical instance. Prototypes of new products are often built prior to full 
+    production, but in this example, the prototype is passive and does not participate in copying itself. The mitotic division of a cell - resulting in two 
+    identical cells - is an example of a prototype that plays an active role in copying itself and thus, demonstrates the Prototype pattern. When a cell 
+    splits, two cells of identical genotvpe result. In other words, the cell clones itself.
+
+-   Chapter X: Side Notes
+
+    -   Association
+
+        In object-oriented programming, association defines a relationship between classes of objects that allows one
+        object instance to cause another to perform an action on its behalf.
