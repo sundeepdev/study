@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<style>
+
+h1 {
+    background-color: #6495ed;
+}
+
+p {
+    background-color: #e0ffff;
+}
+
+div {
+    background-color: #b0c4de;
+}
+
+/*
+    -   Background color
+
+        The background-color property specifies the background color
+        of an element. The background color of a page is set like this:
+
+        body {
+            background-color: #b0c4de;
+        }
+
+        With CSS, a color is most often specified by:
+
+        -   a HEX value - like "#ff0000"
+        -   an RGB value - like "rgb(255,0,0)"
+        -   a color name - like "red"
+
+    -   Background image
+
+        The background-image property specifies an image to use as the back
+        ground of an element. By default, image is repeated so it covers the
+        entire element.
+
+        The background image for a page can be set like this:
+
+        body {
+            background-image: url("paper.gif");
+        }
+
+        -   Repeat Horizontally or Vertically
+
+            By default, the background-image property repeats an image
+            both horizontally and vertically. Some images should be 
+            repeated only horizontally or vertically, or they will look
+            strange. E,g, the following example shows the image should
+            be repeated only horizontally"
+
+            body {
+                background-image: url("gradient_bg.png");
+                background-repeat: repeat-x;
+            }
+
+        -   Set position and no-repeat
+
+            Note: When using a background image, use an image that does
+            not disturb the text.
+
+            Showing the image only once is specified by the background-
+            repeat property:
+
+            body {
+                background-image: url("image_tree.png");
+                background-repeat: no-repeat;
+            }
+
+            In the example above, the background image is shown in the same place as the text. 
+            We want to change the position of the image, so that it does not disturb the text too much.
+
+            In the example above, the background image is shown in the same place as the text. We want to 
+            change the position of the image, so that it does not disturb the text too much.
+
+        -   Shorthand property
+
+            To shorten the code, it is also possible to specify all the properties in one single property.
+            For example:
+
+            body {
+                background: #ffffff url("img_tree.png") no-repeat right top;
+            }
+        
+*/
+</style>
+</head>
+
+<h1>CSS background-color example!</h1>
+<div>
+This is a text inside a div element.
+<p>This paragraph has its own background color.</p>
+We are still in the div element.
+</div>
+
+
+</html>

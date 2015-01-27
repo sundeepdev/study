@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+/*
+    Styling Links
+    
+    Links can be styled with any CSS property(e.g. color, font-family,
+    background, etc.).
+
+    In addition, links can be styled differently depending on what state
+    they are in.
+
+    The four links state are:
+
+    a:link - a normal, unvisited link
+    a:visited - a link the user has visited
+    a:hover - a link when the user mouses over it
+    a:active - a link the moment it is clicked
+
+    -   Common Link Styles
+
+    The text-decoration property is mostly used to remove underlines
+    from links:
+
+    a:link {
+        text-decoration: none;
+    }
+
+-   Background color
+
+    The background-color property specifies the background color
+    for links:
+
+    a:link {
+        background-color: #B2FF99;
+    }
+
+    
+*/
+
+/* unvisited link */
+a:link {
+    color: #FF0000;
+}
+
+/* visited link */
+a:visited {
+    color: #00FF00;
+}
+
+/* mouse over linke */
+a:hover {
+    color: #FF00FF;
+    text-decoration: underline;
+}
+
+/* selected link */
+a:active {
+    color: #0000FF;
+}
+</style>
+</head>
+<body>
+<p><b><a href="http://www.google.ca" target="_blank">This is a google link</a>
+</b></p>
+<p><b>Note:</b>a:hover MUST come after a:link and a:visited in the CSS
+definition in order to be effective.</p>
+<p><b>Note:</b>a:active MUST come after a:hover in the CSS definition
+in order to be effective.</p>
+
+</body>
+
+</html>

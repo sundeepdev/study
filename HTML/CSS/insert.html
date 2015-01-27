@@ -1,9 +1,11 @@
 <html>
 <head>
-</head>
+<link rel="stylesheet" type="text/css" href="myStyle.css">
 
 <style>
-
+h1 {
+    color: orange;
+}
 /*
     There are three ways to inserting a style sheet:
 
@@ -32,9 +34,77 @@
 
     -   Inline style
 
-        An inline style loses many of the advantage of a style sheet
+        An inline style loses many of the advantage of a style sheet(by mixing content with presentation). Use
+        this method sparingly! To use inline styles, add the style attribute to the relevant tag. The style attribute
+        can contain any CSS property. The example shows how to change the color and the left margin of h1 element:
+
+        <h1 style="color:blue;margin-left:30px;">This is a heading.</h1>
+
+    -   Multiple Style Sheets(??)
+
+        If some properties have been set for the same selector in different style sheets, the values will be inherited from
+        the more specific style sheet.
+
+        For example, assume that an external style sheet has the following properties for the <h1> element:
+
+        h1 {
+            color: navy;
+            margin-left: 20px;
+        }
+
+        then, assume that an internal style sheet also has the following property for the <h1> element:
+
+        h1 {
+            color: orange;    
+        }
+
+        If the page with the internal style sheet also links to the external style sheet the properties for the <h1> element will be:
+
+        color: orange;
+        margin-left: 20px; 
+
+        The left margin is inherited from the external style sheet and the color is replaced by the internal style sheet.
+
+        -   Multiple Style Will Cascade into One
+
+            Styles can be specified:
+
+            -   inside an HTML element
+            -   inside the <head> section of an HTML page
+            -   in an external CSS file
+
+            Tip: Even multiple external style sheets can be referenced inside a single HTML document.
+
+            -   Cascading order
+    
+                What style will be used when there is more than one style specified for an HTML element?
+
+                Generally speaking we can say that all the styles will "cascade" into a new "virtual" style 
+                sheet by the following rules, where number four has the highest priority:
+
+                Browser default
+                External style sheet
+                Internal style sheet (in the head section)
+                Inline style (inside an HTML element)
+
+                So, an inline style (inside an HTML element) has the highest priority, which means that it 
+                will override a style defined inside the <head> tag, or in an external style sheet, or in a browser (a default value).
+
+                Note: if the link to the the external style sheet is placed after the internal stylesheet in HTML <head>, the external
+                style sheet will override the internal style sheet!
+
+            
+
+        
 */
 
 </style>
+</head>
+
+<body>
+<h1>This is a heading</h1>
+<p>The style of this document is a combination of an external stylesheet, and internal style</p>
+
+</body>
 
 </html>
