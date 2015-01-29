@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<style>
+
+/*
+    -   Table Borders
+
+        To specify table borders in CSS, use the border property.
+
+        The example below specifies a black border for <table>, <th>,
+        and <td> elements:
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        Notice that the table in the example above has double borders. 
+        This is because both the table and the <th>/<td> elements have 
+        separate borders.
+
+        To display a single border for the table, use the border-collapse
+        property.
+
+    -   Collapse Border
+
+        The border-collapse property sets whether the table borders
+        are collapsed into a single border or seperated:
+
+        table {
+            border-collapse: collapse;
+        }
+
+    -   Table Width and Height
+
+        The example below sets the width of the table to 100%, and the 
+        height of the <th> elements to 50px:
+
+        table {
+            width: 100%;
+        }
+
+        th {
+            height: 50px;
+        }
+
+    -   Horizontal Text Alignment
+
+        The text-align property sets the horizontal alignment, like 
+        left, right, or center.
+
+        By default, the text in <th> elements are center-aligned and 
+        the text in <td> elements are left-aligned.
+
+        E.g.
+
+        th {
+            text-align: left
+        }
+
+    -   Vertical Text Alignment
+
+        The vertical-align property sets the vertical alignment, like 
+        top, bottom, or middle.
+
+        td {
+            height: 50px;
+            vertical-align: bottom;
+        }
+
+    -   Table Padding
+
+        To control the space between the border and content in a table, 
+        use the padding property on <td> and <th> elements:
+
+        Example:
+
+        td {
+            padding: 15px;
+        }
+
+        By default, the vertical alignment of text in a table is middle 
+        (for both <th> and <td> elements).
+
+    -   Table Color
+
+        The example below specifies the color of the borders, and the text 
+        and background color of <th> elements:
+
+        table, td, th {
+            border: 1px solid green;
+        }
+
+        th {
+            background-color: green;
+            color: white;
+        }
+    
+*/
+table {
+    border-collapse: collapse;
+    height: 50px;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+td {
+    height: 50px;
+    padding: 15px;
+    vertical-align: bottom;
+}
+
+th {
+    background-color: green;
+    color: white;
+}
+
+</style>
+<body>
+<table>
+  <tr>
+    <th>Firstname</th>
+    <th>Lastname</th>
+    <th>Savings</th>
+  </tr>
+  <tr>
+    <td>Peter</td>
+    <td>Griffin</td>
+    <td>$100</td>
+  </tr>
+  <tr>
+    <td>Lois</td>
+    <td>Griffin</td>
+    <td>$150</td>
+  </tr>
+</table>
+
+</body>
+</html>

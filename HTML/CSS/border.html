@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+/*
+    -   Border Style
+
+        The border-style property specifies what kind of border to display:
+
+        dotted: Defines a dotted border
+        dashed: Define a dashed border
+        solid:  Defines a solid border
+        double: Defines two borders. The width of the two borders are the
+                same as the border-width value
+        groove: Defines a 3D grooved border. The effect depends on the border
+                -color value
+        ridge:  Defines a 3D ridged border. The effect depends on the border
+                -color value
+        inset:  Defines a 3D inset border. The effect depends on the border
+                -color value
+        outset: Defines a 3D outset border. The effect depends on the border
+                -color value.
+
+    -   Border Width
+
+        The border-width property is used to set the width of the border.
+        The width is set in pixels, or by using one of the three pre-defined
+        values: thin, medium, or thick.
+
+        Note: The "border-width" property does not work if it is used alone.
+        Use the "border-style" property to set the borders first.
+
+        p.one {
+            border-style: solid;
+            border-width: 5px;
+        }
+
+        p.two {
+            border-style: solid;
+            border-width: medium;
+        }
+
+    -   Border Color
+
+        The border-color property is used to set the color of the border.
+        The color is set by:
+
+        -   name - specify a color name, like "red"
+        -   RGB - like "rgb(255, 0, 0)"
+        -   Hex - specify a hex value, like "#ff0000"
+
+        You can also set the border color to "transparent".
+    
+    -   Border - Individual sides
+
+        In CSS it is possible to specify different borders for different
+        sides:
+
+        p {
+            border-top-style: dotted;
+            border-right-style: solid;
+            border-bottom-style: dotted;
+            border-left-style: solid;
+        }
+
+    -   The border-style property can have from one to four values.
+        
+        -   border-style: dotted solid double dashed;
+
+            -   top border is dotted
+            -   right border is solid
+            -   bottom border is double
+            -   left border is dashed
+
+        -   border-style: dotted solid double;
+
+            -   top border is dotted
+            -   right and left borders are solid
+            -   bottom border is double
+
+        -   border-style: dotted solid;
+            
+            -   top and bottom borders are dotted
+            -   right and left borders are solid
+
+        -   border-style:dotted;
+
+            -   al;l four borders are dotted
+
+    -   Border - Shorthan property
+
+        To shorten the code, it is also possible to specify all
+        the individual border properties in one property. This 
+        is called short hand property.
+
+        The border property is a shorthand for the following individual
+        border properties:
+
+        -   border-width
+        -   border-style (required)
+        -   border-color
+
+        E.g.
+
+        p {
+            border: 5px solid red;
+        }
+
+        -   All CSS Border properties
+
+        Those properties are pretty self-explanatory:
+        
+        border              
+        border-bottom       
+        border-bottom-color
+        border-bottom-style
+        border-bottom-width
+        border-color
+        border-left
+        border-left-color
+        border-left-style
+        border-left-width
+        border-right
+        border-right-color
+        border-right-style
+        border-right-width
+        border-style
+        border-top
+        border-top-color
+    
+*/
+p.one {
+    border-style: solid;
+    border-color: red;
+    border-width: 5px;
+}
+
+p.two {
+    border-style: solid;
+    border-color: #98bf21;
+    border-width: medium;
+}
+
+p.three {
+    border-style: solid;
+    border-width: 1px;
+}
+
+p.four {
+    border-top-style: dotted;
+    border-right-style: solid;
+    border-bottom-style: dotted;
+    border-left-style: solid;
+}
+
+</style>
+</head>
+<p class="one">Some text.</p>
+<p class="two">Some text.</p>
+<p class="three">Some text.</p>
+<p class="four">Some text.</p>
+<p><b>Note: </b> The "border-width" property does not work if it is
+used alone. You must add the "border-style" property to set the borders first.</p>
+
+</html>

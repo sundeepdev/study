@@ -1,0 +1,94 @@
+<html>
+<head>
+</head>
+<style>
+
+/*
+-   CSS Padding
+
+    The CSS padding properties define the space between the elements
+    border and the element content.
+
+    Padding
+
+    The padding clears an area around the content(inside the border) or
+    an element. The padding is affected by the background color of the
+    element.
+
+    The top, right, bottom and left can be changed independently using
+    sperate properties. A shorthand padding property can also be used,
+    to change all paddings at once.
+
+    -   Possible Values
+
+    Value       Description
+    length      Defines a fixed padding(in pixels, pt, em, etc.)
+    %           Defines a padding in % of the containing element.
+
+    -   Padding - Individual sides
+
+    In CSS, it is possible to specify different padding for different sides
+    
+    p {
+        padding-top: 25px;
+        padding-right: 50px;
+        padding-bottom: 25px;
+        padding-left: 50px;
+    }
+
+    -   Padding - Shorthand property
+
+    p {
+        padding: 25px 50px;
+    }
+
+    The padding property can have from one to four values.
+
+    padding: 25px 50px 75px 100px;
+        -   top padding is 25px
+        -   right padding is 50px
+        -   bottom padding is 75px
+        -   left padding is 100px
+
+    padding: 25px 50px 75px;
+        -   top padding is 25px
+        -   right and left paddings are 50px
+        -   bottom padding is 75px
+
+    padding: 25px 50px;
+        -   top and bottom paddings are 25px
+        -   right and left paddings are 50px
+
+    padding: 25px;
+        -   all four paddings are 25px
+
+    -   All CSS Padding Properties
+
+    Property        Description
+    padding         A shorthand property for setting all padding properties
+                    in one declaration.
+    padding-bottom  Sets the bottom padding of an element
+    padding-left    Sets the left padding of an element
+    padding-right   Sets the left padding of an element
+    padding-top     Sets the left padding of an element
+
+*/
+
+p {
+    background-color: yellow;
+}
+
+p.ex {
+    padding-top: 25px;
+    padding-right: 50px;
+    padding-bottom: 25px;
+    padding-left: 50px;
+}
+</style>
+<body>
+<p>This is a paragraph with no specified margins.</p>
+<p class="ex">This is a paragraph with specified margins.</p>
+
+</body>
+
+</html>

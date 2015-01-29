@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+/*
+    CSS Margin
+
+    The CSS margin properties define the space around elements
+    
+    -   Margin
+
+        The margin clears an area around an element(outside the border).
+        The margin does not have a background color, and is completely
+        transparent.
+
+        The top, right, bottom and left margin can be changed independently
+        usnig seperate properties. A shorthand margin property can also
+        be used, to change all margins at once.
+
+        Possible Values
+
+        value       Description
+        auto        The browser calculates a margin
+        length      Specifies a margin in px, pt, cm, etc. Default value
+                    is 0px.
+        %           Specifies a margin in percent of the width of the                           containing element
+        inherit     Specifies that the margin should be inherited from
+                    the parent element
+
+        Note: It is also possible to use negative values, to overlap
+        content.
+
+    -   Margin - Individuals sides
+
+        In CSS, it is possible to specify different margins for different
+        sides of an element:
+        
+        p {
+            margin-top: 100px;
+            margin-bottom: 100px;
+            margin-right: 150px;
+            margin-left: 50px;
+        }
+
+    -   Margin - Shorthand property
+
+        The shorthand property for all the margin properties is "margin":
+
+        p {
+            margin: 100px 50px;
+        }
+
+        The margin property can have from one to four values.
+
+        margin: 25px 50px 75px 100px;
+            -   top margin is 25px
+            -   right margin is 50px
+            -   bottom margin is 75px
+            -   left margin is 100px
+
+        margin: 25px 50px 75px;
+            -   top margin is 25px
+            -   right and left margins are 50px
+            -   bottom margin is 75px
+
+        margin: 25px 50px;
+            -   top and bottom margins are 25px
+            -   right and left margins are 50px
+
+        margin: 25px;
+        -   all four margins are 25px
+
+    -   All CSS Margin Properties
+
+        Property        Description
+        margin          A shorthand property for setting the margin
+                        properties in one declaration
+        margin-bottom   Sets the bottom margin of an element
+        margin-left     Sets the left margin of an element
+        margin-right    Sets the right margin of an element
+        margin-top      Sets the top margin of an element
+
+*/
+p {
+    background-color: yellow;
+}
+
+p.ex {
+    margin-top: 100px;
+    margin-bottom: 100px;
+    margin-bottom: 150px;
+    margin-left: 50px;
+}
+
+</style>
+</head>
+<body>
+
+<p>This is a paragraph with no specified margins.</p>
+<p class="ex">This is a paragraph with specified margins.</p>
+
+</body>
+</html>
