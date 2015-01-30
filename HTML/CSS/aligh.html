@@ -1,0 +1,105 @@
+<html>
+<head>
+<style>
+
+/*
+    Aligning Block Elements
+
+    A block element is an element that takes up the full width available,
+    and has a line break and after it. Examples of block elements:
+
+    <h1>
+    <p>
+    <div>
+
+    For aligning text, see the text.html. Here we will show you how to
+    horizontally align block elements for layout purposes.
+
+    -   Center Aligning Using the margin Property
+
+        Block elements can be center-aligned by setting the left and right
+        margins to "auto".
+
+        Note: Using margin:auto; will not work in IE8 and earlier unless a 
+        !DOCTYPE is declared.
+
+        Setting the left and right margins to auto specifies that they should 
+        split the available margin equally. The result is a centered element:
+
+        Example:
+
+        .center {
+            margin-left: auto;
+            margin-right: auto;
+            width: 70%;
+            background-color: #b0e0e6;
+        }
+
+    -   Left and Right Aligning Using the position Property
+
+        One method of aligning elements is to use absolute positioning
+
+        Example:
+
+        .right {
+            position: absolute;
+            right: 0px;
+            width: 300px;
+            background-color: #b0e0e6;
+        }
+
+        Note: Absolute positioned elements are removed from the normal flow, and can overlap elements.
+
+    -   Left and Right Aligning Using the float Property
+
+        One method of aligning elements is to use the float property:
+
+        Example:
+
+        .right {
+            float: right;
+            width: 300px;
+            background-color: #b0e0e6;
+        }        
+*/
+.center {
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+    background-color: #b0e0e6;
+}
+
+/*
+.right {
+    position: absolute;
+    right: 0px;
+    width: 300px;
+    background-color: #b0e0e6;
+}*/
+
+.right {
+    float: right;
+    width: 300px;
+    background-color: #b0e0e6;
+}
+</style>
+</head>
+<body>
+
+<div class="center">
+  <p>In my younger and more vulunerable years my father gave me
+some advice that I've been turning over in my mind ever since.</p>
+  <p>'Whenever you feel like criticizing anyone,' he told me, 'just remember that all the people in this world haven't had the advantages that you've had.'</p>
+</div>
+
+<div class="right">
+  <p>In my younger and more vulunerable years my father gave me
+some advice that I've been turning over in my mind ever since.</p>
+  <p>'Whenever you feel like criticizing anyone,' he told me, 'just remember that all the people in this world haven't had the advantages that you've had.'</p>
+</div>
+
+<p><b>Note: </b>Using margin:auto will not work in IE8, unless a !DOCTYPE
+is declared.</p>
+
+</body>
+</html>
