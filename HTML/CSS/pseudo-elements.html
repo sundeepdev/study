@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+/*
+    CSS Pseudo-elements
+
+        A CSS pseudo-element is used to style specified parts of an element.
+        For example, it can be used to:
+
+        -   Style the first letter, or line, of an element.
+        -   Insert content before, or after, the content of an element.
+
+    -   Syntax
+
+        The syntax of pseudo-elements:
+
+        selector::pseudo-element {
+            property:value;
+        }
+
+        Notice the double colon notation - ::first-line versus :first-line
+
+        The double colon replaced the single-colon notation for 
+        pseudo-elements in CSS3. This was an attempt from W3C to 
+        distinguish between pseudo-classes and pseudo-elements.
+
+        The single-colon syntax was used for both pseudo-classes and 
+        pseudo-elements in CSS2 and CSS1.
+
+        For backward compatibility, the single-colon syntax is acceptable
+        for CSS and CSS1 pseudo-elements.
+
+    -   The ::first-line Pseudo-element
+
+        The ::first-line pseudo-element is used to add a special style
+        to the first line of a text.
+
+        The ::first-line pseudo-element can only be applied to block
+        elements.
+
+        Example:
+
+        Format the first line of the text in all <p> elements:
+
+        p::first-line {
+            color: #ff0000;
+            font-variant: small-caps;
+        }
+
+    -   The following properties apply to the ::first-line pseudo-element:
+
+        -   font properties
+        -   color properties
+        -   background properties
+        -   word-spacing
+        -   letter-spacing
+        -   text-decoration
+        -   vertical-align
+        -   text-transform
+        -   line-height
+        -   clear
+
+    -   Pseudo-elements in CSS classes
+
+        Pseudo-elements can be combined with CSS classes;
+
+        Example:
+
+        p.intro::first-letter {
+            color: #ff0000;
+            font-size:200%;
+        }
+
+    -   Multiple Pseudo-elements
+
+        Several pseudo-elements can also be conbined.
+
+        In the following example, the first letter of a paragraph will
+        be red, in an xx-large font size. The rest of the first line
+        will be blue, and in small-caps. The rest of the paragraph will
+        be the default font size and color:
+
+        Example:
+
+        p::first-letter {
+            color: ##ff0000;
+            font-size: xx-large;
+        }
+
+        p::first-letter {
+            color: #0000ff;
+            font-variant: small-caps;
+        }
+
+        CSS - The ::before Pseudo-element
+
+        The ::before psuedo-element can be used to insert some content
+        before the content of an element. The following example inserts
+        an image before each <h1> element:
+
+        Example:
+
+        h1::before {
+            content.url(smiley.gif);
+        }
+
+    -   CSS - The ::selection Pseudo-element
+
+        The ::section pseudo-element matches the portion of an element
+        that is selected by a user. The following CSS properties can
+        be applied to ::selection: color, background, cursor, and outline.
+
+        The following example makes the selected text red on a yellow 
+        background:
+
+        Example:
+
+        ::selection {
+            color: red;
+            background: yellow;
+        }
+
+    -   All CSS Pseudo Elements
+
+        Selector        Example         Example description
+        ::after         p::after        Insert content after every <p> element
+        ::before        p::before       Insert content before every <p> element
+        ::first-letter  p::first-letter Selects the first letter of every <p> element
+        ::first-line    p::first-line   Selects the first line of every <p> element
+        ::selection     p::selection    Selects the portion of an element that is selected by a user
+            
+*/
+
+p::first-line {
+    //color: #ff0000;
+    font-variant: small-caps;
+}
+
+p.intro::first-letter {
+    color: #ff0000;
+    font-size:200%;
+}
+
+h1::before {
+    content.url(smiley.gif);
+}
+
+::-moz-selection { /* Code for Firefox */
+    color: red;
+    background: yellow;
+}
+
+::selection {
+    color: red;
+    background: yellow;
+}
+</style>
+</head>
+<body>
+<p>You can use the ::first-line pseudo-element to add a special effect 
+to the first line of a text. Some more text. And even more, and more, 
+and more, and more, and more, and more, and more, and more, and more, 
+and more, and more, and more.</p>
+
+<br>
+<p class="intro">This is an introduction.</p>
+<p>This is a paragraph with some text. A bit more text even.</p>
+
+<h1>This is a heading</h1>
+<p>The ::before pseudo-element inserst content before an element.</p>
+
+<h1>This is a heading</h1>
+<p><b>Note:</b> IE8 supports the content property only if a !DOCTYPE is specified.</p>
+
+<h1>Select some text on this page:</h1>
+
+<p>This is a paragraph.</p>
+<div>This is some text in a div element.</div>
+
+<p><strong>Note: </strong> ::selection is not supported in Internet
+Explorer 8 and earlier versions.</p>
+<p><strong>Note: </strong> Firefox supports an alternative, the ::-moz
+-selection property.</p>
+
+</body>
+</html>
