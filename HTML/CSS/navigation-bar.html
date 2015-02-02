@@ -54,12 +54,99 @@
             width: 60px;
         }
 
+        Example explained:
+
+        -   display: block - Displaying the links as block elements make the whole link area clickable (not just 
+            the text), and it allows us to specify the width.
+
+        -   width: 60px - Block elements take up the full width available by default. We want to specify a 60px width.
+
+        Note: Always specify the width for <a> elements in a vertical navigation bar. If you omit the width, IE6 can 
+        produce unexpected results.
+
+    -   Horizontal Navigation Bar
+
+        There are two ways to create a horizontal navigation bar. Using inline or floating list items.
+
+        Both methods work fine, but if you want the links to be the same size, you have to use the floating method.
+
+        -   Inline List Items
+
+            One way to build a horizontal navigation bar is to specify the <li> elements as inline, in addition to the 
+            "standard" code above:
+
+            Example:
+
+            li {
+                display: inline;
+            }
+
+            Example explained:
+
+            -   display inline; -By default, <li> elements are block elements. Here, we remove the line breaks before
+                and after each list item, to display them on one line.
+
+        -   Floating List Items
+
+            In the example above, the links have different widths.
+
+            For all the links to have an equal width, float the <li> elements and specify a width for the <a> elements:
+
+            Example:
+
+            li {
+                float: left;
+            }
+
+            a {
+                display: block;
+                width: 60px;
+            }
+
+            Example explained:
+
+            -   float: left - use float to get block elements to slide next to each other.
+            -   display: block - Displaying the links as block element makes the whole link area clickable (not just the text), and
+                it allows us to specify the width.
+            -   width: 60px - Since block 
+
  
+*/
+/*
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}*/
+
+/*
+a {
+    display: block;
+    width: 60px;
+    background-color: #dddddd;
+}
+*/
+
+/*
+li {
+    display: inline;
+}
 */
 ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
+    overflow: hidden;
+}
+
+li {
+    float: left;
+}
+
+a {
+    display: block;
+    width: 60px;
+    background-color: #dddddd;
 }
 
 
@@ -72,7 +159,13 @@ ul {
   <li><a href="http://www.nike.com">Nike</a></li>
   <li><a href="http://www.cbc.ca">CBC</a></li>
 </ul>
-<p>Note: we use href="#" for test links. In a real web site this would be URLs.</p>
+
+<p><b>Note:</b> If a !DOCTYPE is not specified, floating items can produce unexpected results.</p>
+<p>A background color is added to the links to show the link area. The whole link area is clickable
+, not just the text.</p>
+<p><b>Note: </b> overflow: hidden is added to the ul element to prevent li elements from going outside
+of the list.</p>
+
 
 </body>
 </html>
