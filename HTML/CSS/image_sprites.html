@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<style>
+/*
+    Image Sprites
+
+    An image sprite is a collection of images put into a single image
+
+    A web page with many images can take a long time to load and generates
+    multiple server requests.
+
+    Using image sprites will reduce the number of server requests and svae
+    bandwidth.
+
+    -   Image Sprites - Simple Example
+
+    Instead of using three seperate images, we use this single image
+    ("img_navsprites.gif").
+
+    With CSS, we can show just the part of the image we need.
+
+    E.g.
+
+    #home {
+        width: 46px;
+        height: 44px;
+        background: url(img_navsprites.gif) 0 0;
+    }
+
+    Example explained:
+
+    <img id="home" src="img_trans.gif"> - Only defines a small 
+    transparent image because the src attribute cannot be empty. 
+    The displayed image will be the background image we specify 
+    in CSS width: 46px; height: 44px; - Defines the portion of 
+    the image we want to use background: url(img_navsprites.gif) 0 0; 
+    - Defines the background image and its position (left 0px, top 0px)
+
+    This is the easiest way to use image sprites, now we want 
+    to expand it by using links and hover effects.
+
+    -   Image Sprites - Create a Navigation List
+    
+    We want to use the sprite image ("img_navsprites.gif") to create
+    a navigation list. We will use an HTML list, because it can be
+    a link and also supports a background image:
+
+    Example explained:
+
+    -   #navlist {position:relative} - position is set to relative to allow
+        absolute positioning inside it.
+    -   #navlist li {margin:0;padding:0;list-style:none;position:absolute;
+        top:0;} - margin and padding  are set to 0, list-style is removed,
+         and all list items are absolute positioned.
+    -   #navlist li, #navlist a {height:44px;display:block;} - the height
+        of all the images are 44px;
+        
+        
+*/
+
+#navlist {
+    position: relative;
+}
+
+#navlist li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    position: absolute;
+    top: 0;
+}
+
+#navlist li, #navlist a {
+    height: 44px;
+    display: block;
+}
+
+#home {
+    left: 0px;
+    width: 46px;
+    background: url(img_navsprites.gif) 0 0;
+}
+
+#prev {
+    left: 63px;
+    width: 43px;
+    background: url(img_navsprites.gif) -47px 0;
+}
+
+#next {
+    left: 129px;
+    width: 43px;
+    background: url('img_navsprites.gif') -91px 0;
+}
+</style>
+</head>
+<body>
+
+<ul id="navlist">
+  <li id="home"><a href="http://www.google.ca"></a></li>
+  <li id="prev"><a href="http://www.google.ca"></a></li>
+  <li id="next"><a href="http://www.google.ca"></a></li>
+</ul>
+
+</body>
+</html>
