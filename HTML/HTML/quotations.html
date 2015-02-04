@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+/*
+-   HTML <q> for short quotations
+
+    Browsers usually insert quotation around the <q> element.
+
+    Example:
+
+    p>WWF's goal is to: <q>Build a future where people live in 
+    harmony with nature.</q></p>
+
+-   HTML <blockquote> for Long Quotations
+
+    The HTML <blockquote> element defines a quoted section.
+
+    Browsers usually indent <blockquote> elements.
+
+    <p>Here is a quote from WWF's website:</p>
+    <blockquote cite="http://www.worldwildlife.org/who/index.html">
+    For 50 years, WWF has been protecting the future of nature.
+    The world's leading conservation organization,
+    WWF works in 100 countries and is supported by
+    1.2 million members in the United States and
+    close to 5 million globally.
+    </blockquote>
+
+-   HTML <abbr> for Abbreviations
+
+    The HTML <abbr> element defines an abbreviation or an acronym.
+
+    Marking abbreviations can give useful information to browsers, 
+    translation systems and search-engines.
+
+    <p>The <abbr title="World Health Organization">WHO</abbr> was founded 
+    in 1948.</p>
+
+-   HTML <dfn>
+
+    The HTML <dfn> element defines the definition of a term or an abbrevia
+    tion. The usage of <dfn>, as described in the HTML5 standard, is compli
+    cated:
+
+    1.  If the title attribute of the <dfn> element is present, it defines
+        the term:
+
+        Example:
+
+        <p>The <dfn title="World Health Organization">WHO</dfn> was founded 
+        in 1948.</p>
+
+    2.  If the <dfn> element contains an <abbr> element with a title, then
+        that title defines the term:
+
+        Example:
+
+        <p>The <dfn><abbr title="World Health Organization">WHO</abbr>
+        </dfn> was founded in 1948.</p>
+
+    3.  Otherwise, the <dfn> text content is the term, and the parent
+        element contains the definition.
+
+        <p>The <dfn>WHO</dfn> World Health Organization was founded in 
+        1948.</p>
+
+    Note: If you want to keep it simple, use the first form, or use 
+    <abbr> instead.
+
+    -   HTML <address> for Contact Information
+
+        The HTML <address> element defines contact information 
+        (author/owner) of a document or article.
+
+        The element is usually displayed in italic. Most browsers will 
+        add a line break before and after the element.
+
+        Example:
+
+        <address>
+        Written by Jon Doe.<br> 
+        Visit us at:<br>
+        Example.com<br>
+        Box 564, Disneyland<br>
+        USA
+        </address>
+
+    -   HTML <cite> for Work Title
+
+        The HTML <cite> element defines the title of a work.
+
+        Browsers usually displays <cite> elements in italic.
+
+        <p><cite>The Scream</cite> by Edward Munch. Painted in 1893.</p>
+
+    -   HTML <bdo> for Bi-Directional Override
+
+        The HTML <bdo> element defines bi-directional override.
+
+        If your browser supports bdo, this text will be written 
+        from right to left:
+
+        Example:
+
+        <bdo dir="rtl">This text will be written from right to left</bdo>
+
+-   In summary:
+
+    HTML Quotations, Citations, and Definition Elements
+
+    Tag             Description
+    <abbr>          Defines an abbreviation or acronym
+    <address>       Defines contact information for the author/owner of a document
+    <bdo>           Defines the text direction
+    <blockquote>    Defines a section that is quoted from another source
+    <dfn>           Defines the definition of a term or an abbreviation.
+    <q>             Defines a short inline quotation
+    <cite>          Defines the title of a work
+    
+*/  
+
+</style>
+</head>
+<body>
+
+<p>WWF's goal is to: <q>Build a future where people live in harmony 
+with nature.</q></p>
+
+<p>Here is a quote from WWF's website:</p>
+<blockquote cite="http://www.worldwildlife.org/who/index.html">
+For 50 years, WWF has been protecting the future of nature.
+The world's leading conservation organization,
+WWF works in 100 countries and is supported by
+1.2 million members in the United States and
+close to 5 million globally.
+</blockquote>
+
+<p>The <abbr title="World Health Organization">WHO</abbr> was founded 
+in 1948.</p>
+</body>
+</html>
