@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--
+-   HTML Links - Hyperlinks
+
+    HTML links are hyper links
+
+    A hyperlink is an element, a text, or an image that 
+    you can click on, and jump to another document.
+
+-   HTML Links - Syntax
+
+    In HTML, links are defined with the <a> tag:
+
+    Link Syntax:
+
+    <a href="url">link text</a>
+
+    E.g.
+
+    <a href="http://www.w3schools.com/html/">Visit our HTML tutorial</a>
+
+-   Local Links
+
+    The example above used an absolute URL (A full web address).
+
+    A local link (link to the same web site) is specified with a 
+    relative URL (without http://www....).
+
+    E.g.
+
+    <a href="html_images.asp">HTML Images</a>
+
+-   HTML Links - Colors and Icons
+
+    When you move the mouse cousor over a link, two things will normally
+    happen:
+
+    -   The mouse arrow will into a little hand
+    -   The color of the link element will change
+
+    By default, links will appear as this in all browsers:
+
+    -   An unvisited link is underlined and blue
+    -   A visited link is underlined and purple
+    -   An active link is underlined and red
+
+    Of course you can change the defaults, using styles:
+
+    E.g.
+
+    <style>
+    a:link    {color:#000000; background-color:transparent; text-decoration:none}
+    a:visited {color:#000000; background-color:transparent; text-decoration:none}
+    a:hover   {color:#ff0000; background-color:transparent; text-decoration:underline}
+    a:active  {color:#ff0000; background-color:transparent; text-decoration:underline}
+
+-   HTML Links - The Target Attribute
+
+    The target attribute specifies where to open the linked document.
+
+    This example will open the linked document in a new browser window or in a new tab:
+
+    <a href="http://www.w3schools.com/" target="_blank">Visit W3Schools!</a>
+
+    Target Value	Description
+    _blank	        Opens the linked document in a new window or tab
+    _self	        Opens the linked document in the same frame as it was clicked (this is default)
+    _parent	        Opens the linked document in the parent frame
+    _top	        Opens the linked document in the full body of the window
+    framename	    Opens the linked document in a named frame
+
+-   HTML Links - Image as Link
+
+    It's common to use image as links:
+
+    <a href="default.asp">
+      <img src="smiley.gif" alt="HTML tutorial" style="width:42px;height:42px;border:0">
+    </a>
+
+    Note: border:0 is added to prevent IE9 (and earlier) from displaying a border around the image.
+
+-   HTML Links - The id Attribute
+
+    The id attribute can be used to create bookmarks inside HTML documents.
+
+    Bookmarks are not displayed in any special way. They are invisible to the reader.
+
+    Example: Add an id attribute to any <a> element:
+
+    <a id="tips">Useful Tips Section</a>
+
+    Then create a link to the <a> element (Useful Tips Section):
+
+    <a href="#tips">Visit the Useful Tips Section</a>
+
+    Or, create a link to the <a> element (Useful Tips Section) from another page:
+
+    <a href="http://www.w3schools.com/html_links.htm#tips">Visit the Useful Tips Section</a>
+
+    Note: Without a trailing slash on subfolder addresses, you might generate two requests to the server.
+    Many servers will automatically add a slash to the address, and then create a new request. 
+
+-   Chapter Summary
+
+    Use the HTML <a> element to define a link
+    Use the HTML href attribute to define the link address
+    Use the HTML target attribute to define where to open the linked document
+    Use the HTML <img> element (inside <a>) to use an image as a link
+    Use the HTML id attribute (id=value) to define bookmarks in a page
+    Use the HTML href attribute (href="#value") to address the bookmark
+
+</style>
+-->
+<style>
+a:link {
+    color:#000000;
+    background-color:transparent;
+    text-decoration:none;
+}
+a:visited {
+    color:#000000;
+    background-color:transparent;
+    text-decoration:none;
+}
+a:hover {
+    color:#ff0000;
+    background-color:transparent;
+    text-decoration:underline;
+}
+a:active {
+    color:#ff0000;
+    background-color:transparent;
+    text-decoration:underline;
+}
+</style>
+</head>
+<body>
+<p>You can change the default colors of links</p>
+<a href="http://www.w3schools.com/html/">Visit our HTML tutorial</a>
+<br><br>
+<a href="intro.html" target="_blank">Visit the intro page</a>
+
+<br><br>
+
+<a href="intro.html">
+  <img src="smiley.gif" alt="HTML tutorial" style="width:42px;height:42px;border:0">
+</a>
+
+<br><br>
+
+<p>
+<a href="#C4">See also Chapter 4.</a>
+</p>
+
+<h2>Chapter 1</h2>
+<p>This chapter explains ba bla bla</p>
+
+<h2>Chapter 2</h2>
+<p>This chapter explains ba bla bla</p>
+
+<h2>Chapter 3</h2>
+<p>This chapter explains ba bla bla</p>
+
+<h2><a id="C4">Chapter 4</a></h2>
+<p>This chapter explains ba bla bla</p>
+
+<h2>Chapter 5</h2>
+<p>This chapter explains ba bla bla</p>
+
+<h2>Chapter 6</h2>
+<p>This chapter explains ba bla bla</p>
+
+<h2>Chapter 7</h2>
+<p>This chapter explains ba bla bla</p>
+
+<h2>Chapter 8</h2>
+<p>This chapter explains ba bla bla</p>
+
+<h2>Chapter 9</h2>
+<p>This chapter explains ba bla bla</p>
+
+<h2>Chapter 10</h2>
+<p>This chapter explains ba bla bla</p>
+
+<h2>Chapter 11</h2>
+<p>This chapter explains ba bla bla</p>
+
+<h2>Chapter 12</h2>
+<p>This chapter explains ba bla bla</p>
+
+<h2>Chapter 13</h2>
+<p>This chapter explains ba bla bla</p>
+
+<h2>Chapter 14</h2>
+<p>This chapter explains ba bla bla</p>
+
+<h2>Chapter 15</h2>
+<p>This chapter explains ba bla bla</p>
+
+<h2>Chapter 16</h2>
+<p>This chapter explains ba bla bla</p>
+
+<h2>Chapter 17</h2>
+<p>This chapter explains ba bla bla</p>
+
+</body>
+</html>
