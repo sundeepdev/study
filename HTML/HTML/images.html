@@ -48,7 +48,88 @@
 
     Both the width, the height and the style are valid in the latest
     HTML5 standard. We suggest you use the style attribute. It prevents
-    styles sheets from chaning the default size of images.
+    styles sheets from changing the default size of images(??).
+
+-   Images in Another Folder
+
+    By default, the browser expects to find the image in the same folder as the web page.
+
+    However, it is common on the web, to store images in a sub-folder, and refer to the 
+    folder in the image name:
+
+    E.g.
+
+    <img src="/images/html5.gif" alt="HTML5 Icon" style="width:128px;height:128px">
+
+    If a browser cannot find an image, it will display a broken link icon
+
+-   Images on Another Server
+
+    You can access images from any web address in the world:
+
+    Example:
+
+    <img src="http://www.w3schools.com/images/w3schools_green.jpg">
+
+-   Animated Images
+
+    The GIF standard allows animated images:
+
+    E.g.
+
+    <img src="programming.gif" alt="Computer Man" style="width:48px;height:48px">
+
+    Note that the syntax of inserting animated images is no different from non-animated images.
+
+-   Using an Image as a Link
+
+    It is common to use images as links
+
+    <a href="default.asp">
+     <img src="smiley.gif" alt="HTML tutorial" style="width:42px;height:42px;border:0">
+    </a>
+
+-   Image Maps
+
+    For an image, you can create an image map, with clickable areas:
+
+    <img src="planets.gif" alt="Planets" usemap="#planetmap" style="width:145px;height:126px">
+    <map name="planetmap">
+      <area shape="rect" coords="0,0,82,126" alt="Sun" href="sun.htm">
+      <area shape="circle" coords="90,58,3" alt="Mercury" href="mercur.htm">
+      <area shape="circle" coords="124,58,8" alt="Venus" href="venus.htm">
+    </map>
+
+-   Image Floating
+
+    You can let an image float to the left or right of a paragraph:
+
+    <p>
+      <img src="smiley.gif" alt="Smiley face" style="float:left;width:42px;height:42px">
+      A paragraph with an image. The image floats to the left of the text.
+    </p>
+
+-   Summary
+
+   Chapter Summary
+   Use the HTML <img> element to define images
+   Use the HTML src attribute to define the image file name
+   Use the HTML alt attribute to define an alternative text
+   Use the HTML width and height attributes to define the image size
+   Use the CSS width and height properties to define the image size (alternatively)
+   Use the CSS float property to define image floating
+   Use the HTML usemap attribute to point to an image map
+   Use the HTML <map> element to define an image map
+   Use the HTML <area> element to define image map areas
+
+    Note: Loading images takes time. Large images can slow down your page. Use images carefully.
+
+-   HTML Image Tag
+
+    Tag	    Description
+    <img>	Defines an image
+    <map>	Defines an image-map
+    <area>	Defines a clickable area inside an image-map
 
 -->
 </head>
@@ -58,5 +139,21 @@
      style="width:304px;height:228px">
 <br><br>
 <img src="html5.gif" alt="HTML5 icon" style="width:128px;height:128px">
+<br><br>
+<img src="wrongname.gif" alt="HTML5 Icon" style="width:128px;height:128px">
+<br><br>
+<img src="http://www.w3schools.com/images/w3schools_green.jpg">
+<br><br>
+<img src="planets.gif" alt="Planets" usemap="#planetmap" style="width:145px;height:126px">
+<map name="planetmap">
+  <area shape="rect" coords="0,0,82,126" alt="Sun" href="sun.htm">
+  <area shape="circle" coords="90,58,3" alt="Mercury" href="mercur.htm">
+  <area shape="circle" coords="124,58,8" alt="Venus" href="venus.htm">
+</map>
+<br><br>
+ <p>
+   <img src="smiley.gif" alt="Smiley face" style="float:left;width:42px;height:42px">
+   A paragraph with an image. The image floats to the left of the text.
+ </p>
 </body>
 </html>

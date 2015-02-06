@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--
+
+-   HTML Table Example
+
+    Number	First Name	Last Name	Points
+      1	        Eve	    Jackson	    94
+      2	        John	Doe	        80
+      3	        Adam	Johnson	    67
+      4	        Jill	Smith	    50
+
+-   Defining HTML tables
+
+    <table style="width:100%">
+      <tr>
+        <td>Jill</td>
+        <td>Smith</td> 
+        <td>50</td>
+      </tr>
+      <tr>
+        <td>Eve</td>
+        <td>Jackson</td> 
+        <td>94</td>
+      </tr>
+    </table>
+
+    Example explained:
+
+    Example explained:
+
+    Tables are defined with the <table> tag.
+
+    Tables are divided into table rows with the <tr> tag.
+
+    Table rows are divided into table data with the <td> tag.
+
+    A table row can also be divided into table headings with the <th> tag.
+
+    Note: Table data <td> are the data containers of the table.
+    They can contain all sorts of HTML elements like text, images, lists, other tables, etc.
+
+-   An HTML Table with a Border Attribute
+
+    If you do not specify a border for the table, it will be displayed without borders.
+
+    A border can be added using the border attribute:
+
+    E.g.
+
+    <table border="1" style="width:100%">
+     <tr>
+       <td>Jill</td>
+       <td>Smith</td> 
+       <td>50</td>
+     </tr>
+     <tr>
+       <td>Eve</td>
+       <td>Jackson</td> 
+       <td>94</td>
+     </tr>
+   </table>
+
+    note: The border attribute is on its way out of the HTML standard! It is better to use CSS.
+
+    To add borders, use the CSS border property:
+
+    table, th, td {
+        border: 1px solid block;
+    }
+    
+    Remember to define borders for both the table and the table cells.
+
+-   An HTML Table Collapsed Borders
+
+-->
+</head>
+<body>
+<table style="width:100%">
+<tr>
+  <td>Jill</td>
+  <td>Smith</td> 
+  <td>50</td>
+</tr>
+<tr>
+  <td>Eve</td>
+  <td>Jackson</td> 
+  <td>94</td>
+</tr>
+</table>
+
+</body>
+</html>
