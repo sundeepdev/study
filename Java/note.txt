@@ -1,0 +1,4186 @@
+Chapter 1 
+
+-  In Java, everything goes in class. You'll type your source code file (with java extension), then compile it into a new class file (with a .class extension). When you run your program, you're really running a class.
+
+-  Running a program means telling the Java Virtual Machine to "Load the Hello class then start executing its main()".
+
+Chapter 2 Objects and Classes
+
+-  A class is a blueprint for an object(or instance).
+
+-  Things that an object can do are called methods.
+
+-  As long you're in main(), you are not really in Objectville. It's fine for a test program to run within the main method. But in true OO application, you need objects talling
+   to other objects, as opposed to a static main() method creating and testing objects.
+
+-  A real Java application is nothing but objects talking to other objects. In this case, talking means objects calling methods of on one another.
+
+-  Java takes out the garbage:
+
+   Each time an object is created in Java, it goes into an area of memory known the Heap. The Java Heap, which is not like the heap memory in C/C++, is actually a Garbage-Collection
+   Heap. When JVM can 'see' that an object can never be used again, that object becomes eligible collection.
+
+-  It would be a big pain to deliver a huge bunch of individual files to your end-users but you won't have to. You can put all of your application files into Java Archive - a .jar file
+   that is based on the pkzip format. In the jar file, you can include a simple text file formatted as something called a manifest, that defines which class in that jar holds the main()
+   method that should run.
+
+-  A class can inherit instance variables and methods from a more abstract superclass.
+
+-  Nested Classes
+
+   A class written inside another class is called a nested class. The nested class is considered a member of the enclosing class, just like a variable or method.
+
+   1) A nested class produces a seperate bytecode file. The name of the bytecode(??) file is the name of the enclosing class followed by the $ character followed by the name of the
+      nested class.
+
+   2) A nested class has access to the enclosing class's instance variables and methods, even if they are declared with private visibility.
+   
+   3) The enclosing class can directly access data in the nested class only if the data is declared public. In general, we've always said that public class is a bad idea
+      because it violates encapsulation. However, nested classes provide an exception to that rule.
+
+Chapter 3  Primitives and References.
+
+-  A primitive variable (int, float...) is full of bits representing the actual value of the variable, an object reference variable is full of bits representing a way to get to 
+   the object. Remember again, objects live in one place and one place only - the garbage collectible heap.
+
+-  Dog myDog = new Dog();
+
+   Step1: Dog myDog: Tells the JVM to allocate space for a reference variable and names that variable myDog.
+
+   Question: Where is the space allocated from?
+
+   Step2: new Dog();: Tells the JVM to allocate space for a new Dog object on the heap.
+
+   Step3: Dog myDog = new Dog();: Assigns the new Dog to the reference variable myDog.
+
+-  We cannot do arithmetic on a reference variable, e.g. increment it.
+
+-  An array itself (e.g. int[] and dog[]) is an object.
+
+-  A reference variable has value of null when it is not referencing any object.
+
+-  An array is alwasy an object, even if the array is declared to hold primitives. There is no such thing as a primitive array, only an array that holds primitives. E.g.
+
+   Dog[] myDogs = new Dog[3];
+   myDogs[0] = new Dog();
+   myDogs[0].name = "Fido";
+
+Chapter 4 How objects behave
+
+-  A class describes what an object knows and what an object does.
+
+-  Java is pass-by-value. That means pass by copy.
+
+-  As the encapsulation starter rule of thumb: mark your instance variables private and provide public getters and setters for access control.
+
+-  You don't have to initialize instance variables, because they always have a default value. Number primitives (including char) get 0, booleans get false, 
+   and objects reference variables get null. Remember null just means a remote control that isn't controlling/programmed to anything. A reference, but no actual object.
+
+-  The difference between instance and local variables:
+
+   Instance variables are declared inside a class but not within a method.
+
+   class Horse
+   {
+      private double height = 15.2;
+      private String breed;
+
+      //more code...
+   }
+
+   Local variables are declared within a method. Local variables must be initilized before use!
+
+   class Foo
+   {
+      public void go()
+      {
+         int x;
+         int z = x + 3;  <--- It won't compile!! You declare x without a value, but as soon as you try to use it, the compiler freaks out.
+      }
+   }
+
+-  Comparing variables.
+
+   == : to know if two primitives are the same.
+
+-  Developing a Class:
+
+   prep code:  A form of pseudocode to help you focus on the logic without stressing about syntax;
+
+   test code: A class or methods that will test the real code and validate that it's doing the right thing;
+
+   real code: The actual implementation of the class.
+
+Chapter 5 Extra-Strength Methods
+
+-  The enhanced for loop
+
+   Beginning with java 5.0(Tiger), the Java language has a second kind of for loop called the "enhanced for", that makes it easier to iterate over all the elements
+   in an array or other kinds of collections.
+
+   for (String name: nameArray){}
+   
+   What it means in plain English: For each element in nameArray, assign the element to the 'name' variable, and run the body of the loop.
+
+   Note: the colon(:) means "IN"
+
+Chapter 6 Using the Java Library
+
+-  "ArrayList" is a class in the core Java library (the API).
+
+   add
+   remove
+   contains
+   isEmpty
+   indexOf
+   size
+   get
+   ...
+
+-  Although an ArrayList holds objects and not primitives, the compiler will automatically "wrap" (and "unwrap" when you take it out) a primitive into an Object, and place that
+   object in the ArrayList instead of primitive.
+
+-  You declare the type of the array using a type parameter, which is a type name in angle brackets. E.g.
+
+   ArrayList<Button> means ArrayList will be able to hold only objects of type Button (or subclass of Button as you will learn in the next couple of chapters)
+
+-  In the java API, classes are grouped into packages. to use a class in the API, you have to know which package the class is in. Using a class from the API is simple, somewhere
+   in your code, you have to indicate the full name of the library class you want to use, and that means "package name + class name"
+   
+   E.g.
+
+   java.util.ArrayList;
+   
+   where
+
+   "java.util" is the package name and "ArrayList" is the class name.
+
+-  A package is a collection of related Java entities (such as classes, interfaces, exceptions, errors and enums). Packages are used for:
+
+   1. Resolving naming conflict of classes.
+
+   2. Access Control
+
+   3. For distributing a collection of reusable classes, usually in a format known as Java Archive(JAR) file.
+
+-  Package Naming Convention:
+
+   A package name is made up of the reverse of the Internet Domain Name plus your own organzation's internet project name, seperated by dots '.'.
+   Package names are lowercase. For example, suppose that your internet Domain Name is "zzz.com", you can name your package as "com.zzz.project1.subproject2".
+
+   The prefix "java" and "javax" are reserved for core Java packages and Java extensions, respectively.
+
+-  Package Name & the Directory Structure (!!)
+
+   The package name is closely associated with directory structure used to store the classes. The classes (and other entities) belonging to a specific package
+   are stored together in the same directory. Furthermore, they are stored in a sub-directory structure specified by its package name. For example, the class
+   Circle of package from com.zzz.project1.subproject2 is stored as "$BASE_DIR/com/zzz/project1/subproject2/Circle.class", where $BASE_DIR denotes the base
+   directory of the package. Clearly, the "dot" in the package name corresponds to a sub-directory of the file system.
+
+-  You have to tell Java which ArrayList you want to use. You have two options:
+
+   Put an import statement at the top of your source code file:
+
+   import java.util.ArrayList;
+   public class MuClass {...}
+
+   or
+
+   Type the full name everywhere in your code each time you use it.
+
+   1) When you declare and/or instantiate it:
+   
+      java.util.ArrayList<Dog> list = new java.util.ArrayList<Dog>();
+
+   2) When you use it as an argument type:
+   
+      public void go(java.util.ArrayList<Dog> list) { }
+
+   3) When you use it as a return type:
+   
+      public java.util.ArrayList<Dog> foo() {...}
+
+-  "import" is different from "include" in C. An import is simply the way you give Java the full name of a class.
+
+-  Remember, you have to tell Java the full name of every class you use, unless the class is in the java.lang.
+
+-  An import declaration specifies an Identifider(the name of a class) that will be referenced in a program, and the Name of the package in which
+   it is defined. The * wildcard indicates that any class from a particular package may be referenced. 
+
+   ------->import------>Name------->.------->identifider--------->;------->
+                                       \                    |
+                                        \-------->*----------
+
+   examples:
+
+   import java.util.*;
+   import csl.Keyboard;
+
+   The classes of the java.lang package are qutomatically imported because they are fundamental and can be thought of a basic extendsions to the language.
+   Therefore, any class in the java.lang.package, such as String, can be used without an explicit import statement. It is as if all programs automatically contain
+   the following statement:
+
+   import java.lang.*;
+   
+Chapter 7 inheritance and polymorphism
+
+-  When you call a method on an object reference, you're calling the most specific version of the method for that object type. In other words, the lowest one wins. Here "Lowest"
+   means lowest on the inheritance tree.
+
+-  Remember that when one class inherits from another, we say that the subclass extends the superclass. We use "IS-A" test to test if the inheritance makes sense. To know if you've
+   designed your types correctly, ask, "Does it make sense to say type X IS-A type of Y?"
+   
+-  In a subclass, how to use both the superclass version and my overriding subclass version of a method?
+
+   public void roam() {
+   super.roam(); //this calls the inherited version of roam()
+   // my own roam stuff
+   }
+
+-  A subclass inherits members(instance variables and methods) of the superclass. A superclass can choose whether or not it wants a subclass to inherit a particular member by the
+   level of access the particular member is given.(!!)
+
+   The following table shows the access to members permitted by each modifier:
+
+   | Modifier | Class    | Package |  Subclass | World |
+      public     Y            Y          Y         Y
+     protected   Y            Y          Y         N
+     default     Y            Y          N         N
+     private     Y            N          N         N
+
+-  Inherited methods can be overridden; instance variables cannot be overriden (although they can be redefined in the subclass, but that's not the same thing, and there's almost never
+   a need to it.)
+
+-  Inheritance lets you guarantee that all classes grouped under a certain supertype have all the methods that the supertype has. In other words, you define a common protocol for
+   a set of classes related though inheritance.
+
+-  With polymorphism, the reference type can be a superclass of the actual object type.
+
+   Animal myDog = new Dog();
+
+   Also, you can have polymorphic arguments and return types. E.g.
+
+   class Vet {
+      public void giveShot (Animal a) {
+      // do horrible things to the Animal at
+      // the other end of the 'a' parameter
+      a.makeNoise();
+   }
+
+   class PetOwner {
+      public void Start() {
+         Vet v = new Vet();
+         Dog d = new Dog();
+         Hippo h = new Hippo();
+         v.giveShot(d); //dog's makeNoise runs
+         v.giveShot(h); //Hippo's makeNoise() runs
+
+   With polymorphism, you can write code that doesn't have to change when you introduce new subclass types into the program. Let's say if others want to take advantage of your
+   your Vet class, all they have to do is make sure their new Animal types extend class Animal. The Vet methods will still work, even though the Vet class was written without
+   any knowledge of the new Animal subtypes the Vet will be working on.(!!)
+
+-  If you want to protect a specific method from being overriden, mark the method with the "final" modifier. Mark the whole class as final if you want to guarantee that none
+   of the methods in that class will ever be overriden(!!).
+
+-  Overriding: The arguments and return types of your overriding method must look to the outside world exactly like the overriden method in the superclass. E.g.
+
+   Appliance:
+
+      boolean turnOn()
+
+      boolean turnOff()
+
+   Toaster:
+
+      boolean turnOn(int level) <--This is actually overload but not override as the arguments have been changed!
+
+   Also, the access level must be the same or friendlier. That means you cannot for example override a public method and make it private.
+
+-  Overloading: It means two methods with the same name but different argument lists. remember, there is no polymorphism involved with overloaded methods(!!).
+
+   Overloading lets you make multiple versions of a method. Something to remember about overload:
+
+   1) The return types can be different;
+   2) You cannot change only the return type;
+   3) You can vary the access levels in any direction.
+
+Chapter 8 Serious Polymorphism
+
+-  Abstract classes
+
+   Some classes just should not be instantiated. E.g. Animals. By marking the class as abstact, the compiler will stop any code, anywhere, from ever creating an instance
+   of that type. to mark a class as abstract, put the keyword "abstract" before the class declaration(!!):
+
+   abstract class Canine extends Animal {
+      public void roam {}
+   }
+
+   By doing this, the compiler won't let you instantiate an abstract class
+
+   abstract class Canine extends Animal {
+      public void roam {}
+   }
+
+   public class MakeSense {
+      public void go() {
+         Canine c;
+         c = new Dog(); // <--- This is OK
+         c = new Canine(); <---class Canine is marked abstract so the compiler will Not let you do this.
+
+-  Abstract methods(!!)
+
+   You can mark methods abstract too. An abstract class means the class must be extended an abstract method means the method must be overriden.
+
+   An abstract method has no body:
+
+   public abstract void eat(); 
+
+   Also, if you declare an abstract method, you MUST mark the class abstract as well. You can’t have an abstract method in a non-abstract class. In other words, if a class has
+   even one abstract method, the class must be marked abstract.
+
+   The point of using abstract methods is...Polymorphism! Image how you'd have to change the Vet class, if it didn't use Animal as its argument type of methods. You'd have to
+   have a seperate method for every single Animal subclass!
+
+   Abstract methods don't have a body; that means the first concrete class in the inheritance tree must implement all abstract methods.
+
+-  Every class in Java extends class "Object". That means "Object" is the superclass of everything. It also means that every class you write extends "Object".
+
+   public class Dog extends Objext{}
+
+   But wait a minute, Dog already extends Canine. It is OK becasue the compiler will make Canine extend Object instead. Except Canine extends Animal. No problem, then the compiler
+   will just make Animal extend Object.
+
+-  So what's in this ultra-super-megaclass Object(!!)?
+
+   1) equals(object o) ->> tells you if two objects are equal.
+
+   e.g. a.equals(c) <--a, c are objects
+   
+   2) getClass --> Gives you back the class that object was instantiated from
+
+   3) hashCode --> Prints out a hashcode for the object
+
+   4) toString --> Prints out a String message with the name of the class and some other number we rarely care about.
+
+-  The compiler decides whether you can call a method based on the reference type, not the actual object type(!!). E.g.
+
+   Object o = al.get(index);
+   int i = o.hashCode(); <-- this is fine as every object in Java can call hashCode().
+   o.bark(); <-- Can't do this. The Object class has not idea what it means to bark(), Even though you know it's really a Dog at that index, the compiler doesn't.
+
+   The compiler checks the class of the reference type, not the object type - to see if you can call a method using that reference.
+
+-  Casting an object reference back to its real type(!!)
+
+   You must ensure that the object is really dog, e.g.,    
+
+   Object o = al.get(index);
+   Dog d = (Dog) o;
+   d.roam();
+
+   If you not sure it's a Dog, you can use instanceof operator to check(!!):
+
+   if (o instanceof Dog) {
+      Dog d = (Dog) o;
+   }
+
+-  A Java interface solves your multiple inheritance problem by giving you much of the polymorphic benefits of multiple inheritance without the pain and suffering from the
+   Deadly Diamond of Death (DDD)
+
+   Note: What is Deadly diamond of Death??
+
+   The "diamond problem" (sometimes refereed to as the "deadly diamond of death") is an ambiguity that arises when two classes B and C inherit from A, and class D inherits from
+   B and C.
+
+         A
+       /   \
+      /     \
+      B     C           (the shape looks like a diamond)
+      ^     ^
+      \     /
+       \   /
+         D
+
+   If D calls a method defined in A (and does not override the method), and B and C override that method differently, this from which class does it inherit: B or C? It's 
+   called the "diamond problem" because of the shape of the class inheritance diagram in this situation.
+
+   The way to handle that is very simple: make all the methods abstract(How to solve the DDD using abstract methods?? I thought Java has already handled that by forcing
+    not allow to use multiple inheritance).
+
+   Pet:
+
+   abstract void beFriendly();
+   abstract void play();
+
+   1) To DEFINE an interface(why do we use "interface" here??):
+
+   public interface Pet {...}
+               ^
+               |-----------------> Use the keyword "interface" instead of "class"
+
+   2) To IMPLEMENT an interface:
+   
+   public class Dog extends Canine implements Pet {...}
+                                       ^
+                                       |
+                                       |-----------------Use the keyword "implements" followed by the inferface name. Note that when you implement an interface you still get
+                                                         to extend a class.
+
+   3) Making and Implementing the Pet interface:
+
+   public interface Pet {
+
+      public abstract void beFriendly();  <--no body as it is an abstract method.
+      public abstract void play(); <--no body as it is an abstract method.
+
+   public class Dog extends Canine implements Pet {
+   
+      public abstract void beFriendly() {...} <---Implement the pet method
+      public abstract void play() {...} <--Implement the pet method
+
+      public void roam() {...} <-- This is just normal overriding method.
+      public void eat() {...} <-- This is just normal overriding method.
+
+-  In summary, how do you know whether to make a class, a subclass, an abstract class, or an inferface(!!):
+
+   1) Make a class that doesn’t extend anything (other than Object) when your new class doesn’t pass the IS-A test for any other type.
+
+   2) Make a subclass (in other words, extend a class) only when you need to make a more specific version of a class and need to override or add new behaviors.
+
+   3) Use an abstract class when you want to define a template for a group of subclasses, and you have at least some implementation code that all subclasses 
+      could use. Make the class abstract when you want to guarantee that nobody can make objects of that type.
+
+   4) Use an interface when you want to define a role that other classes can play, regardless of where those classes are in the inheritance tree.
+
+-  Invoking the superclass version of a method
+
+   If you want to invoke the superclass version of a method instead of the overriden one, use the keyword "super" lets you invoke a superclass version of an overridden method, 
+   from within the subclass. E.g.
+
+   abstract class Report {
+      void runReport() {
+         //setup a report
+      }
+      void printReport() {
+         //generic printing
+      }
+   }
+
+   class BuzzwordsReport extends Report {
+      
+      void runreport () {
+         super.runReport(); //call superclass version then come back and do some subclass-specific stuff.
+         buzzwordCompliance();
+         printReport();
+      }
+      
+      void buzzwordCompilance() {...}
+
+  The "super" keyword is really a reference to the superclass portion of an object. 
+
+Chapter 9 Life and Death of an Object
+
+-  The STACK and the HEAP: where things live
+
+   Stack: method invocations and local variables live
+   Heap:  objects live
+
+   Instance variables: they are declared inside a class but not inside a method.
+   Local variables: they are declared inside a method, including method parameters.
+   The method on the top of the stack is always the currently-executing method.
+
+   Note: No matter where the object reference variable is declared (inside a method vs an instance variable of a class)the object always always always goes on the heap.
+   
+-  Instance variables live on the heap, inside the object they belong to.
+
+   1) If the instance variables are all primitives, Java makes space for the instance variables based on the primitive type. E.g. an int needs 32 bits.
+   2) How about the instance variables are objects? 
+
+      If the instance variable is declared but no object is assigned to it, then only the space for the reference variable (the remote control) is created.
+      
+      private Antenna ant;
+
+      No actual Antenna object is made on the heap unless or until the reference variable is assigned a new Antenna object:
+
+      private Antenna ant = new Antenna();
+
+   Instance variables are assigned a default value. even when you don't explicitly assign one. The default values are 0/0.0/false for primitives, and null for references.
+
+-  Constructor
+
+   A constructor is the code that runs when you say "new" on a class type. A constructor must have the same name as the class, and must not have a return type.
+   By default, there is nothing inside the constructor of a class:
+
+   public class Duck {
+      public Duck { 
+      
+      //empty here. Remember there is no code here. Also there is no return type.
+      }
+   }
+
+   You can do more with constructor. E.g.
+
+   public Duck(int duckSize) {
+      size = duckSize; //size is the instance variable.
+   }
+
+   Remember, the compiler gets involved with constructor making only if you don't say anything at all about constructors. That means no to the question: Doesn't the compiler
+   always make no-arg constructor for you?
+
+   If you write a constructor that takes arguments, and you still want a no-arg constructor, you'll have to build the no-arg constructor yourself! That means if you touch the
+   constructor, you need to write two versions of it(at least). Overloaded constructors means you have more than one constructor in your class. To copmpile, each constructor must have
+   diffeent argument list!
+
+-  The big point there was that every object holds not just its own declared instance variables, but also everything from its superclasses(which, at minimum, means class Object
+   , since every class extends Object). But how does a superclass constructor gets involked(!!)?
+
+   call super(). E.g.
+
+   public class Duck extends Animal {
+      int size;
+
+      public Duck(int newSize) {
+         super();
+         size = newSize;
+      }
+   }
+
+   The compiler gets involved in constructor-making in two ways(!!):
+
+   1) If you don't provide a constructor, the compiler puts one in that looks like:
+
+      public ClassName() {
+         super();
+      }
+
+   2) If you do provide a constructor but you do not put in the call to super()(!!):
+
+      The compiler will put a call to super() in each of your overloaded constructors(unless the constructor calls another overloaded constructor). The compiler-supplied 
+      call looks like:
+      
+      super();
+
+      It always looks like that. The compiler-inserted call to super() is always no-arg call. If the superclass has overloaded constructors, only the no-arg
+      one is called.
+
+   Can you pass something in to the super() call? Yes!
+
+   E.g.
+
+   public abstract class Animal {
+      private String name;
+
+      public String getName() {
+         return name;
+      }
+
+      public Animal(String theName) {
+         name = theName;
+      }
+   }
+
+   public class Hippo extends Animal {
+      public Hippo(String name ){
+         super(name);//it sends the name up the stack to the Animal constructor
+      }
+   {
+
+   public class MakeHippo {
+      public static void main (String[] args) {
+         Hippo h = new Hippo("Buffy");
+         System.out.println(h.getName());
+      }
+   }
+
+-  What if you have overloaded constructors that, with the exception of handling different argument types, and do all the same thing? You know that you don't want to
+   duplicate code sitting in each of the constructors (pain to maintain, etc.). You can use this() to call a constructor from another overloaded constructor in the same
+   class. The call to this() can be used only in a constructor, and must be the first statement in a constructor. Remember, Every constructor can have a call to super()
+   or this(), but never both!
+
+   class Mini extends Car {
+      Color color;
+      
+      public Mini() {
+         this(Color.Red); //The no-arg constructor supplies a default Color and calls to the overloaded Real Constructor (the one that calls super()).
+      }
+
+      public Mini(color c) {
+         super("Mini"); //This is the Real Constructor that does the real work of initializing the object (including the call to super()).
+         color = c;
+         //more initialization
+      }
+
+      public Mini(int size) {
+         this(Color.Red);
+         super(size); //<<- won't work! Can't have super() and this() in the same constructor, because they each must be the first statement!
+      }
+
+-  How long does an object live(!!)?
+
+   An object's life depends entirely on the life of references referring to ithow long does a variable live?
+
+   That depends on whether the variable is a local variable or an instance variable. A local variable lives only within the method that declared the variable. An instance
+   variable lives as long as the object does. If the object is still alive, so are its instance variables.
+
+   An object becomes eligible for GC(garbage collectable) when its last live reference disappears. Three ways to get rid of an object's reference:
+
+   1) The reference goes out of scope, permanently
+
+      void go() {
+         Life z = new Life(); //reference 'z' dies at end of method.
+      }
+
+   2) The reference is assigned another object
+
+   Life z = new Life(); //the first object is abandoned when z is 'reprogrammed' to a new object.
+   z = new Life(); 
+
+   3) The reference is explicitly set to null
+
+   Life z = new Life(); //the first object is abandoned when z is deprogrammed.
+   z = null;
+
+Chapter 10 numbers and statics
+
+-  The difference between regular (non-static) and static methods methods.
+
+   Java is object-oriented, but once in a while you have a special case, typically a utility method (like the Math methods), where there is no need to have an instance of the class.
+   
+   The keyword "static" lets a method run without any instance of the class. A static method means "behavior not dependent on an instance variable, so no instance/object is required. 
+   Just the class."
+
+-  Static methods cannot use non-static (instance) variables.
+
+   public class Duck {
+      private int size;
+   
+      public static void main(String [] args) {
+         System.out.println("Size of duck is " + size); //<<---which duck? whose size? if there is Duck on the heap somewhere, we don't know about it.
+      }
+
+      public setSize (int s) {
+         size = s;
+      }
+
+      public int getSize() {
+         return size;
+      }
+   }
+   
+-  Static methods can't use non-static methods either. E.g.
+
+   public static void main(String [] args) {
+      System.out.println("Size of duck is " + getSize()); //whose size?
+   }
+
+   Also, if you have a class with only static methods, and you do not want the class to be instanciated, you can mark the constructor private.
+
+-  Static variable(!!): value is the same for all instances of the class
+
+   A value shared by all instances of a class. In other words, one value per class, instead of one value per instance.
+
+   public class Duck {
+      private int size;
+      private static int duckCount = 0; // The static duckCount variable is initialized ONLY when the class is first loaded(How does a class get loaded??), Not each time 
+                                        //a new instance is made.
+   
+   Note: how does a class get loaded? The basic principle of loading classes is that classes are only loaded when needed. Each class that gets loaded may have other classes
+   that it depends on, so the loading process is recursive.
+   
+   public Duck() {
+      duckCount++; //Now it will keep incrementing each time the Duck constructor runs, because duckCount is static and won't be reset to 0. With this static variable, you can
+                   //count how many duck instances are being created while your program is running.
+   }
+
+   All static variables in a class are initialized before any object of that class can be created. Default values for declared but uninitialized static and instance variables
+   are the same(!!):
+
+   primitive integers (long, short, etc...): 0
+   primitive floating points (float, double): 0.0
+   boolean: false
+   object reference: null
+
+   Note: A static method can access a static variable.
+
+-  static final variables are constants(!!)
+
+   A variable marked "final" means that - once initialized - it can never change. E.g.
+
+   public static final double PI = 3.141592653589793;
+
+   note: Constants variable names should be in all caps.
+
+   Assigning a value to a final instance variable must be either at the time it is declared, or in the constructor.
+
+   1) At the time you declare it:
+
+   public class Foo {
+      public static final int FOO_X = 25;
+   }
+
+   or
+
+   2) In a static initializer in the constructor
+
+   public class Bar {
+      public static final double BAR_SIGN;
+   
+      static {
+
+         BAR_SIGN = (double) Math.random();
+      }
+
+   }
+
+-  "final" isn't just for static variables...
+   
+   You can use "final" to modify non-static variables too, including instance variables, local variables and even method parameter.
+
+   A final variable means you can't change its value(!!).
+
+   A final method means you can't override the method(!!).
+
+   A final class means you can't extend the class(!!) (i.e. you can't make a subclass).
+
+-  Using "final" immutable, final object with proper equals() and hashcode() implementation would act as perfect Java HashMap keys and
+   improve performance of Java HashMap by reducing collision(??). Immutability also allows catching there hashcode of different keys which
+   makes overall retrival process very fast.
+
+-  In summary, we should follow the following order of defining a variable(!!):
+
+   [access type][static or not][final or not]type variableName;
+
+   access type could be: "private", (default), "public" and "protected".
+
+-  Wrapping a primitive
+
+   In all version of Java prior to 5.0, you cannot put a primitive directly into a collection like AllayList and HashMap:
+
+   To treat a primitive like an object, there is a wrapper class for every primitive type(you don't need to import them as the wrapper classes that are in the java.lang package).
+   Each wrapper class is named after the primitive type it wraps, but with the first letter capitalized to follow the class naming convention:
+
+   Boolean
+   Character
+   Byte
+   Short
+   Integer
+   Long
+   Float
+   Double
+
+   Wrapping a value:
+
+   int i = 288;
+   Integer iWrap = new Integer(i);
+
+   Unwrapping a value:
+
+   int unWrapped = iWrap.intValue.
+
+-  Autoboxing: blurring the line between primitive and object.
+
+   The autoboxing feature added to Java 5.0 does the conversion from primitive to wrapper object automatically!
+
+   public void doNumNewWay () {
+      ArrayList<Integer> listOfNumbers = new ArrayList<Integer>(); //<---Make an ArrayList of type Integer
+      listOfNumbers.add(3); //<---Although there is not a method in ArrayList, for add(int), the compiler does all the wrapping (boxing) for you. In other words, there is an Integer
+                            //object stored in the ArrayList, but you get to "pretend" that the ArrayList takes ints.(You can add both ints and Integers to an ArrayList<Integer>).
+      int num = listOfNumbers.get(0);//<---the compiler automatically unwraps(unboxes) the Integer object to you can assign the int value directly to 
+                                     //a primitive without having to call intValue() method on the Integer object.
+   }
+
+   Beside doing wrapping and unwrapping, autobox also lets you use either a primitive or its wrapper type virtually anywhere one or the other is expected.
+
+   1) Method arguments
+
+   void takeNumber(Integer i) {}
+
+   2) Return values
+
+   int giveNumber() {
+      return x;
+   }
+
+   3) Boolean expressions
+
+   if (bool) {
+      System.out.println("true");
+   }
+
+   4) Operations on numbers
+
+   Integer i = new Integer(42);
+   i++;
+
+   or
+
+   Integer j = new Integer(5);
+   Integer k = j + 3;
+
+   5) Assignments
+
+   Double d = x;
+
+   But wait! There's more! Wrappers have static utility methods too!
+
+   6) converting a String to a primitive value is easy:
+
+   String s = "2";
+   int x = Integer.parseInt(s); //<---No problem to parse "2" into 2.
+   double d = Double.parseDouble("420.24");
+   boolean b = new Boolean("true").booleanValue();//<--There is no method called "Boolean.parseBoolean()". Fortunatelly, there is a Boolean constructor that takes (and parses) a String
+                                                  //, and then you just get the primitive value by unwrapping it.
+
+   But if you try this:
+
+   String t = "two";
+   int y = Integer.parseInt(t); //<---You get runtime error as Anything that can't be parse as a number will cause a Number FormatException.
+
+-  Turning a primitive number into a String.
+
+   There are a couple ways to turn a number into a String.
+
+   1) concatenate the number to an existing String.
+
+   double d = 42.5;
+   String doubleString "" + d; //<---The "+" operator is overloaded in Java (the only overloaded operator) as a String concatenator. Anything added to a String becomes Stringified.
+
+   2) Using a static method in class Double.
+
+   double d = 42.5;
+   String doubleString = Double.toString(d);
+
+-  Number formatting
+
+   1) Formatting a number to use commas;
+
+   public class TestFormats {
+      public static void main (String[] args) {
+         String s = String.format("%, d", 1000000000); //<---The formatting instructions for how to format the second argument. Remember, there are only two arguments to this method
+                                                       //here - the first comma is inside the string literal, so it isn't seperating arguments to the format method.
+      }
+   }
+
+   Output:
+   
+   1,000,000,000
+
+-  Formatting deconstructor...
+
+   format("%, d", 1000000000);
+
+   1) "%, d" ---> Use these instructions;
+   2) 1000000000 ---> on this argument(s).
+
+   The percent (%) says, "Insert argument here" (and format it using these instructions).
+
+   When you see the % sign, think of the percent sign as a variable that represents the other argument to the method.
+
+   format("I have %.2f bugs to fix.", 476578.09876);
+
+   %.2f --> The "%" sign tells the formatter to insert the other method argument (the second argument to format(), the number) here, AND format it using the ".2f" character
+            after the percent sign. Then the rest of the format String, "bugs to fix", is added to the final output.
+
+   Output:
+
+   I have 476578.10 bugs to fix.
+
+   Adding a comma:
+
+   format(“I have %,.2f bugs to fix.”, 476578.09876);
+
+   Output:
+
+   I have 476,578.10 bugs to fix.
+
+   In summary:
+
+   %,d means "insert commas and format the number as a decimal integer"
+
+   %.2f means "format the number as a floating point with a precision of two decimal places."
+
+   %,.2f means "insert commas and format the number as a floating point with a precision of two decimal places."
+
+-  The format specifier
+
+   A format specifier can have up to five different parts (not including the "%"). Everything in brackets [] below is optional, so only the percent(%) and the type are required.
+   But the order is also mandatory, so any parts you Do use must go in this order.
+
+   %[argument number][flags][width][.precision]type
+
+   E.g.
+
+   format(“%,6.1f”, 42.000);
+   
+   Note; We will talk about [argument number] later.
+
+   1) type
+
+   %d decimal
+   %f float
+   %x hex
+   $c character
+
+   What happens if you have more than one argument:
+
+   int one = 20456654;
+   double two = 100567890.248907;
+   String s = String.format(“The rank is %,d out of %,.2f”, one, two);
+
+   output:
+
+   The rank is 20,456,654 out of 100,567,890.25.
+
+-  How about dates?
+
+   1) The complete date and type: %tc
+
+   String.format(“%tc”, new Date());
+
+   output:
+
+   Sun Nov 28 14:52:41 MST 2004
+
+   2) Just the time: %tr
+
+   String.format(“%tr”, new Date());
+
+   03:01:47 PM
+
+   3) Day of the week, month and day: %tA %tB %td
+
+   There isn't single format specifier that will do exactly what we want, so we have to combine three of them for day of the week (%tA), month(%tB), and day of the month(%td).
+
+   Same as above, but without duplicating the arguments
+
+   Date today = new Date();
+   String.format(“%tA, %<tB %<td”,today); //<---The angle-bracket "<" is just another flag in the specifier that tells the formatter to "Use the previous argument again.", instead
+                                          //you format the same argument three different ways.
+
+-  Getting an object that extends Calendar
+
+   How do you get an "instance" of an abstract class?
+
+   This won't work:
+
+   Calendar cal = new Calendar(); //<---it won't work because the constructor Calendar() is a protected method.
+
+   Instead, use the static "getInstance()" method.
+
+   Calendar cal = Calendar.getInstance(); //<---This is not an instance of Calendar as Calendar is an abstract class. This static method returns an instance of a concrete subclass
+                                          //. Something that extends Calendar. In most of the world, and by default for most versions of Java, you will be getting back a
+                                          //java.util.GregorianCalendar instance.
+
+-  Even more Statics!...static imports.
+
+   New to Java 5.0...The basic idea is that whenever you're using a static class, a static variable, or an enum(more on those later), you can import them, and save yourself some 
+   typing. The downside to static imports is that if you are not careful - using them can make your code a lot harder to read.
+
+   Some old-fashioned code:
+
+   import java.lang.Math;
+   class NoStatic {
+      public static void main(String[] args) {
+         System.out.println("sqrt " + Math.sqrt(2.0));
+         System.out.println("tan " + Math.tan(2.0));
+      }
+   }
+
+   Same code with static imports:
+
+   import static java.lang.System.out; //The syntax to use when declaring static imports.
+   import static java.lang.Math.*; 
+
+   class WithStatic {
+      public static void main(String[] args) {
+         out.println("sqrt " + Math.sqrt(2.0));
+         out.println("tan " + Math.tan(2.0));
+      }
+   }
+
+Chapter 11 Risky Behavior
+
+-  Tha JavaSound API
+
+   JavaSound is a collection of classes and interfaces added to Java starting with version 1.3. They are not add-ons but part of the standard J2SE class library.
+
+   1) First, we need a Sequencer
+
+   The sequencer is the object that takes all the MIDI data and sends it to the right instruments. A sequencer can do a lot of different things, but in this book, we
+   are using it strictly as a playback device. Like a CD-player on your stereo but with added features.
+
+   import javax.sound.midi.*
+
+   public class MusicTest1 {
+      
+      public void play() {
+         Sequencer sequencer = MidiSystem.getSequencer();
+
+         System.out.println("We got a sequencer");
+      } //close play
+
+      public static void main(String[] args) {
+         MusicTest mt = new MusicTest1();
+         mt.play();
+      }
+   }
+
+   The code won't compile! The compiler says there's an "unreported exception" that must be caught or declared
+
+   alexyu@alexyu:~/Desktop/study/Java/beatBox$ javac MusicTest1.java 
+   MusicTest1.java:6: unreported exception javax.sound.midi.MidiUnavailableException；must be caught or declared to be thrown
+            Sequencer sequencer = MidiSystem.getSequencer();
+
+   
+   1 errors
+   
+-  What happens when a method you want to call(probably in a class you didn't write) is risky?
+
+   Methods in Java use exception to tell the calling code, "Something Bad Happened. I failed". This approach is based on you knowing that the method you're calling is risky.
+   (e.g. that the method might generate an exception), so that you can write code to deal with that possibility.
+
+   How do you know if a method throws an exception? You find a throws clauses in the risky method's declaration. You can read the Java API to understand under what circumstances, 
+   Exceptions can happen.
+
+   If you wrap the risky code in something called a "try/catch", the compiler will relax. A "try/catch" block tells the compiler that you know an exceptional thing could happen
+   in the method you're calling, and that you're prepared to handle it. The compiler doesn't care how you handle it; it cares only that you say you're taking care of it.
+
+   import javax.sound.midi.*
+
+      public class MusicTest1 {
+         
+         public void play() {
+         
+            try {
+            Sequencer sequencer = MidiSystem.getSequencer();
+            System.out.println("We got a sequencer");
+            
+         } catch (MidiUnavailableException ex) {
+
+            System.out.println("Bummer");
+            
+         }
+
+         public static void main(String[] args) {
+            MusicTest mt = new MusicTest1();
+            mt.play();
+         }
+      }
+
+-  An exception is an object...of type Exception.
+
+   Remember from your polymorphism chapters that an object of type Exception can be an instance of any subclass of Exception. Because an Exception is an object, what you catch
+   is an object. If the following code, the catch arguments is declared as type Exception, and the parameter reference variable is ex
+
+   try {
+      // do risky thing
+   } catch (Exception ex) {  //<---This is just like declaring a method argument
+      //try to recover   //<---The code only runs if an Exception is thrown.
+   }
+
+-  If it is your code that catches the exception, then whose code throw it?
+
+          
+            ---------(2)--------
+            |                  |
+            v                  |
+   Your code ---(1)----> class with a risky method 
+
+   1) Call risky method
+
+   When somebody write code that could throw an exception, they must declare the exception.
+
+                              |--------This method MUST tell the world (by declaring) that it throws a BadException
+                              v      
+   public void takeRisk() throws BadException { 
+      if (abadonAllHope) {
+         throw new BadException(); //<---Create a new Exception and throw it
+      }
+      
+   }   
+
+   2) throws an exception back
+
+   public void crossFingers() {
+      try {
+         anObject.takeRisk();
+      } catch (BadException ex) {
+         System.out.println("Aaargh!");
+         ex.printStackTrace(); //<---If you can't recover from the exception, at LEAST get a stack trace using the printStackTrack() method that all exceptions inherit.
+      }
+   }
+
+-  The compiler checks for everything except RunTimeExceptions.
+
+   Exceptions that are not subclass of RuntimeException are checked for by the compiler. They're called "checked exceptions".
+
+                     Exception
+                           |
+                           ^
+         ----------------------------------------
+         |                 |                    |
+      IOEXception    InterruptException   RuntimeException (RuntimeExceptions are NOT checked by the compiler. They've known as (big surprise here) "unchecked exceptions")
+                                                      |--------------|
+                                                      ^              ^
+                                           ClassCastException NullPointerException    
+
+   But why RuntimeExceptions the compiler doesn't care about those runtime exceptions? Becasue most RuntimeExceptions come from a problem in your code logic，rather than a
+   condition that fails at runtime in ways that you cannot predict or prevent. You cannot guarantee the server is up. But you can make sure you code doesn't index off the 
+   end of the array.
+   
+-  Flow control in try/catch blocks
+
+   try {
+      Foo f = x.doRiskyThing();
+      int b = f.getNum(); //<---------------------It doRishkyThing() failed, the rest of the try block never runs, which is a good thing as the rest depends on the success of 
+                          //the call to doRiskyThing().
+   } catch (Exception ex) {
+      System.out.println("failed");
+   }
+   System.out.println("We made it!");
+
+-  Finally: for the things you want to do no matter what(!!).
+
+   A finally block is where you put code that must run regardless of an exception.
+
+   try {
+      turnOvenOn();
+   } catch (BakingException ex) {
+      ex.printStackTrace();
+   } finally {
+      turnOvenOff();
+   }
+
+   Without finally, you have to put the turnOverOff() in both the try and the catch becasue you have to turn off the oven no matter what. A finally block lets you put all
+   your important cleanup code in one place instead of duplicating the code.
+
+   Note: 
+
+   If the try block fails (an exception) --> catch block runs ---> finally block runs
+
+   If the try block succeeds -> skip catch block ---> finally block runs
+
+   If the try or catch block has a return statement, finally will still run!
+
+-  A method can throw multiple exceptions
+
+   public class Laundry {
+      public void doLaundry() throws PantsException, LingerieException {
+      // code that could throw either exception.
+      }
+   }
+
+   public class Foo {
+      public void go() {
+         Laundry laundry = new Laundry();
+         
+         try {
+            laundry.doLaundry();
+         } catch (PantsException) {
+            //recovery code
+         } catch (LingerieException) {
+            //recovery code
+         }
+      }
+   }
+
+-  Exceptions are polymorphic
+
+   Exceptions are objects that can be thrown. All exceptions have "Exception" as a superclass. Becasue you CAN catch everything with one big super polymorphic catch, doesn't alwasy
+   mean you SHOULD.
+
+   try {
+      laundry.doLaundry();
+   } catch (Exception ex) {
+      //recovery code...   //<---Recovery from what? This catch block will catch ANY and all exceptions, so you won't automatically know what went wrong.
+   }
+
+   Instead, write a different catch block for each exception that you need to handle uniquely. Multiple catch blocks must be ordered from smallest to biggest
+   
+                     ClothingException
+
+   PantsException    LingerieException    ShirtException    UniformException
+        
+                                  TeeShirtException DressShirtException
+
+   try {
+      laundry.doLaundry ();
+   
+   } catch (TeeShirtException tex) {
+      //recovery from TeeShirtException
+   } catch (LingerieException tex) {
+      //recovery from LingerieException
+   } catch (ClothingException tex) {
+      //recovery from all others
+   }
+
+-  When you don't want to handle an exception...Just duck it by clearing it(??).
+
+-  Exception Rules
+
+   1) You cannot have a catch or finally without a try.
+   2) You cannot put code between the try and the catch.
+   3) A try MUST be followed by either a catch or a finally.
+   4) A try with only a finally (no catch) must still declare the exception(??).
+
+-  Making actual sound
+
+   1) The thing that plays the music;
+   2) The music to be played...a song;
+   3) The part of the Sequence that holds the actual information;
+   4) The actual music information; note to play, how long, etc...
+
+   
+                  plays                         has                  holds
+   Sequencer   ----------->   Sequence    -------------> Track    -------------->   MidiEvents...
+
+   Note: A MIDI event is a message that the Sequencer can understand such as play Middle C, play this fast and play this hard...
+
+-  Making a MidiEvent (song data)
+
+   Skip it for now.
+
+Chapter 12 A very Graphic story
+
+-  Skip it for now
+
+Chapter 13 Work on your Swing
+
+-  Skip it for now
+
+Chapter 14 Saving Objects
+
+-  Skip it for now
+
+Chapter 15 Making a connection
+
+-  Skip it for now
+
+Chapter 16 Data Structure
+
+-  ArrayList has a lot of methods, but there is nothing can do sorting. ArrayList is not the only collection. Some of the key collection classes are:
+
+   -  TreeSet
+
+      Keeps the elements sorted and prevents duplicates.
+
+   -  HashMap
+
+      Let's you store and access elements as name/value pairs.
+
+   -  LinkedList
+
+      Designed to give better performance when you insert or delete elements from the middle of the collection.
+
+   -  HashSet
+
+      Prevents duplicates in the collection, and given an element, can find that element in the collection quickly.
+
+   -  LinkedHashMap
+
+      Like a regular HashMap except it can remember then order in which elements (name/value pairs) were inserted, or it can be configured to remember the order in which elements
+      were last accessed.
+      
+-  You could use a TreeSet...or you could use the Collections.sort() method.
+
+   TreeSet: If you put all the strings into a TreeSet instead of an ArrayList, the Strings would automatically land in the right place, alphbetically sorted. There is a trade-off:
+   every time you insert into a TreeSet, the TreeSet has to take time to figure out where in the tree the new element must go.
+
+   Collection.sort(): The Collection.sort() method sorts a list of Strings alphabetically. E.g.
+
+   import java.util.*;
+   import java.io.*;
+
+   public class Jukebox1 {
+
+      ArrayList <String> songList = new ArrayList<String>();
+
+      public static void main(String[] args) {
+         new Jukebox1().go();
+      }
+   
+      public void go() {
+         getSongs();
+         System.out.println(songList);
+         Collection.sort(songList); //<---Call the static Collections sort() method.
+         System.out.println(songList);
+      }
+
+   ...
+   }
+
+-  But if you need Song objects not just simple Strings to store in the list?
+
+   class Song {
+      String title;
+      String artist;
+      String rating;
+      String bpm;
+   }
+
+   Thus we need to change thd code a littie bit:
+
+   ...
+   public class Jukebox3 {
+      ArrayList<Song> songList = new ArrayList<Song>();
+   }
+
+   Unfortunatelly, it won't compile
+
+   symbol : method sort(java.util.ArrayList<Song>)
+   location: class java.util.Collections
+                     Collections.sort(songList);
+                                ^
+
+   1 error
+
+-  Generic
+
+   -  Codes that uses generics has many benefits over non-generic code:
+
+      1. Strong type checks at compile time. Fixing compile-time error is easier than fixing runtime errors, which can be difficult to find.
+      2. Elimination of casts
+      3. Enabling programmers to implement generic algorithms(What are generic algorithms??).
+      
+   -  A generic type is generic class or interface that is parameterized over types.
+
+      A generic class is defined with the following format:
+
+      class name<T1, T2, ..., Tn>{ /* ... */ }. E.g.
+
+      /**
+       * Generic version of the Box class.
+       * @param <T> the type of the value being boxed
+       */
+      public class Box<T> {
+          // T stands for "Type"
+          private T t;
+
+          public void set(T t) { this.t = t; }
+          public T get() { return t; }
+      }
+
+   -  Type Parameter Naming Conventions
+   
+      By convention, type parameter names are single, uppercase letters.   
+
+      E - Element (used extensively by the Java Collections Framework)
+      K - Key
+      N - Number
+      T - Type
+      V - Value
+      S,U,V etc. - 2nd, 3rd, 4th types
+
+      Note: Are E and V interchangable?
+
+   -  You can also substitute a type parameter (e.g. K or V) with a parameterized type (i.e., List<String>). For example, using the OrderedPair<K, V> example:
+
+      OrderPair<String, Box<Integer>> p = new OrderedPair<>("primes", new Box<Integer>(...));
+
+   -  You may encounter warning message similar to the following:
+
+      Note: Example.java uses unchecked or unsafe operations.
+      Note: Recompile with -Xlint:unchecked for details.
+
+      The term "unchecked" means that the compiler does not have enough type information to perform all type checks necessary to ensure type safety. The "unchecked" 
+      warning is disabled, by default, though the compiler gives a hint. To see all "unchecked" warnings, recompile with -Xlint: unchecked.
+
+   -  Bounded Type parameters
+
+      To restrict the types that can be used as type arguments in a parameterized type, use Bounded Type. E.g.
+
+      public <U extends Number> void inspect(U u){ //Only Number subclass instance can call this method. Other stuff like String cannot do that(??).
+        System.out.println("T: " + t.getClass().getName());
+        System.out.println("U: " + u.getClass().getName());
+      }
+
+      A type parameter can have multiple bounds:
+
+      <T extends B1 & B2 & B3>
+
+      A type variable with multiple bounds is a subtype of all the types listed in the bound. If one of the bound is a class, it must be specified first. E.g.
+
+      Class A { /* ... */ }
+      interface B { /* ... */ }
+      interface C { /* ... */ }
+
+      class D <T extends A & B & C> { /* ... */ }
+
+      If bound A is not specified first, you get a compile-time error:
+
+      class D <T extends B & A & C> { /* ... */ }  // compile-time error
+
+   -  Since an Integer is a kind of Object, the assignment is allowed. But Integer is also a kind of Number, so the following code is valid:
+
+      public void someMethod(Number n) { /* ... */ }
+
+      someMethod(new Integer(10));   // OK
+      someMethod(new Double(10.1));   // OK
+
+      The same is also true with generics. You can perform a generic type invocation, passing Number as its type argument, and any subsequent invocation of add will
+      be allowed if the argument is compatible with Number:
+
+      Box<Number> box = new Box<Number>();
+      box.add(new Integer(10)); //OK
+      box.add(new Double(10)); //OK
+
+      Now consider the following method:
+
+      public void boxTest(Box<Number> n) { /* ... */ }
+
+      Are you allowed to pass Box<Integer> or Box<Double>? No! because Box<Interger> and Box<Double> are not subtypes of Box<Number>. Given two concrete types A and B 
+      (for example, Number and Integer), MyClass<A> has no relationship to MyClass<B>, regardless of whether or not A and B are related. The common parent of MyClass<A> 
+      and MyClass<B> is Object(!!).
+
+      The relationship between the type parameters of one class or interface and the type parameters of another are determinted by the extends and implements clauses(!!).
+
+      Collection<String> <----- List<String> <----- ArrayList<String>
+
+      interface PayloadList<E,P> extends List<E> {
+         void setPayload(int index, P val);
+         ...
+      }
+
+      The following parameterizations of PaylaodList are subtypes of List<String>:
+
+      -  PayloadList<String,String>
+      -  PayloadList<String,Integer>
+      -  PayloadList<String,Exception>
+
+   -  Type Inference
+
+      Type interface is a Java compiler's ability to look at each method invocation and corresponding declaration to determine the type argument (or arguments) that makes
+      the invocation applicable. The interface algorithm determines the types of the arguments and, if available, the type that the result is being assigned, or returned. 
+      Finally, the interface algorithm tries to find the most specific type that works with all of the arguments.
+
+      static <T> T pick(T a1, T a2) { return a2; }
+      Serializable s = pick("d", new ArrayList<String>());
+
+      In the above example, inference determines that the second argument being passed to the pick method is of type Serializable.
+
+      Note: How about the first "d" in the second statement?
+
+   -  Type Inference and Generics Methods
+
+   -  Type Inference and Instantiation of Generics Classes
+
+      You can replace type arguments required to invoke the constructors of a generic class with an empty set of type parameters(<>) as long as the compiler can infer
+      the type arguments from the context. This pair of angle bracket is informally called the diamond.
+
+      Map<String, List<String>> myMap = new HashMap<String, List<String>>();
+      |
+      v
+      Map<String, List<String>> myMap = new HashMap<>();
+
+      Note: to take advantage of type inference during generic class instantiation, you must diamond notation. E.g.
+
+      Map<String, List<String>> myMap = new HashMap(); // unchecked conversion warning
+
+      If the parameterized type of the constructor is NOT obvious from the context, the code still does not compile:
+
+      List<String> list = new ArrayList<>();
+      list.add("A");
+
+      //The following statement should fail addAll expects
+      //Collection<? extends String>
+      list.addAll(new ArrayList<>());
+
+      Note that the diamond often works in method calls; however, for greater clarity, it is suggested that you use the diamond primarily to initialize a variable where 
+      it is declared.
+
+      In comparison, the following example compiles:
+
+      List<? extends String> list2 = new ArrayList<>();
+      list2.addAll(list2);
+
+   -  Type Inference and Generic Constructors of Generics and Non-Generic Classes
+
+      Note that constructors can be generic (in other words, declare their own formal type parameters) in both generic and non-generic classes. E.g.
+
+      class MyClass<X> {
+         <T> MyClass (T t) {
+         // ...
+         }
+      }
+
+      new MyClass<Integer>("");
+   
+      This statement creates an instance of the parameterized type MyClass<Integer>; the statement explicitly specifies the type Integer for the formal type parameter, X, 
+      of the generic class MyClass<X>. Note that the constructor for this generic class contains a formal type parameter, T. The compiler infers the type String for the formal
+      type parameter, T, of the constructor of this generic class (because the actual parameter of this constructor is a String Object).
+
+      Compilers from releases prior to Java SE7 are able to infer the actual type parameters of generic constructors, similar to generic methods. However, compilers in Java SE7
+      and later can infer the actual type parameters of the generic class being instantiated if you use the diamond(<>). Consider the following example:
+
+      MyClass<Integer> myObject = new MyClass<>("");
+
+      In this example, the compiler infers the type Integer for the formal type parameter, X, of the generic class MyClass<X>. It infers the type <String> for the formal type
+      parameter, T, of the constructor of this generic class.
+
+      Note: It is important to note that the inference algorithm uses only invocation arguments and, possibly, an obvious expected return type to infer types. The inference 
+      algorithm does not use results from later in the program.
+      
+
+   From the Java API docs:
+
+   public static <T extends Comparable<? super T>> void sort(List<T> list)
+
+   Why the definition of sort is so strange...this is because the sort() method (along with other things in the whole collection framework in Java) makes heavy use of generics.
+   Anytime you see something with angle brackets in Java source code or documentations, it means generics - a feature added to Java 5.0.
+
+   Generics means more type-safety. The main point of generics is to let you write type-safe collections. In other words, code that makes the compiler stop you from putting a Dog
+   into a list of Ducks.
+
+   Without generics:
+
+   Objects go IN as a reference of type of Object and OUT as a reference to type of Object.
+
+   With generics:
+
+   Objects go IN as a reference to only Fish (for example) objects
+
+   ArrayList<Fish>
+   
+   and come OUT as a reference of type Fish. With Generics now, you can put only Fish Objects in the ArrayList<Fish>, so the objects come out as  Fish references.
+
+   Of the dozens of things you could learn about generics, there are really three things that matter to most programmers:
+
+   1) Creating instances of generified classes (like ArrayList)
+
+   You have to tell the type of objects you'll allow in the list, just as you do with plain old arrays. 
+
+   new ArrayList<Song>();
+
+   2) Declaring and assigning variables of generic types
+
+   List<Song> songList = new ArrayList<Song>();
+
+   3) Declaring (and involking) methods that take generic types
+
+   void foo(List<Song> list) 
+      
+   x.foo(songList)
+
+   void foo(List<Song> list)
+   
+   x.foo(songList)
+
+-  Using generic CLASSES(!!)
+
+   A generic class: it means that the class declaration includes a type parameter.
+
+   A generic method: it means that the method declaration uses a type parameter in its signature(what is its signature?).
+
+   You can use type parameters in a method in several different ways:
+
+   1) Using a type parameter defined in the class declaration
+
+   public class ArrayList<E> extends AbstractList<E> ... {
+      public boolean add (E o) //<-- You can use the "E" here ONLY because it's already been defined as part of the class.
+   }
+
+   The type declared in the method argument is essentially replaced with the type you use when you instantiate the class.
+
+   2) Using a type parameter that was NOT defined in the class declaration
+
+   public <T extends Animal> void takeThing(ArrayList<T> list)
+
+   If the class itself doesn't use a type parameter, you can still specify one for a method, by declaring it in a really unusual (but available) space - before the return type.
+   This method says that T can be "any type of Animal".
+
+-  Revisiting the sort() method
+
+   The sort() method can take only lists of Comparable objects.
+
+   Song is not a subtype Comparable, so you cannot use sort() the list of Songs.
+
+   public static <T extends Comparable<? super T>> void sort(List<T> list)   
+                           |                |                     |
+                           |                |                     |---------> You can only pass in only a List(or subtype of List, like ArrayList that uses parameterized type that
+                           |                |                                 ("extends Comparable" )
+                           |                |
+                           |                |-----> it means the type parameter for Comparable must be of type T or one of T's supertypes.
+                           |
+                           |
+                           -----> This says "Whatever" 'T' is must be of type Comparable
+
+   Note: "super" in Generics is the opposite of "extends". Instead of saying the comparable's generic type has to be a subclass of T, it is saying it has to be a superclass
+   of T. This is important because extends tells you what you can get out of a class(you get at least this, perhaps a subclass). super tells you what you can put into 
+   the class(at most this, perhaps a superclass).
+
+   But the docs for String say String doesn't EXTEND Comparable -- it IMPLEMENTS it. Comparable is an interface. So it's nonsense to say <T extends Comparable>:
+
+   public final class String extends Object implements Serializable, Comparable<String>, CharSequence
+
+   In generics, "extends" means "extends or implements"(!!).
+
+   Note: I think the usage of "Comparable<? super T>" means that the T uses its(if it exists) compareTo method or its parent class's compareTo method.
+
+-  Here is the detail of the Comparable interface
+
+   java.lang.Comparable
+
+   public interface Comparable<T> {
+      int compareTo(T o);
+   }
+
+   There is only one method to implement and it is called compareTo:
+
+   Returns:
+
+   Compares this object with the specified object for order. Returns a negative integer, zero, or a positive integer as this object is less than, equal to, or greater than 
+   the specified object.
+
+   Your job now is to implement compareTo for the class Song to decide what mekes one song greater than another.
+
+   Thus we have the new, comparable Song class:
+
+   class Song implements Comparable<Song> {
+      String title;
+      String artist;
+      String rating;
+      String bpm;
+   
+      public int compareTo(Song s) {
+         return title.compareTo(s.getTitle()); //<---Very simple!
+      }
+
+-  There's new problem - if you want two different views of the song list, one by song title and one by artist.
+
+   There is another sort() method in the Class Collections.
+
+   public static <T> void sort(List<T> list, Comparator<? super T> c)
+
+-  using a custom Comparator
+
+   An element in a list can compare itself to another of its own type in only one way, using its compareTo() method. But a Comparator is external to the element type you're comparing
+   - it's a seperate class. You can make as many of these as you like! E.g. ArtistComparator, BPMComparator...
+
+   The sort() method that takes a Comparator will use the Comparator instead of the element's own compareTo()method, when it puts the elements in order. In other words, if your sort()
+   method gets a Comparator, it won't even call the compareTo method of the elements in the list. The sort() method will instead invoke the compare() method on the Comparator.
+
+   So basically, there are two ways of doing comparison:
+
+   1) Using the Comparable interface. This will trigger the class's(or its super-class's) compareTo methods.
+   2) Using the Comparator interface. This requires the class implements a subclass which implements the Comparator interface. And then create an object of that subclass and pass it
+      to the sort method.
+
+-  Updating the Jukebox to use a Comparator
+
+   ...
+   public class JukeBox5 {
+      ArrayList<Song> songList = new ArrayList<Song>();
+      public static void main(String[] args) {
+         new Jukebox5.go();
+      }
+
+      class ArtistCompare implements Comparator<Song> {
+         public int compare(Song one, Song two) {
+            return one.getArtist().compareTo(two.getArtist());//<--We're letting the String variable (for artist do the actual comparision, since Strings already know how to 
+                                                              //alphbetize themselves)
+         }
+
+      public void go() {
+         getSongs();
+         System.out.println(songList);
+         Collections.sort(songList);
+         System.out.println(songList);
+
+         ArtistCompare artistCompare = new ArtistCompare(); //<---Make an instance of the Comparator inner class
+         Collections.sort(songList, artistCompare); //<---Invoke sort(), passing it the list and a reference to the new custom Comparator object.
+         ...
+      }
+   }
+
+-  We can use "Set" instead of "List" to resolve the dublicate elements stored in a list.
+
+   1) LIST
+
+   Collections that know about index position. Lists know where something is in the list. You can have more than one element referencing the same object.
+
+   2) SET
+
+   collections that do not allow duplicates. Sets know whether something is already in the collection. You can never have more than one element referencing
+   the same object (or more than one element referencing two objects that are considered equal—we’ll look at what object equality means in a moment).
+
+   3）MAP
+
+   When finding something by key matters
+
+   Collections that use key-value pairs. Maps know the value associated with a given key. You can have two keys that reference the same value, but you cannot have
+   dublicate keys. Although keys are typically String names (so that you can make name/value property lists, for example), a key can be any object.
+
+-  Using a HashSet instead of ArrayList.
+
+   ...public void go() {
+      getSongs();
+      System.out.println(songList);
+      Collections.sort(songList);
+      System.out.println(songList);
+
+      HashSet<Song> songSet = new HashSet<Song>();
+      songSet.addAll(songList);//<---HashSet has a simple addAll() method that can take another collection and use it to populate the HashSet. It is the same as if we
+                               //added each some one at a time(except much simpler).
+      System.out.println(songList);
+   }  
+
+   But there are still duplicate elements in above method using HashSet. Why??
+
+   Note: the addAll method is inherited from AbstractCollection, which extends Collection interface.
+
+-  What makes two objects equal(!!)?
+
+   This brings up a key issue: reference equality vs. object equality.
+
+   1) Reference equality
+
+   Two references, one object on the heap
+
+   Two references that refer to the same object on the heap are equal. If you call hashCode() method on both references you will get the same result.
+
+   2) Object equality
+
+   Two references, two objects on the heap, but the objects are considered meaningfully equilvalent.
+
+   If you want to treat two different Song objects as equal (for example if you needed that two songs are the same if you they have matching title variables), you must
+   override both the hashCode() and equals() methods inherited from class Object.
+
+   If you don't override hashCode(), the default behavior (from Object ) is to give each object a unique hashcode value. Also, you must override equals() so that if you call
+   it on either object, passing in the other object, always return true. 
+
+   if (foo.equals(bar) && foo.hashCode() == bar.hashCode()) {
+      //both references are referring to either a single object, or to two objects that are equal.
+   }
+
+-  The Song class with overridden
+
+   class Song implements Comparable<Song>{
+      String title;
+      String artist;
+      String rating;
+      String bpm;
+
+      public boolean equals(Object aSong) { 
+         Song s = (Song) aSong;
+         return getTitle().equals(s.getTitle()); //<---The great news is that title is a String, and Strings have an overriden equals() method. So all we have to do is to ask
+                                                 // one title if it's equal to the other song's title.
+      }
+
+      public int hashCode() {
+         return title.hashCode(); //<---Same deal here...the String class has an overriden hashCode method, so you can just return the result of calling hashCode() on the title.
+                                  //Notice how hashCode() and equals() are using the SAME instance variable.
+      }
+
+      Java Object Law For HashCode() and equals()
+
+      The API docs for class Object state the rules you MUST follow(!!):
+
+      1) If two objects are equal, they MUST have matching hashcodes.
+
+      2) If two objects are equal, calling equals on either object MUST return true. In other words, if (a.equals(b)) then (b.equals(a)).
+
+      3) If two objects have the same hashcode value, they are NOT required to be equal. But if they're equal, they MUST have the same hashcode value.
+
+      4) So, if you override equals(), you MUST override hashCode().
+
+      5) The default behavior of hashCode() is to generate a unique integer for each object on the heap. So if you don't override hashCode() in a class, no two objects of that type
+         can EVER be considered equal.
+
+      6) The default behavior of equals() is to do an == comparision. In other words, to test whether the two references refer to a single object on the heap. So if you don't override
+         equals() in a class, no two objects can EVER be considered equal since references to two different objects will always contain a different bit pattern.
+
+      7) a.equals(b) must also mean that a.hashCode() == b.hashCode().
+      
+      8) But a.hashCode() == b.hashCode() does NOT have to mean a.equals(b).
+
+-  And if we want the set to stay sorted, we've got TreeSet.
+
+   TreeSet is similar to Hashset but it also keeps the list sorted.
+
+   Note: TreeSet uses RED-BLACK tree if I remember.
+
+   public void go() {
+      getSong();
+      System.out.println(songList);
+      Collections.sort(songList);
+      System.out.println(songList);
+
+      TreeSet<Song> songSet = new TreeSet<Song>();
+      songSet.addAll(songList);//<---Calling the addAll method.
+      System.out.println(songList);
+   }
+
+   import java.util.*;
+
+   public class TestTree {
+      public static void main(String[] args) {
+         new TestTree().go();
+      }
+
+      public void go() {
+         Book b1 = new Book("How Cats Work");
+         Book b2 = new Book("Remix your Body");
+         Book b3 = new Book("Finding Emo");
+
+         TreeSet<Book> tree = new TreeSet<Book>();
+         tree.add(b1);
+         tree.add(b2);
+         tree.add(b3);
+         System.out.println(tree);
+      }
+   }
+
+   class Book {
+      String title;
+      public Book(String t) {
+         title = t;
+      }
+   }
+
+   This doesn't fail at compile-time, because the TreeSet add() method doesn't take a Comparable type. But it fails at runtime
+   when you add the second element in the set. That's the first time the set tries to call one of the object's compareTo() methods
+   and...can't.
+
+   You have to make sure that the elements in the list must be a type that implements Comparable.
+
+   class Book implements Comparable {
+      String title;
+      public Book(String t) {
+         title = t;
+      }
+      
+      public int compareTo(Object b) {
+         Book book = (Book) b;
+         return (title.compareTo(book.title));
+      }
+   }
+   
+   Or you use the TreeSet's overloaded constructor that takes a Comparator. To use a custom Comparator, you call the TreeSet constructor that takes a Comparator.
+
+   public class BookCompare implements Comparetor<Book> {
+      public int compare(Book one, Book two) {
+         return (one.title.compareTo(two.title));
+      }
+   }
+
+   class Test {
+      public void go() {
+         Book b1 = new Book("How Cats Work");
+         Book b2 = new Book("Remix your Body");
+         Book b3 = new Book("Finding Emo");
+         BookCompare bCompare = new BookCompare();//Create a new BookCompare instance
+         TreeSet<Book> tree = new TreeSet<Book>(bCompare); // !!<- You call the TreeSet constructor that takes a Comparator.
+         tree.add(new Book("How Cats Work"));
+         tree.add(new Book("Remix your Body"));
+         tree.add(new Book("Finding Emo"));
+         System.out.println(tree);
+      }  
+   }
+
+-  We've seen Lists and Sets, now we'll use a Map.
+
+   Sometimes a Map is the best. Each element in a Map is actually TWO objects - a key and a value. You can have dulpicate values, but NOT duplicate keys.
+
+-  Finally, back to generics.
+
+   If you declare a method to take ArrayList<Animal> it can take ONLY an ArrayList<Animal>, not ArrayList<Dog> or ArrayList<Cat>.
+
+   But why that doesn't happen in Array?
+
+   Because Array types are checked again at runtime, but collection type checks happen only when you compile. You will get store exception when you add a new dog object 
+   into a Animal array(!!) as an example.
+
+-  Widecards to the rescue
+
+   It looks unusual, but there is a way to create a method argument that can accept an ArrayList of any Animal subtype. The simplest way is to use a widecard - The
+   simplest way is to use a widecard. 
+
+   public void takeAnimals(ArrayList<? extends Animal> animals) { //<---the keyword "extends" here means either extends OR implements depending on the type. So if you want to take
+      for (Animal a : animals) {                                  //an ArrayList of types that implement the Pet interface, you'd declare it as ArrayList<? extends Pet>
+         a.eat();
+      }
+   }
+
+   When you use a widecard in your method argument, the compiler will STOP you from doing anything that could hurt the list referenced by the method parameter.
+
+   You still can invoke methods on the elements in the list, but you cannot add elements to the list. In other words, you can do things with the list elements, but you can't 
+   put new things in the list. So you're safe at runtime, because the compiler won't let you do anything that might be horrible at runtime. Remember again, When you use the widecard
+   <?> in your declaration, the compiler won't let you do anything that adds to the list.
+
+   So this is OK inside takeAnimals();
+
+   public void takeAnimals(ArrayList<? extends Animal> animals) {
+      for (Animal a: animals) {
+         a.eat();
+      }
+   }
+
+   But This would not compile
+
+   public void takeAnimals(ArrayList<? extends Animal> animals) {
+      animals.add(new Cat());
+   }
+
+-  Alternative syntax for doing the same thing:
+
+   The type parameter can also be declared before the return type. The results are the same.
+
+   This:
+
+   public <T extends Animal> void takeThing(ArrayList <T> list)
+
+   Does the same thing as this:
+
+   public void takeThing(ArrayList<? extends Animal> list)
+
+   Note: Really?? I think The foremer is to restrict the types that can be used as type arguments in a parameterized type. 
+
+   If they both do the same thing, why would you use one over the other?
+
+   It is all depends on whether you want to use "T" some-where else. For example, what if you want the method to have two arguments - both of which are lists of a type
+   that extend Animal? In this case, it's more efficient to just declare the type parameter once:
+
+   public <T extends Animal> void takeThing(ArrayList<T> one, ArrayList<T> two)
+
+   instead of typing:
+
+   public void takeThing(ArrayList<? extends Animal> one, ArrayList<? extends Animal> two)
+
+Chapter 17 Release Code
+
+-  Skip it for now
+
+Chapter 18 Distriburted Computing
+
+-  Methods are always between two objects on the same heap. What if you want to invoke a method on an object running on another machine?
+
+-  You want to cause a method invocation on a remote object (i.e. an object in a heap somewhere else.) but with code that lets
+   you pretend that you are invoking a method on a local object. That's what RMI (Remote Method Invocation) gives you!
+
+-  A design for remote methdo calls:
+
+   Create four things: server, client, server helper, client helper
+
+   1) The server app is the remote service that has an object with the method that the client wants to invoke.
+
+   2) The client/server 'helpers'. They will handle all the low-level networking and I/O details so your client and service
+      can pretend like they're in the same heap.
+
+-  The role of the 'helpers'
+
+   The client calls a method on the client helper, as if the client helper were the actual service. The client helper is a proxy
+   for the Real Thing.
+
+Chapter 19 Concurrency
+
+-  Each thread is associated with an instance of the class Thread. There are two basic strategies for using Thread objects to create a concurrent application.
+
+   -  To directly control thread creation and management, simply instantiate Thread each time the application needs to initiate an asynchronous task.
+   -  To abstract thread management from the rest of your application, pass the application's tasks to an executor.
+
+-  A thread can be in one of the following states:
+
+   NEW               A thread that has not yet started is in this sate.
+   RUNNABLE          A thread executing in the Java virtual machine is in this state.
+   BLOCKED           A thread that is blocked waiting for a monitor lock is in this state(what is monitor lock?).
+   WAITING           A thread that is waiting indefinitely for another thread to perform a particular action is in this state.
+   TIMED_WAITING     A thread that is waiting for another thread to perform an action for up to a specified waiting time is in this state.
+   TERMINATED        A thread that has exited is in this state.
+
+   The state is sotred in Enum Thread.State.
+
+-  An application that creates an instance of Thread must provide the code that will run in that thread. Two ways to do this:
+
+   1) Provide a Runnable object. The Runnable interface defines a single method, run, meant to contain the code executed in the thread. The Runnable object is passed to
+      the Thread constructor. (A more general method because the Runnable object can subclass a class other than Thread)
+
+      E.g. 
+
+      class HelloRunnable implements Runnable {
+         public void run() {
+            System.out.println("Hello from a thread!");
+         }
+
+         public static void main(String[] args) {
+            (new Thread(new HelloRunnable())).start();//start a new thread using a Runnable Object by calling start();
+         }
+      }
+
+   2) The subclass thread itself implements Runnable, though its run method does nothing. An application can subclass Thread, providing its own implementation of run, as in
+      the HelloThread example: (easier to use but your class is limited by the fact that your task must be a descendant of Thread).
+
+      E.g.
+   
+      class HelloThread extends Thread {
+         public void run() {
+            System.out.println("Hello from a thread!");
+         }
+
+         public static void main(String[] args) {
+            (new HelloThread()).start();//start a new thread on a Thread subclass object
+         }
+      }
+
+-  The Interrupted Status Flag
+
+
+   The interrupt mechanism is implemented using an internal flag known as the interrupt status. Involking Thread.interrupt sets this flag. E.g.
+
+      if (Thread.interrupted()) {
+         throw new InterruptedException();
+      }
+
+   When a thread checks for an interrupt by involking the static method Thread.interrupted, interrupt status is cleared. The non-static isInterrupted method, which is used
+   by one thread to query the interrupt status of another, does not change the interrupt status flag.
+
+   By convention, any method that exists by throwing an InterruptedException clears interrupt status when it does so. However, it is always possible that interrupt status will
+   immediatedly be set again, by another thread invoking interrupt.
+
+-  Joins
+
+   The Join method allows one thread to wait for the completion of another. If t is a Thread object whose thread is currently executing,
+
+   t.join();
+
+   causes the current thread to pause execution until t's thread terminates. Like sleep, join responds to an interrupt by exiting with an InterruptedException.
+
+-  Some other thread methods:
+
+   t.isAlive() ---> check if t is still alive
+   t.interrupt() ---> send an InterruptedException to thread t
+   t.start() ---> start the thread
+   t.interrupted() ----> Check if thread t has been interrupted
+   t.join() ----> cause the current thread to pause execution until t's thread terminates.
+
+-  Threads communicate primarily by sharing access to fields and the objects reference fields refer to. This form of communication is extremely efficient,  but makes 
+   two kinds of errors possible: thread interface and memory consistency errors. The tool needed to prevent these errors is synchronization.
+
+   1) Thread Interference: It happens when two operations, running in different threads, but acting on the same data, interleave. This means that two operations consist of multiple
+                           steps, and the sequences of steps overlap. E.g.
+
+   c == 0.
+
+   Thread A: Retrieve c.
+   Thread B: Retrieve c.
+   Thread A: Increment retrieved value; result is 1.
+   Thread B: Decrement retrieved value; result is -1.
+   Thread A: Store result in c; c is now 1.
+   Thread B: Store result in c; c is now -1.    
+
+   2) Memory Consistency Errors: It occurs when different threads have inconsistent views of what should be the same data. 
+
+   int counter = 0;
+
+   Thread A: counter++;
+   Thread B: System.out.println(counter);
+
+   the output might be 0 or 1, depending on A finishes first or B finishes first.
+
+-  Two Synchronized methods:
+
+   1) Synchronized methods;
+
+   To make a method synchronized, simply add the synchronized keyword to its declaration:
+
+   -  First, it is not possible for two invocations of synchronized methods on the same object to interleave(交錯). When one thread is executing a synchronized method 
+   for an object, all other threads that invoke synchronized methods for the same object block (suspend execution) until the first thread is done with the object. 
+
+   -  Second, when a synchronized method exits, it automatically establishes a happen-before relationship with any subsequent invocation of a synchronized method
+      , it automatically establishes a happen-before relationship with any subsequent invocation of a synchronized method for the same object. This guarantees
+      that changes to the state of the object are visialbe to all threads.
+
+      instance.add(this);
+
+      Warning: When constructing an object that will be shared between threads, be very careful that a reference to that object does not "leak" prematurely. For example,
+      suppose you want to maintain a List called instances containing every instance of class. You might be tempted to add the following line to your constructor:
+
+      Note: final fields, which cannot be modified after the object is constructed, can be safely read through non-synchronized methods, once the object is constructed.
+
+      Synchronization is built around an internal entity known as the intrisic lock or monitor lock. As long as a thread owns an intrinsic lock, no other thread can acquire 
+      the same lock. The other thread will block when it attempts to acquire the lock until it is released by that thread.
+
+      What happens when a static synchronized method is invoked? Since a static method is associated with a class, not an object. In this case, the thread acquires the 
+      intrinsic lock for the Class object associated with the class. Thus access to class's static fields is controlled by a lock that's distinct from the lock for any 
+      instance of the class.
+
+
+   2) Synchronized statements
+
+   -  Unlike synchronized methods, synchronized statements must specify the object that provides the intrinsic lock:
+
+      public void addName(String name) {
+         synchronized(this) {
+            lastName = name;
+            nameCount++;
+         }
+         nameList.add(name);
+      }
+
+      The above example needs to synchronize changes to lastName and nameCount, but also needs to avoid synchronizing invocations of other object's methods(the Liveness problem).
+      Without synchronized statements, there would have to be a seperate, unsynchronized method for the sole purpose of involking nameList.add(??).
+
+      Synchronized statements are also useful for improving concurrency with fine-grained synchronization. E,g,
+
+      public class MsLunch {
+         private long c1 = 0;
+         private long c2 = 0;
+         private Object lock1 = new Object();
+         private Object lock2 = new Object();
+
+         public void inc1() {
+            synchronized(lock1);
+            c1++;
+         }
+
+         public void inc2() {
+            synchronized(lock2);
+            c2++;
+         }
+      }
+
+      Since c1 and c2 will never be used together, there is no reason to prevent an update of c1 from being interleaved with an update of c2 - and doing so reduces concurrency
+      by creating unnecessary blocking. Instead of using synchronized methods or otherwise using the lock associated with this, we create two objects solely to provide locks.
+
+-  Reentrant Synchronization
+
+   Allowing a thread to acquire the same lock more than once enables reentrant synchronization.
+
+-  Atomic Access(??)
+
+   In programming, an atomic access is one that effectively happens all at once. An atomic action cannot stop in the middle; it either happens completely, or it doesn't 
+   happen at all. No side effects of an atomic action are visible until the action is complete.
+
+   - Reads and writes are atomic for reference variables and for most primitive variables (all types except long and double?? Is it because long and double are more 
+    than 32-bits?).
+   - Reads and writes are atomic for all variables declared volatile (including long and double variables).
+
+   Atomic actions cannot be interleaved, so they can be used without fear of thread interference. However, this does not eliminate all need to synchronize atomic actions, 
+   because memory consistency errors are still possible. Using volatile variables reduces the risk of memory consistency errors, because any write to a volatile variable 
+   establishes a happens-before relationship with subsequent reads of that same variable. This means that changes to a volatile variable are always visible to other threads. 
+   What's more, it also means that when a thread reads a volatile variable, it sees not just the latest change to the volatile, but also the side effects of the code that 
+   led up the change(??).
+
+   Using simple atomic variable access is more efficient than accessing these variables through synchronized code, but requires more care by the programmer to avoid memory 
+   consistency errors. Whether the extra effort is worthwhile depends on the size and complexity of the application(??).
+
+-  Liveness
+
+   A concurrent application's ability to execute in a timely manner is known as its liveness. 
+
+   -  Deadlock: a situation where two or more threads are blocked forever, waiting for each other.
+
+   -  Starvation: a situation where a thread is unable to gain regular access to shared resources and is unable to make progress.
+
+   -  Livelock:   A thread often acts in response to the action of another thread. If the other thread action is also response to the action of another thread, 
+                  then livelock may result. As with deadlock, livelocked threads are unable to make further progress. However, the threads are not blocked — 
+                  they are simply too busy responding to each other to resume work. This is comparable to two people attempting to pass each other in a corridor: 
+                  Alphonse moves to his left to let Gaston pass, while Gaston moves to his right to let Alphonse pass. Seeing that they are still blocking each other, 
+                  Alphone moves to his right, while Gaston moves to his left. They're still blocking each other, so...
+
+-  Guarded Blocks
+
+   public void guardedJoy() {
+      //Simple loop guard. Wastes
+      //processor time. don't do this!
+      while(!joy) {}
+      System.out.println("Joy has been achieved!");
+   }
+
+   A more efficient way is to invoke Object.wait to suspend the current thread. The invocation of wait does not return until another thread has issued a notification
+   that some special event may have occured ----though not necessarily the event this thread is waiting for:
+
+   public synchronized guardedJoy() {
+       // This guard only loops once for each special event, which may not
+       // be the event we're waiting for.
+       while(!joy) {
+           try {
+               wait();
+           } catch (InterruptedException e) {}
+       }
+       System.out.println("Joy and efficiency have been achieved!");
+   }
+
+   Note: Don't assume that the interrupt was for the particular care about the value of joy.
+
+   How that works? When wait is invoked, the thread releases the lock(where is the lock?) and suspends execution. At some future time, another thread will acquire the 
+   same lock and invoke Object.notifyAll(??), informing all threads waiting on that lock that something important has happened.
+
+   public synchronized notifyJoy() {
+      joy = true;
+      notifyAll();
+   }
+
+   Some time after the second thread has released the lock, the first thread reacquires the lock and resumes by returning from the invocation of wait.
+
+-  Immutable Objects
+
+   An object is considered immutable if its state cannot change after it is constructed. Maximum reliance on immutable objects is widely accpted as a sound strategy for creating
+   simple, reliable code. 
+
+   Immutable objects are particularly useful in concurrent applications. Since they cannot change state, they cannot be corrupted by thread interference or observed in 
+   an inconsistent state.
+
+   Programmers are often reluctant to employ immutable objects, because they worry about the cost of creating a new object as opposed to updating an object in place. The 
+   impact of object creation is often overestimated, and can be offset by some of the efficiencies associated with immutable objects. These include decreased overhead due 
+   to garbage collection, and the elimination of code needed to protect mutable objects from corruption.
+
+   The following rules define a simple strategy for creating immutable objects. Not all classes documented as "immutable" follow these rules. This does not necessarily mean
+   the creators of these classes are sloppy(??) - they may have good reason for believing that instances of their classes never change after construction. However, such
+   strategies require sophisticated analysis are not for beginners.
+
+   1. Don't provide "setter" methods — methods that modify fields or objects referred to by fields.
+   2. Make all fields final and private.
+   3. Don't allow subclasses to override methods. The simplest way to do this is to declare the class as final. A more sophisticated approach is to make the constructor 
+      private and construct instances in factory methods.
+   4. If the instance fields include references to mutable objects, don't allow those objects to be changed: Don't provide methods that modify the mutable objects.
+      Don't share references to the mutable objects. Never store references to external, mutable objects passed to the constructor; if necessary, create copies, and 
+      store references to the copies. Similarly, create copies of your internal mutable objects when necessary to avoid returning the originals in your methods.
+
+   Applying this strategy to SynchronizedRGB results in the following steps:
+
+   1. There are two setter methods in this class. The first one, set, arbitrarily transforms the object, and has no place in an immutable version of the class. 
+      The second one, invert, can be adapted by having it create a new object instead of modifying the existing one.
+   2. All fields are already private; they are further qualified as final.
+   3. The class itself is declared final.
+   4. Only one field refers to an object, and that object is itself immutable. Therefore, no safeguards against changing the state of "contained" mutable objects
+      are necessary.
+         
+-  Annotations
+
+   -  Overview
+   
+   Annotations, a form of metadata, provide data about a program that is not part of the program itself. Annotations have no effect on the operation of the code they annotate.
+   Annotations have a number of uses, among them:
+
+   1)  Information for the compiler: used by compiler to detect errors and suppress warnings.
+   2)  Compile-time and deployment-time processing: Software tools can process annotation information to generate code, XML files and so forth.
+   3)  Runtime processing: Some annotations are available to be examined at runtime.
+
+   -  The format for an annotation
+
+   1) In its simplest form, an annotation looks like the following:
+
+   @Entity
+   class MyClass {...}
+
+   @ sign tells the compiler that what follows is an annotation.
+
+   2) The annotation can include elements, which can be named or unnamed, and there are values for those elements:
+
+   @Author(
+      name = "Benjamin Franklin"
+      data = "3/27/2003"
+   )
+   class MyClass {...}
+
+   3) It is possible to use multiple annotations on the same declaration:
+
+   @Author(name = "Jane Doe")
+   @Author(name = "John Smith")
+   class MyClass {...}
+   
+   -  Where annotations can be used
+
+   Annotations can be applied to declarations: declarations of classes, fields, methods, and other program elements. When used on a declaration, each annotation
+   often appears, by convention, on its own line.
+
+   -  Many annotations replace comments in code.
+
+   public class Generation3List extends Generation2List {
+
+   //Author:   John doe
+   //Date:     3/17/2012
+   //Current revision: 6
+   //Last modified: 4/12/2004
+   //By: Jane Doe
+   //Reviewers: Alice, Bill, Cindy
+
+   //class code goes here
+
+   To add this same metadata with an annotation, you must first define the annotation type. The syntax for doing this is:
+
+   @interface ClassPreamble {
+   String author();
+   String date();
+   int currentRevision() default 1;
+   String lastModified() default "N/A";
+   String lastModifiedBy() default "N/A";
+   // Note use of array
+   String[] reviewers();
+   }
+
+   After annotation type is defined, you can use annotations of that type, with the values filled in, like this:
+
+   @ClassPreamble (
+      author = "John Doe",
+      date = "3/17/2002",
+      currentRevision = 6,
+      lastModified = "4/12/2004",
+      lastModifiedBy = "Jane Doe",
+      // Note array notation
+      reviewers = {"Alice", "Bob", "Cindy"}
+   )
+   public class Generation3List extends Generation2List {
+
+   // class code goes here
+
+   }
+
+   Note: To make the information in @ClassPreamble appear in Javadoc-generated documentation, you must annotate the @ClassPreamble definition with the @Documented annotation:
+
+   // import this to use @Documented
+   import java.lang.annotation.*;
+
+   @Documented
+   @interface ClassPreamble {
+
+      // Annotation element definitions
+      
+   }
+
+   -  Predefined Annotation Types
+
+   A set of annotation types are predefined in the Java SE API. Some annotation types are used by the Java compiler, and some apply to other annotations
+
+   1) Annotations type used by Java Language
+
+   The predefined types are in java.lang are @Deprecated, @Override, and @SuppressWarnings
+
+   1.1) @Deprecated
+
+   @Deprecated annotation indicates that the marked element is deprecated and should no longer be used. The compiler generates a warning whenever a program uses a method
+   , class or field with @Deprecated annotation. When an element is deprecated, it should also be documented using the Javadoc @deprecated tag(see the following example).
+   The use of the sign(@) in both Javadoc comments and in annotations is not coincidental: they are related conceptually. Also, note that the Javadoc tag starts with 
+   a lowercase d and the annotation starts with an uppercase D.
+
+   // Javadoc comment follows
+       /**
+        * @deprecated
+        * explanation of why it was deprecated
+        */
+       @Deprecated
+       static void deprecatedMethod() { }
+   }
+   
+   1.2) @Override
+
+   @Override @Override annotation informs the compiler that the element is meant to override an element declared in a superclass. Overriding methods will be discussed 
+   in Interfaces and Inheritance.
+
+   // mark method as a superclass method
+   // that has been overridden
+   @Override 
+   int overriddenMethod() { }
+
+   While it is not required to use this annotation when overriding a method, it helps to prevent errors. If a method marked with @Override fails to correctly override a 
+   method in one of its superclasses, the compiler generates an error.
+
+   1.3) @SuppressWarnings @SuppressWarnings annotation tells the compiler to suppress specific warnings that it would otherwise generate. In the following example, 
+   a deprecated method is used, and the compiler usually generates a warning. In this case, however, the annotation causes the warning to be suppressed.
+
+   // use a deprecated method and tell 
+   // compiler not to generate a warning
+   @SuppressWarnings("deprecation")
+    void useDeprecatedMethod() {
+        // deprecation warning
+        // - suppressed
+        objectOne.deprecatedMethod();
+    }
+
+   Java Language has two categories: 1) deprecation; 2) unchecked
+
+   unchecked warnings can occur when interfacing with legacy code written before the advent of generics(??). To suppress multiple categories of warnings, use the 
+   following syntax:
+
+   @SuppressWarnings({"unchecked", "deprecation"})
+
+   1.4) @SafeVerargs
+
+   when applied to a method or constructor, asserts that the code does not perform potentially unsafe operations on its varargs parameter. When this annotation type 
+   is used, unchecked warnings relating to varargs usage are suppressed.
+
+   2. Annotations That apply to other annotations
+
+   Those types of annotations are also called meta-annotations. They are defined in java.lang.annotation.
+
+   2.1) 
+   
+   @Rentation
+
+   It specifies how the marked annotation is stored(??):
+
+   RetentionPolicy.SOURCE – The marked annotation is retained only in the source level and is ignored by the compiler.
+   RetentionPolicy.CLASS – The marked annotation is retained by the compiler at compile time, but is ignored by the Java Virtual Machine (JVM).
+   RetentionPolicy.RUNTIME – The marked annotation is retained by the JVM so it can be used by the runtime environment.
+
+   2.2) @Documented
+
+   It indicates that whenever the specified annotation is used those elements should be documented using the Javadoc tool. (By default, annotations are not included in Javadoc.)
+
+   2.3) @Target
+
+   It marks another annotation to restrict what kind of Java elements the annotation can be applied to. A target annotation specifies one of the following element types as its values:
+
+   ElementType.ANNOTATION_TYPE can be applied to an annotation type.
+   ElementType.CONSTRUCTOR can be applied to a constructor.
+   ElementType.FIELD can be applied to a field or property.
+   ElementType.LOCAL_VARIABLE can be applied to a local variable.
+   ElementType.METHOD can be applied to a method-level annotation.
+   ElementType.PACKAGE can be applied to a package declaration.
+   ElementType.PARAMETER can be applied to the parameters of a method.
+   ElementType.TYPE can be applied to any element of a class.
+
+   2.4) @Inherited
+
+   It indicates that the annotation type can be inherited from the super class. (This is not true by default). When the user queries the annotation type and the class has no annotation
+   for this type, the class' superclass is queried for the annotation type. This annotation applies only to class declarations.
+
+-   Simple Logging Facade for Java(SLF4J)
+
+    SLF4J is a simple facade for logging systems allowing the end-user to plug-in the desired logging system at deployment time.
+
+    -   What does facade mean?
+
+        SLF4J is only a facade, meaning that it does not provide a complete logging solution. Operations such as configuring appenders(??) or setting logging levels cannot 
+        be performed with SLF4J. 
+
+    -   When should SLF4J be used?
+
+        In short, libraries and other embedded components should consider SLF4J for their logging needs because libraries cannot afford to impose their choice of 
+        logging framework on the end-user. On the other hand, it does not necessarily make sense for stand-alone applications to use SLF4J. Stand-alone applications 
+        can invoke the logging framework of their choice directly. In the case of logback, the question is moot because logback exposes its logger API via SLF4J.
+
+    -   To see which version of slf4j-api is pulled in by Maven, use the maven dependency plugin as follows
+
+        mvn dependency:tree
+
+    -   What about Maven transitive dependencies
+
+        As an author of a library built with Maven, you might want to test your application using a binding, say slf4j-log4j12 or logback-classic, without forcing 
+        log4j or logback-classic as a dependency upon your users. This is rather easy to accomplish.
+
+        Given that your library's code depends on the SLF4J API, you will need to declare slf4j-api as a compile-time (default scope) dependency.
+
+        <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+          <version>1.7.7</version>
+        </dependency>
+
+        Limiting the transitivity of the SLF4J binding used in your tests can be accomplished by declaring the scope of the SLF4J-binding dependency as "test". 
+        Here is an example:
+
+        <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-log4j12</artifactId>
+          <version>1.7.7</version>
+          <scope>test</scope>
+        </dependency>
+        
+        Thus, as far as your users are concerned you are exporting slf4j-api as a transitive dependency of your library, but not any SLF4J-binding or any underlying 
+        logging system. Note that as of SLF4J version 1.6, in the absence of an SLF4J binding, slf4j-api will default to a no-operation implementation.
+
+    -   Better yet, use parameterized messages:
+
+        There exists a very convenient alternative based on message formats. Assuming entry is an object, you can write:
+
+        Object entry = new SomeObject();
+        logger.debug("The entry is {}.", entry);
+
+        After evaluating whether to log or not, and only if the decision is affirmative, will the logger implementation format the message and replace the '{}' pair 
+        with the string value of entry. In other words, this form does not incur the cost of parameter construction in case the log statement is disabled.
+
+        The following two lines will yield the exact same output. However, the second form will outperform the first form by a factor of at least 30, in case of a 
+        disabled logging statement:
+
+        logger.debug("The new entry is "+entry+".");
+        logger.debug("The new entry is {}.", entry);
+
+        SLF4J uses its own message formatting implementation which differs from that of the Java platform. This is justified by the fact that SLF4J's implementation 
+        performs about 10 times faster but at the cost of being non-standard and less flexible.
+
+        SLF4J only cares about the formatting anchor, that is the '{' character immediately followed by '}'. Thus, in case your message contains the '{' or the '}' 
+        character, you do not have to do anything special unless the '}' character immediately follows '}'. For example,
+
+        logger.debug("Set {1,2} differs from {}", "3");
+
+        which will print as "Set {1,2} differs from 3".
+
+    -   How can I log the string contents of a single(possibly complex) object?
+
+        logger.debug("{}", complexObject);
+
+        The logging system will invoke complexObject.toString() method only after it has ascertained that the log statement was enabled. Otherwise, the cost of 
+        complexObject.toString() conversion will be advantageously avoided.
+
+        import org.slf4j.Logger;
+        import org.slf4j.LoggerFactory;
+        import org.slf4j.Marker;
+        import org.slf4j.MarkerFactory;
+
+        class Bar {
+          void foo() {
+            Marker fatal = MarkerFactory.getMarker("FATAL");
+            Logger logger = LoggerFactory.getLogger("aLogger");
+
+            try {
+              ... obtain a JDBC connection
+            } catch (JDBException e) {
+              logger.error(fatal, "Failed to obtain JDBC connection", e);
+            }
+          }
+        }
+
+        Markers add a new dimension with infinite possible values for processing log statements compared to five values, namely ERROR, WARN, INFO, DEBUG and TRACE, 
+        allowed by levels. At present time, only logback supports marker data. However, nothing prevents other logging frameworks from making use of marker data.
+
+    -   Should Logger members of a class be declared as static?
+
+        We used to recommend that loggers members be declared as instance variables instead of static. After further analysis, we no longer recommend one approach 
+        over the other.
+
+        Here is a summary of the pros and cons of each approach.
+
+        -   Advantages for declaring loggers as static
+
+            1.  common and well-established idiom
+            2.  less CPU overhead: loggers are retrieved and assigned only once, at hosting class initialization
+            3.  less memory overhead: logger declaration will consume one reference per class
+
+        -   Disadvantages for declaring loggers as static
+
+            1.  For libraries shared between applications, not possible to take advantage of repository selectors(??). It should be noted that if the SLF4J binding 
+                and the underlying API ships with each application (not shared between applications), then each application will still have its own logging environment.
+
+            2.  not IOC-friendly(?? what is IOC-friendly)
+
+        -   Advantages for declaring loggers as instance variables
+
+            1.  Possible to take advantage of repository selectors even for libraries shared between applications. However, repository selectors only work if the 
+                underlying logging system is logback-classic. Repository selectors do not work for the SLF4J+log4j combination.
+
+            Note: What does repository selector mean here?
+
+            In a seperate logging environment, each web-application can configure log4j in different ways such that settings of one web-application do not interfere 
+            with the settings of another. A variant of this problem is the separation of web-application logging and the logging of the container itself.
+
+            2.  IOC-friendly
+
+        -   Disadvantages for declaring loggers as instance variables
+
+            1.  Less common idiom than declaring loggers as static variables
+            2.  higher CPU overhead: loggers are retrieved and assigned for each instance of the hosting class
+            3.  higher memory overhead: logger declaration will consume one reference per instance of the hosting class
+
+-   Java Class Loader
+
+    -   What is Java Class Loader?
+
+        It is a part of the Java Runtime Environment that dynamically loads Java classes into the Java Virtual Machine.
+
+    -   When the JVM is started, three class loaders are used:
+
+        1)  Bootstrap class loader
+
+            The bootstrap class loader loads the core Java libraries located in the <JAVA_HOME>/jre/lib directory. This class loader, which is part of the 
+            core JVM, is written in native code.
+            
+        2)  Extensions class loader
+
+            The extensions class loader loads the code in the extensions directories (<JAVA_HOME>/jre/lib/ext,[6] or any other directory specified by the 
+            java.ext.dirs system property). It is implemented by the sun.misc.Launcher$ExtClassLoader class.
+
+        3)  System class loader
+
+            The system class loader loads code found on java.class.path, which maps to the CLASSPATH environment variable. This is implemented by the 
+            sun.misc.Launcher$AppClassLoader class.
+
+    -   Enter java.lang.ClassLoader
+
+        It’s important to realize that each classloader is itself an object–an instance of a class that extends java.lang.ClassLoader. Every class is loaded by 
+        one of those instances and developers are free to subclass java.lang.ClassLoader to extend the manner in which the JVM loads classes.
+
+        There might be a little confusion: if a classloader has a class and every class is loaded by a classloader, then what comes first? We need an understanding 
+        of the mechanics of a classloader (by proxy of examining its API contract) and the JVM classloader hierarchy.
+
+        First, here is the API, with some less relevant parts omitted:
+        
+        package java.lang;
+ 
+        public abstract class ClassLoader {
+         
+           public Class loadClass(String name);
+           protected Class defineClass(byte[] b);
+         
+           public URL getResource(String name);
+           public Enumeration getResources(String name);
+         
+           public ClassLoader getParent()
+        }
+
+        By far, the most important method of java.lang.ClassLoader is the loadClass method, which takes the fully qualified name of the class to be loaded and 
+        returns an object of class Class.
+
+        public class A {
+            public void doSomething() {
+            B b = new B();
+            b.doSomethingElse();
+             }
+	    }
+
+        (!!)
+        The statement B b = new B() is semantically equivalent to B b = A.class.getClassLoader().loadClass(“B”).newInstance()
+
+        As we see, every object in Java is associated with its class (A.class) and every class is associated with classloader (A.class.getClassLoader()) 
+        that was used to load the class.
+
+        When we instantiate a ClassLoader, we can specify a parent classloader as a constructor argument. If the parent classloader isn’t specified explicitly, 
+        the virtual machine’s system classloader will be assigned as a default parent. And with this note, let’s examine the classloader hierarchy of a JVM more 
+        closely.
+        
+
+Questions
+
+1) Is it ture that the name of a public class must be the same as the file name?
+
+2) What is an iterator? (resolved)
+
+   An iterator enables you cycle through a collection, obtaining or removing elements. Listiterator extends iterator to allow bidirectional traversal of a list, and the modification
+   of elements. In general, to use an iterator to cycle through the contents of a collection, follow these steps:
+
+   -  Obtain an iterator to the start of the collection by calling the collections's iterator() method. 
+
+   -  Set up a loop that makes a call to hasNext(). Have the loop iterate as long as hashNext() returns true.
+
+   -  Within the loop, obtain each element by calling next().
+
+3) What is "<? super T>" mean?
+
+   public static <T> void copy(List<? super T> dest, List<? extends T> src) {
+        int srcSize = src.size();
+        if (srcSize > dest.size())
+            throw new IndexOutOfBoundsException("Source does not fit in dest");
+
+        if (srcSize < COPY_THRESHOLD ||
+            (src instanceof RandomAccess && dest instanceof RandomAccess)) {
+            for (int i=0; i<srcSize; i++)
+                dest.set(i, src.get(i));
+        } else {
+            ListIterator<? super T> di=dest.listIterator();
+            ListIterator<? extends T> si=src.listIterator();
+            for (int i=0; i<srcSize; i++) {
+                di.next();
+                di.set(si.next());
+            }
+        }
+    }
+
+Answer: It is "generics". <? super T> dest must be the type of class T or the super class of T. <? extends T> means src must be the type of class T or T's sub-class.
+
+4) We can create a container class for a pair of value. E.g.
+
+   /** Container class for a key-value pair */
+
+   class KVpair<Key, E> {
+     private Key k;
+     private E e;
+
+     /** Constructors */
+     KVpair()
+       { k = null; e = null; }
+     KVpair(Key kval, E eval)
+       { k = kval; e = eval; }
+
+     /** Data member access functions */
+     public Key key() { return k; }
+     public E value() { return e; }
+   }
+
+   Note: <Key, E> is the key-value pair value that implementing the "generics" feature.
+
+5) What is that comment used for in Java?
+
+   /**  */
+
+6) Why I cannot create generics arrays. E.g.
+
+   BSTNode<Integer>[] nodes = new BSTNode<Integer>[11];
+
+   Answer: Generics and arrays don't mix. Basically, the short answer is that you can work around this problem. The longer answer is that you probably shouldn't. Here is the explanation
+   of why?
+
+   Arrays are covariant. That means they retain the type of their elements at runtime. Java's generics are not. They use type erasure to basically mask the implicit casting that 
+   is going
+   on. It's important to understand that.
+
+   The following example is perfectly legal:
+
+   List<String> list = new ArrayList<String>();
+   List<Integer> list2 = new (List<Integer>)list;
+   list.add(3);
+
+   It is also why you can't do this:
+
+   public <T> T newInstance(T t) {
+      return new T();
+   }
+
+   ie at runtime, there is no knowledge of T's class. This is why the above code is more often written as:\
+
+   public <T> T newInstance(T t, Class<T> clazz) {
+      return clazz.newInstance();
+   }
+
+   because there is no runtime type for the generics argument. But with arrays:
+
+   String arr[] = new String[10];
+   Integer arr2[] = (Integer[])arr; //error
+
+   What you should be doing in this case (imho) is not using arrays but using an ArrayList. In all honesty, there is very little reason to use arrays over an ArrayList and generics
+   is just one example of that.
+
+7) If you see the following error while running a java compiled program: (resolved)
+
+   Exception in thread "main" java.lang.UnsupportedClassVersionError: BinTree : Unsupported major.minor version 51.0
+      at java.lang.ClassLoader.defineClass1(Native Method)
+      at java.lang.ClassLoader.defineClass(ClassLoader.java:634)
+      at java.security.SecureClassLoader.defineClass(SecureClassLoader.java:142)
+      at java.net.URLClassLoader.defineClass(URLClassLoader.java:277)
+      at java.net.URLClassLoader.access$000(URLClassLoader.java:73)
+      at java.net.URLClassLoader$1.run(URLClassLoader.java:212)
+      at java.security.AccessController.doPrivileged(Native Method)
+      at java.net.URLClassLoader.findClass(URLClassLoader.java:205)
+      at java.lang.ClassLoader.loadClass(ClassLoader.java:321)
+      at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:294)
+      at java.lang.ClassLoader.loadClass(ClassLoader.java:266)
+   Could not find the main class: BinTree. Program will exit.
+
+   That means you have are using classes compiled with different versions of java.
+   
+8) How can I resolve this issue?
+
+   BinTree.java:285: warning: [unchecked] unchecked call to setRight(BinNode<E>) as a member of the raw type BinNode
+         u.parent().setRight(v); 
+
+   The term "unchecked" means that the compiler does not have enough type information to perform all type checks necessary to ensure type safety. Recompile the program with
+   -Xlint:unchecked enable the "unchecked" warning. (This warning is disabled by default).
+
+9) The assertion in Java (resolved)
+
+   Two forms of assertions in Java:
+
+   1) assert Expression1;
+
+   E.g.  assert a>0;
+
+   2) assert Expression1 : Expression2 where Expression1 is a boolean expression; Expression2 is an expression that has a value. Use this version of the assert statement
+   to provide a detail message for AssertionError. The system passes the value of Expression2 to the appropriate AssertionError constructor, which uses the string representation
+   of the value as the error's detail message.
+
+10) How can I create generics array in Java:
+
+   No, you can't! It is because Java's arrays (unlike generics) contain, at runtime, information about its component type. So you must know the component type when you create
+   the array. Since you don't know what T is at runtime, you cannot create the array. 
+
+11) One can use enum in Java(resolved). E.g.
+
+   public enum Color {
+      WHITE, GRAY, BLACK;
+   }
+
+12) Why we can assign a LinkedList Object to a Queue reference?
+
+   Queue<String> q = new LinkedList<String>();
+
+   The class "LinkedList" implements the interface "Queue". Is it the same as polymorphism between a class and its subclasses?
+
+13) How can I resolve this issue?
+
+   warning: [unchecked] unchecked conversion 
+
+14) Assuming there is a private memeber, which is a linkedlist in a class
+
+      class A {
+         private LinkedList llist;
+      }
+
+      If in main, we define a variable to store the llist
+
+      LinkedList l = a.getList;
+      l.removeLast();
+
+      I can use l to remove element in a.llist?? by isn't llist a private variable?
+
+15) Hash Map
+
+   The Map interface that maps unique keys to value means it associate value to unique keys which you use to retrieve value at a later date. Some of they key points are:
+
+   -  Using a key and a value, you can store the value in Map object. You can retrieve it later by using it's key.
+   -  When no element exists in the involking Map, many methods throw a 'NoSuchElementException'
+   -  A ClassCastException is thrown when an object is incompatible with the elements in a map.
+   -  An UnsupportedOperation is thrown when an attempt is made to change an unmodified map.
+
+16) Why always override hashcode() method if overriding equals().
+
+   The default implementation of the equals() just simply compares the memory addresses of the objects. If you override the
+   equals(), you MUST also override hashCode(). Otherwise, a violation of the general contract for Object.hashCode will occur.
+   which can have unexpected repercussions when your class is in conjunction with all hash-based collections.
+
+   public int hashCode():
+
+   Return a hash code value for the object. This method is supported for the benefit of hashtables such as those provided by
+   java.util.Hashtable. The general contract oif hashCode is:
+
+   -  Whenever it is invoked on the same object more than once during an execution of a Java application, the hashCode method
+      must consistently return the same integer, provide no info in equals comparision on the object is modified. The interger
+      need not remain consistent from one application to another execution of the same application.
+
+   -  If two objects are equal according to the equals(Objct) method, then calling the hashCode method on each of the two 
+      objects must produce the same integer result.
+
+   -  It is not required that if two objects are unequal according to the equals(java.lang.Object) method, then calling the 
+      hashCode method on each of the two objects must produce distinct integer results. However, the programmer should be
+      aware that producing distinct integer results for unequal objects may improve the performance of hashtables.
+   
+      The hashCode method defined by Object does not return distinct integers for distinct objects(This is typically implemented
+      by converting the internal address of the object into an integer, but this implementation technique is not required by
+      Java programming language). 
+
+      The default implementation of equals() method checks to see if the two objects have the same identity. Similarly, 
+      the default implementation of the hashCode() method returns an integer based on the object's identity and is not 
+      based on the values of instance (and class) variables of the object. No matter how many times the values of its 
+      instance variables (data fields) change, the hash code calculated by the default hashCode implementation does not 
+      change during the life of the object.
+
+17) What are immutable objects(!!):
+
+   Immutable objects are simply objects whose state (the object's data) cannot change after construction. Examples of immutable objects from the JDK
+   include String and Integer(??). Immutable objects greatly simpilify your program. Since they are:
+
+   -  are simple to construct, test, and use.
+   -  are automatically thread-safe and have no synchronization issues
+   -  do not need a copy constructor(??)
+   -  do not need an implementation of clone
+   -  allow hashCode to use lazy initialization, and to catch its return value(??)
+   -  do not need to be copied defensively when used as a field(??)
+   -  make good map keys and Set elements (these objects must not change state while in the collection)
+   -  have their class invariant established once upon construction, and it never needs to be checked again.
+
+   Immutable objects have a very compelling list of positive qualities. Without question, they are among the simplest and most robust kinds of classes you 
+   can possibly build. When you create immutable classes, entire categories of problems simply disappear.
+
+   Make a class immutable by following these guidelines:
+
+   -  Ensure the class cannot be overriden - make the class final, or use static factories and keep constructors private
+   -  make fields private and final
+   -  force callers to construct an object completely in a single step, instead of using a no-argument constructor combined with subsequent calls to
+      setXXX methods (that is, avoid the Java Beans convention)   
+   -  do not provide any methods which can change the state of the object in any way - not just setXXX methods, but any method which can change state.
+   -  If the class has any mutable object fields, then they must be defensively copied when passed between the class and its caller.
+
+   In Effective Java, Joshua Bloch makes this compelling recommendation:
+
+   "Classes should be immutable unless there is a very good reason to make them mutable...If a class cannot be made immutable, limit its mutability as much as 
+   possible." 
+
+18)  An Interesting way of thread creation.
+
+      new Thread(new Runnable() {
+         public void run() {alphonse,bow(gaston); }
+      }).start();
+
+19) How to read number from System input stream:
+
+   import java.util.Scanner;
+
+   //...
+
+   Scanner in = new Scanner(System.in);
+   int num = in.nextInt();
+
+20)How is String[0] means here?? (resolved)
+
+   String[] a = c.toArray(new String[0]);//suppose c is known to contain only strings
+
+   Parameter of the method toArray: 
+
+   <T> T[] toArray(T[] a)
+
+   Parameter:  a- array into which the elements of this collection are to be stored, if it is big enough; otherwise, 
+               a new array of the same runtime type is allocated for this purpose.
+
+   It is creating an empty array(because you don't know the size of the empty array). As the parameter description says, 
+   If the array is not big enough, a new array of the same runtime type is allocated.
+
+21)Set<String> s = new HashSet<String>(); (resolved)
+
+   The above code always refers to the Collection by its interface type (Set) rather than by its implementation type (HashSet). This strongly recommanded
+   programming practice because it gives you the flexibility to change implementation merely by chaning the constructor. If either of the variables used to store a 
+   collection or the parameters used to pass it around are declared to be the Collection's implementation type rather than its interface type, all such variables and parame-
+   ters must be changed in order to change its implementation type.
+
+   Furthermore, there's no guarantee that the resulting program will work. If the program uses any nonstandard operations present in the original Implementation type but not in
+   the new one, the program will fail. Referring to collections only by their interface prevents you from using any nonstandard operations(??).
+
+   What is a nonstandard operation??
+
+   The implementation type of the Set is HashSet, which makes no guarantee as to the order of the elements in the Set. If you want the program to print the word list in alphabetical
+   order, merely change the Set's implementation type from HashSet to TreeSet. Making this trivial one-line change will change the output result.
+
+21) Interesting if statement:
+
+   public int indexOf(E e) {
+       for (ListIterator<E> it = listIterator(); it.hasNext(); )
+           if (e == null ? it.next() == null : e.equals(it.next())) //Interesting statement
+               return it.previousIndex();
+       // Element not found
+       return -1;
+   }
+
+22) What is the frist <K,V> used for?
+
+   static <K, V> Map<K, V> newAttributeMap(Map<K, V>defaults, Map<K, V> overrides) {
+       Map<K, V> result = new HashMap<K, V>(defaults);
+       result.putAll(overrides);
+       return result;
+   }
+
+23) I need to understand how to use Scanner to parse files.
+
+24) An interesting way to define an array(resolved):
+
+   Name nameArray[] = {
+      new Name("John", "Smith"),
+      new Name("Karl", "Ng"),
+      new Name("Jeff", "Smith"),
+      new Name("Tom", "Rich")
+   };
+
+25) TreeSet has a constructor which accepts a Comparator object as an parameter. That Comparator object is used to sort the elements stored in the set(resolved).
+
+E.g.
+
+   public class FindDups {
+
+    public static void main(String[] args) {
+        Comparator<String> comparator = new Comparator<String>() {
+            public int compare (String s1, String s2) {
+                return s1.compareToIgnoreCase(s2);
+            }
+        };
+      ...
+      SortedSet<String> s = new TreeSet<String>(comparator);
+
+26) What is the difference between HashSet and TreeSet(resolved):
+
+   HashSet is much faster than TreeSet (constant-time versus log-time for most operations like add, remove and contains) but offers 
+   no ordering guarantees like TreeSet.
+
+   HashSet:
+
+   -  class offers constant time performance for the basic operations (add, remove, contains and size).
+   -  it does not guarantee that the order of elements will remain constant over time
+   -  iteration performance depends on the initial capacity and the load factor of the HashSet.
+   -  It's quite safe to accept default load factor but you may want to specify an initial capacity
+      that's about twice the size to which you expect the set to grow.
+
+   TreeSet:
+
+   -  guarantees log(n) time cost for the basic operations (add, remove and contains)
+   -  guarantees that elements of set will be sorted (ascending, natural, or the one specified by you via it's constructor)
+   -  doesn't offer any tuning parameters for iteration performance
+   -  offers a few handy methods to deal with the ordered set like first(), last(), headSet(), and tailSet() etc
+   
+   Important points:
+   
+   -  Both guarantee duplicate-free collection of elements.
+   -  It is generally faster to add elements to the HashSet and then convert the collection to a TreeSet for a duplicate-free sorted traversal.
+   -  None of these implementation are synchronized. That is if multiple threads access a set concurrently, and at least one of the threads modifies 
+      the set, it must be synchronized externally(What is "synchronized externaly??").  
+   -  LinkedHashSet is in some sense intermediate between HashSet and TreeSet. Implemented as a hash table with a linked list running through it, 
+      however it provides insertion-ordered iteration. which is not same as sorted traversal guaranteed by TreeSet.
+
+      So choice of usage depends entirely on your needs but I feel that even if you need an ordered collection then you should still 
+      prefer HashSet to create the Set and then convert it into TreeSet.
+      
+      e.g.
+
+      SortedSet<String> s = new TreeSet<String>(hashSet);
+
+27)Arrays.asList can return a fixed-size list backed by the specified array(resolved). E.g.
+
+   List<String> stooges = Arrays.asList("Larry", "Moe", "Curly");
+
+28) System.out.format("\"%s\"%n", s);
+
+   I need to understand the usage of System.out.format.
+
+29)I need to understand how to use SortedSet
+
+30) What is the difference between HashSet and LinkedHashSet?
+
+31) What is custom cache?
+
+32) Difference between an abstract class and an interface.(resolved)
+
+Interface: An interface is a contract: the guy writing the interface says "hey, I accept things looking that way", and the guy using the interface says "OK, the 
+class I write looks that way". An interface is an empty shell, there are only the signatures (name/params/return type) of the method. The methods do not contain 
+anything. The interface can't do anything. It's just a pattern. E.g.
+
+//I say all motor vehicles should look like that:
+interface MotorVehicle
+{
+   void run();
+   int getFuel();
+}
+
+//my team compiles and write vehicle looking that way
+class Car implements MotorVehicle
+{
+   int fuel;
+   void run()
+   {
+      print("Wrooooooooooooom");
+   }
+   
+   int getFuel()
+   {
+      return this.fuel;
+   ?
+
+You use the new keyword when a object is being explicitly created for the first time. Then fetching an object using a getter method new is not required because the object already
+exists in memory, thus do not need to be recreated.}
+}
+
+Implementing an interface consume very little CPU, because it's not a class, just a bunch of names, and therefore there is no expensive lookup to do. It's great when it
+matters such as in embedded devices.
+
+Abstract
+
+Abstract classes, unlike interfaces, are classes. There are more expensive to use because there is a lookup to do when you inherit from them.
+
+Abstract classes look a lot like interfaces, but they are something more: you can define a behavior for them. It's more a guy saying "these classes look like that, and they
+got that in common, so fill in the blanks!!"
+
+e.g.
+
+//I say all motor vehicles should look like that:
+abstract class MotorVehicle
+{
+   int fuel;
+
+   //they All have fuel, so why let others implement that?
+   int getFuel() {
+      return this.fuel;
+   }
+
+   //that can be very different, force them to provide their implementation
+   abstract void run();
+}
+
+//my team mate compiles and writes vehicles looking that way
+class Car extends MotorVehicle
+{
+   void run()
+   {
+      print("Wrrooooooooooooooom");
+   }
+}
+
+33) When do you favor abstract class over interface?
+
+When evolutioj(polymorphism) is concern, we should use abstract class.
+
+34) I need to understand AbstractList.
+
+35) What is transient variable?
+
+36) What is "native"?
+
+public native int hashCode()
+
+The "native" keyword is applied to a method to indicate that the method is implemented in native code using JNI(Java Native Interface).
+
+37) When you call "put" of HashMap to add a new entry for <key,value>, it first checks if the entry is already in the hashtable. If no, insert <key,value>. If yes, it do this check:
+
+if (e.hash == hash && ((k = e.key) == key || key.equals(k))). (e is the entry already there) 
+
+If the hashcode (e.hash is computed with this statement: int hash = hash(key.hashCode)) is the same and the key is the same(with the operator = or equals method). Then the the old
+entry e is replaced by the new one.
+
+Note: Object.hashCode() is used to compute the hash value in the hashmap table, itself is not the hash value.
+
+38) Internal Class/Interface issue(resolved).
+
+Class A<T> {
+   Class B {
+      T.foo();//Results in non-static type variable T cannot be referenced from a static context  
+   }
+}
+
+All the members fields of class(or interface) by default public, static, final
+
+Since inner class(or interface) is static by default, you can't refer T from static fields & methods.
+
+Because T is actually associated with instance of class, if it were associated with static field or method which is associated with class then it wouldn't make any sense.
+
+39)What is the benefit of using internal class/interface(!!)?
+
+Static Inner classes are mostly similar to top-level classes, except the inner class has access to all the static variables and methods of the enclosing class. The enclosing
+class name is effectively appended to the package namespace of the inner class. By declaring a class as a static inner class, you are comunicating that the class is somehow
+inseperably tied to the context of the enclosing class.
+
+Non-static inner class are less common. The main difference is that instance of a non-static inner class contain an implicit reference to an instance of the enclosing class,
+and as a result have access to instance variables and methods of that enclosing class instance. This leads to some odd looking instantiation idioms, for example:
+
+Levels levels = new Levels(); //first need an instance of the enclosing class
+// The items object contains an implicit reference to the levels object
+Levels.Items items = levels.new Items();
+
+Non-static inner classes are much more intimately tied to their enclosing classes than static inner classes. They have valid uses(for example, iterators are often implemented
+as non-static inner classes within the class of the data structure they iterate over).
+
+39)When is it necessary to use the keyword "new"(resolved)?
+
+You use the new keyword when a object is being explicitly created for the first time. Then fetching an object using a getter method new is not required because the object already
+exists in memory, thus do not need to be recreated.
+
+40) In HashMap implementation, what is the next member in Entry used for(resolved)?
+
+"Next" refers to the next entry in the same bucket.
+
+You can have multiple entries in each bucket -- a bucket contains all the entries with hash code equal to some i mod 2.^n for some n(really??), 
+not just the entry for one particular key.
+
+41) How the HashMap is implemented(resolved)?
+
+key.hashCode()
+     |
+     | 32-bit value
+     |                          hash table
+     V                        +------------+    +----------------------+
+HashMap.hash() ----+          | reference  | -> | key1 | value1 | null |
+                   |          |------------|    +----------------------+
+                   |          | null       |
+                   | index    |------------|    +---------------------+
+                   +--------> | reference  | -> | key1 | value1 | ref |
+                              |------------|    +---------------------+
+                              |    ....    |                       |
+                                                  +----------------+
+                                                  V
+                                                +----------------------+
+                                                | key2 | value2 | null |
+                                                +----------------------+
+
+Note: HashMap.hash() is the second hash function which cannot be overriden. It is used to calculate index of the hashtable
+
+int hash = hash(key.hashCode()); //The second un-overriden hash function
+int i = indexFor(hash, table.length);//the index calculation function uses the second hash value and table lenth to calculate the index of the hashtable.
+
+42) How the get() and put() methods work in HashMap(resolved)?
+
+   -  Entry<K,V> in the hashtable
+
+      K key
+      v value
+      Entry next
+      int hash
+
+      Note: hash is the hash value return by the second un-overridable hash function: hash(key.hashCode())
+
+   -  get(Object key)
+
+      1) Locate the index in the hashtable with key.hashCode():
+
+         int hash = hash(key.hashCode());
+         int i = indexFor(hash, table.length);
+
+      2) Going through all the linked entries until a null entry or a following match is found
+
+         The hash(second) and key are the same:
+
+         if (e.hash == hash && ((k = e.key) == key || key.equals(k)))
+
+      3) Return the value:
+                   
+         return e.value;
+
+   -  put(K key, V value)
+
+      1) Locate the index in the hashtable with key.hashCode():
+
+         int hash = hash(key.hashCode());
+         int i = indexFor(hash, table.length);
+
+      2) Going through all the linked entries until a null entry or a following match is found
+
+         The hash(second) and the key are the same:
+
+         if (e.hash == hash && ((k = e.key) == key || key.equals(k)))
+         
+         If the match is found, the entry e is replaced by the pair(K,V)
+
+      3) Else, create a new entry and the pair<K,V> will become the first entry in the bucket.
+
+-  An interesting way of defining an array(resolved).
+
+Veggie veggies[] = { new Garlic(), new Onion(), new Mushroom(), new RedPepper() };
+
+43) what is a classloader?
+
+44) Static Initialization Blocks
+   
+   A static initialization block is a normal block of code enclosed in braces, {}, and preceded by the static keyword. E.g.
+
+   static {
+      //Whatever code is needed for initialization goes here.
+   }
+
+   A class can have any number of static initialization blocks, and they can appear anywhere in the class body. The runtime system(??) guarantees that static initialization
+   blocks are called in the order they appear in the sorce code. There is an alternative to static blocks, you can write a private static method:
+
+   class Whatever {
+      public static varType myVar = initializeClassVariable();
+
+      private static varType initializeClassVariable() {
+         //initialization code goes here.
+      }
+   }
+
+   The advantage of private static method is that they can be reused later if you need to reinitialize the class variable.
+
+45) Initializing Instance Members
+
+   Normally, you would put code to initialize an instance variable in a constructor. There are two alternatives to using a constructor to initialize instance variable; initializer
+   blocks and final methods.
+
+   Initializer blocks for instance variables look just like static initializer, but without the static keyword:
+
+   {
+      // whatever code is needed for initialization goes here.
+   }
+
+   The Java compiler copies initializer blocks into every constructor. Therefore, this approach 
+
+46) Difference between equals() and == ?
+
+   equals() method is present in the java.lang.Object class and it is expected to check for equilvalence of the state of object! That means, the content of the object. Whereas "=="
+   operator is expected to check the actual object instance are same or not.
+
+   Let's say if you have two different reference variable: s1 and s2.
+
+   s1 = new String("abc");
+   s2 = new String("abc");
+
+   if(s1.equals(s2))
+     System.out.println("s1.equals(s2) is TRUE");
+	else
+     System.out.println("s1.equals(s2) is FALSE");
+
+   You will get the output TRUE as the 'equals()' method check for the content equality.
+
+   But:
+
+   if(s1==s2)
+     System.out.printlln("s1==s2 is TRUE");
+   else
+     System.out.println("s1==s2 is FALSE");
+
+   Now you will get FALSE as output because both s1 and s2 are pointing two different objects even though both of them share the same string content.
+
+   So now you can think about why the HashMap use the following statement to check whether a pair<K,V> is already in the hashtable.
+
+   if (e.hash == hash && ((k = e.key) == key || key.equals(k)))
+
+   ?? I guess the code "((k = e.key) == key" checks only if k points to the same heap memory of key, if yes then the reason we need to check their hash codes again is becasue
+   k(key) may have been changed after it was put in the hashmap table.
+
+47) Class AtomicLong
+
+   A long value that may be updated atomically. An AtomicLong is used in applications such as atomically incremented sequence numbers, and cannot be used as a replacement for a Long.
+   However, this class does extend the Number to allow uniform access by tools and utilities that deal with numerically-based classes.
+
+   See the package: Package java.util.concurrent.atomic
+
+48) There are two ways to handle Exception.
+
+   1) use try/catch. That means to handle the exception in the current method.
+   2) Use throws Exception. E.g.
+
+   method A() throws Exception {
+      B()
+   }
+
+   In the above example, if B throws an Exception, What A does is just to throw the exception to the upper level(the caller of A)
+
+   You cannot do both 1) and 2) at the same time but only either of them.
+
+48) What is static initializer(vs instance initializer)
+
+    E.g. 
+
+    public class Test {
+        private static final int a;    
+        static {
+            a = 5;
+            doSomething(a);
+        }
+        private static int doSomething(int x) {
+            return (x+5);
+        }
+    }
+
+    The above block with the static modifier signifies a class initializer; without the static modifier, the code block is an instance initializer.
+    
+    Static initializers are executed in the order they are defined (top down, just like simple variable initializers) when the class is loaded (actually, 
+    when it's resolved, but that's a technicality).
+
+    Instance initializers are executed in the order defined when the class is instantiated, immediately before the constructor code is executed, immediately 
+    after the invocation of the super constructor.
+
+    If you remove static from int a, it becomes an instance variable which is not initialized at construction. If you also remove static from the initializer 
+    block, it then becomes an instance initializer and so int a is initialized at construction.
+
+49) Java can not extend multiple classes but it can implement multiple interfaces.
+
+50) Keyword "native"
+
+    The native keyword is applied to a method to indicate that the method is implemented in native code using JNI
+
+    (Please take a look at the example inside the jni folder)
+
+    The naming convention is like: Java_THECLASSPATH_METHODNAME
+
+    E.g.
+
+    JNIEXPORT void JNICALL Java_com_disternet_debox_iaccess_DeboxAccessService_installJavaService
+
+    note: 
+
+    class path name:    com_disternet_debox_iaccess_DeboxAccessService
+    method name:        installJavaService
+
+    So that in the code of DeboxAccessService, you can call installJavaService directly since the class path name is the same. Or else you have to call
+    it indirectly: THECLASSPATH.METHODNAME
+
+60) An interesting definition:
+
+    public native boolean execute(int aServiceId, String aCmd, NativeParam ... aParam);
+
+    What does "..." mean here??
+
+61) JNI usage:
+
+62) Gson usage:
+
+    -   Basic:
+
+        Gson is a Java library that can be used to convert Java Objects into their JSON representation. It can also be used to convert a JSON string to an equivalent Java 
+        object. Gson can work with arbitrary Java objects including pre-existing objects that you do not have source-code of.
+
+        The Gson instance does not maintain any state while invoking Json operations. So, you are free to reuse the same object for multiple Json serialization and 
+        deserialization operations.
+
+    -   Primitives Examples:
+
+        (Serialization)
+        Gson gson = new Gson();
+        gson.toJson(1);            ==> prints 1
+        gson.toJson("abcd");       ==> prints "abcd"
+        gson.toJson(new Long(10)); ==> prints 10
+        int[] values = { 1 };
+        gson.toJson(values);       ==> prints [1]
+
+        (Deserialization)
+        int one = gson.fromJson("1", int.class);
+        Integer one = gson.fromJson("1", Integer.class);
+        Long one = gson.fromJson("1", Long.class);
+        Boolean false = gson.fromJson("false", Boolean.class);
+        String str = gson.fromJson("\"abc\"", String.class);
+        String anotherStr = gson.fromJson("[\"abc\"]", String.class);
+
+    -   Finer Points with Objects
+
+        -   It is perfectly fine (and recommended) to use private fields 
+        -   There is no need to use any annotations to indicate a field is to be included for serialization and deserialization. All fields in the current class (and from 
+            all super classes) are included by default. 
+        -   If a field is marked transient, (by default) it is ignored and not included in the JSON serialization or deserialization.
+        -   This implementation handles nulls correctly
+            * While serialization, a null field is skipped from the output
+            * While deserialization, a missing entry in JSON results in setting the corresponding field in the object to null
+        -   If a field is synthetic(??), it is ignored and not included in JSON serialization or deserialization
+        -   Fields corresponding to the outer classes in inner classes, anonymous classes, and local classes are ignored and not included in serialization or deserialization
+
+    -   Nested Classes (including Inner Classes)
+
+        Gson can serialize static nested classes quite easily. However, Gson can not automatically deserialize the pure inner classes since their no-args constructor also needs
+        a reference to the containing Object which is not available at the time of deserialization. You can address this problem by either making the inner class static or 
+        by providing a custom InstanceCreator for it. Here is an example: 
+
+        public class A { 
+          public String a;
+
+          class B { 
+
+            public String b; 
+
+            public B() {
+              // No args constructor for B
+            }
+          } 
+        }
+
+        NOTE: The above class B can not (by default) be serialized with Gson.
+
+        Gson can not deserialize {"b":"abc"} into an instance of B since the class B is an inner class. If it was defined as static class B then Gson would have been 
+        able to deserialize the string. 
+
+    -   Array Example
+
+        Gson gson = new Gson();
+        int[] ints = {1, 2, 3, 4, 5};
+        String[] strings = {"abc", "def", "ghi"};
+
+        (Serialization)
+        gson.toJson(ints);     ==> prints [1,2,3,4,5]
+        gson.toJson(strings);  ==> prints ["abc", "def", "ghi"]
+
+        (Deserialization)
+        int[] ints2 = gson.fromJson("[1,2,3,4,5]", int[].class); 
+        ==> ints2 will be same as ints
+
+        We also support multi-dimensional arrays, with arbitrarily complex element types
+
+    -   Collections Examples
+
+        Gson gson = new Gson();
+        Collection<Integer> ints = Lists.immutableList(1,2,3,4,5);
+
+        (Note: what is immutableList??)
+
+        (Serialization)
+        String json = gson.toJson(ints); ==> json is [1,2,3,4,5]
+
+        (Deserialization)
+        Type collectionType = new TypeToken<Collection<Integer>>(){}.getType();
+        Collection<Integer> ints2 = gson.fromJson(json, collectionType);
+        ints2 is same as ints
+
+        Fairly hideous: note how we define the type of collection
+        Unfortunately, no way to get around this in Java
+
+        Collections Limitations
+
+        -   Can serialize collection of arbitrary objects but can not deserialize from it 
+                * Because there is no way for the user to indicate the type of the resulting object
+        -   While deserializing, Collection must be of a specific generic type
+
+        All of this makes sense, and is rarely a problem when following good Java coding practices
+
+    -   Serializing and Deserializing Generic Types
+
+        When you call toJson(obj), Gson calls obj.getClass() to get information on the fields to serialize. Similarly, you can typically pass MyClass.class object in 
+        the fromJson(json, MyClass.class) method. This works fine if the object is a non-generic type. However, if the object is of a generic type, then the Generic 
+        type information is lost because of Java Type Erasure. Here is an example illustrating the point: 
+
+        class Foo<T> {
+            T value;
+        }
+
+        Gson gson = new Gson();
+        Foo<Bar> foo = new Foo<Bar>();
+        gson.toJson(foo); // May not serialize foo.value correctly
+        gson.fromJson(json, foo.getClass()); // Fails to deserialize foo.value as Bar
+
+        The above code fails to interpret value as type Bar because Gson invokes list.getClass() to get its class information, but this method returns a raw class, 
+        Foo.class. This means Gson has no way of knowing that this is an object of type Foo<Bar>, and not just plain Foo.
+
+        How can we solve this problem? We can use "TypeToken" by specifying the correct parameterized type for your generic type.
+
+        Type fooType = new TypeToken<Foo<Bar>>() {}.getType();
+        gson.toJson(foo, fooType);
+        gson.fromJson(json, foo.getClass());
+
+        The idiom used to get fooType actually defines an anonymous local inner class containing a method getType() that returns the fully parameterized type. 
+
+    -   Serializing and Deserializing Collection with Objects of Arbitrary Types
+
+        Sometimes you are dealing with JSON array that contains mixed types. For example:
+
+        ['hello',5,{name:'GREETINGS',source:'guest'}]
+
+        The equivalent Collection containing this is:
+
+        Collection collection = new ArrayList();
+        collection.add("hello");
+        collection.add(5);
+        collection.add(new Event("GREETINGS", "guest"));
+
+        Serilizeing this collection is OK but deserilizaing does not work because Gson has no way of knowing how to map the input to the type.
+
+
+63) "transient" keyword
+
+    The transient keyword in Java is used to indicate that a field should not be serialized.
+
+64) Synthetic Class, Method, Field
+
+    Class, method, field and any other similar constructs introduced by java compiler are called synthetic. It may not be directly visible in the java source code.
+    Java synthetic classes, methods and fields are for java runtime’s internal purposes. We may not need to have knowledge about them to write the code.
+    
+65) ImmutableList(??)
+
+66) Can constructors throw exceptions in Java?
+
+    Yes, constructors can throw exceptions. Usually this means that the new object is immediately eligible for garbage collection (although it may 
+    not be collected for some time, of course). It's possible for the "half-constructed" object to stick around though, if it's made itself visible earlier in 
+    the constructor (e.g. by assigning a static field, or adding itself to a collection).
+
+    One thing to be careful of about throwing exceptions in the constructor: because the caller (usually) will have no way of using the new object, the 
+    constructor ought to be careful to avoid acquiring unmanaged resources (file handles etc) and then throwing an exception without releasing them. For 
+    example, if the constructor tries to open a FileInputStream and a FileOutputStream, and the first succeeds but the second fails, you should try to 
+    close the first stream. This becomes harder if it's a subclass constructor which throws the exception, of course... it all becomes a bit tricky. 
+    It's not a problem very often, but it's worth considering.
+
+67) Effective Java
+
+-   Item 1: Consider static factory methods instead of constructors
+
+    Note: the static factory methods are not the ones in Design Pattern!
+
+    4 advantages(!!):
+
+    1) One advantage of static factory methods is that, unlike constructors, they
+    have names.
+
+    Unlike multiple constructors, replacing the constructors with static factory methods and carefully chosen names to highlight their differences.
+
+    2) A second advantage of static factory methods is that, unlike constructors,
+    they are not required to create a new object each time they’re invoked.
+
+    This allows classes to maintain strict control over what instances exist at any time. Classes that do this are said to be instance-controlled.
+
+    3) A third advantage of static factory methods is that, unlike constructors,
+    they can return an object of any subtype of their return type.
+
+    E.g. java.util.EnumSet has no public constructors only static factories.
+
+    A service provider framework contains 3 componenets:
+    
+    -   A service interface
+    -   A provide registration API, which the system uses to register implementations, giving clients access to them
+    -   A service access API, which clients use to obtain an instance of the service. The service access API is the “flexible static
+        factory” that forms the basis of the service provider framework.
+    -   An optional fourth component of a service provider framework is a service provider interface, which providers implement to create instances of their service
+        implementation. 
+
+    
+    // Service provider framework sketch
+
+    // Service interface
+    public interface Service {
+    ... // Service-specific methods go here
+    }
+
+    // Service provider interface
+    public interface Provider {
+        Service newService();
+    }
+
+    // Noninstantiable class for service registration and access
+    public class Services {
+        private Services() { } // Prevents instantiation (Item 4)
+
+        // Maps service names to services
+        private static final Map<String, Provider> providers =
+        new ConcurrentHashMap<String, Provider>();
+        public static final String DEFAULT_PROVIDER_NAME = "<def>";
+
+        
+        // Provider registration API
+        public static void registerDefaultProvider(Provider p) {
+            registerProvider(DEFAULT_PROVIDER_NAME, p);
+        }
+
+        public static void registerProvider(String name, Provider p){
+            providers.put(name, p);
+        }
+
+        // Service access API
+        public static Service newInstance() {
+            return newInstance(DEFAULT_PROVIDER_NAME);
+        }
+
+        public static Service newInstance(String name) {
+            Provider p = providers.get(name);
+            if (p == null)
+                throw new IllegalArgumentException(
+                "No provider registered with name: " + name);
+                return p.newService();
+            }
+        }
+    }        
+
+    4) A fourth advantage of static factory methods is that they reduce the verbosity of creating parameterized type instances.
+
+    Think about the following example:
+
+    Map<String, List<String>> m = new HashMap<String, List<String>>();
+
+    The pain increases as the complexity and length increase. With static factories, however, the compiler
+    can figure out the type parameters for you. This is known as type inference. For example, suppose that 
+    HashMap provided this static factory:
+
+    public static <K, V> HashMap<K, V> newInstance() {
+        return new HashMap<K, V>();
+    }
+
+    Then you could replace the wordy declaration above with this succinct alternative:
+
+    Map<String, List<String>> m = HashMap.newInstance();
+
+    Disadvantages:
+
+    1) The main disadvantage of providing only static factory methods is that classes without public or protected constructors cannot be subclassed. 
+
+    2) A second disadvantage of static factory methods is that they are not readily distinguishable from other static methods.
+
+    some common names for static factory methods:
+
+    valueOf
+    of
+    newInstance
+    getType
+    newType
+
+-   Item 2: Consider a builder when faced with many constructor parameters
+
+    Static factories and constructors share a limitation: they do not scale well to large
+    numbers of optional parameters.
+
+    Option 1:
+
+    Telescoping constructors:
+
+    Pizza(int size) { ... }        
+    Pizza(int size, boolean cheese) { ... }    
+    Pizza(int size, boolean cheese, boolean pepperoni) { ... }    
+    Pizza(int size, boolean cheese, boolean pepperoni, boolean bacon) { ... }
+
+    In short, the telescoping constructor pattern works, but it is hard to write
+    client code when there are many parameters, and harder still to read it. 
+    
+    Option 2:
+
+    JavaBean 
+
+    you call a parameterless constructor to create the object and then call setter methods to set each required parameter and each
+    optional parameter of interest:
+
+    // JavaBeans Pattern - allows inconsistency, mandates mutability
+    public class NutritionFacts {
+        // Parameters initialized to default values (if any)
+        private int servingSize = -1; // Required; no default value
+        private int servings = -1; //"     "        "         "
+        private int calories = 0;
+        private int fat = 0;
+        private int sodium = 0;
+        private int carbohydrate = 0;
+        public NutritionFacts() { }
+
+        // Setters
+        public void setServingSize(int val) { servingSize = val; }
+        public void setServings(int val) { servings = val; }
+        public void setCalories(int val) { calories = val; }
+        public void setFat(int val) { fat = val; }
+        public void setSodium(int val) { sodium = val; }
+        public void setCarbohydrate(int val) { carbohydrate = val; }
+    }
+
+    It is easy to read the resulting code.    
+
+    NutritionFacts cocaCola = new NutritionFacts();
+    cocaCola.setServingSize(240);
+    cocaCola.setServings(8);
+    cocaCola.setCalories(100);
+    cocaCola.setSodium(35);
+    cocaCola.setCarbohydrate(27);
+
+    Two disadvantages:
+
+    1) a JavaBean may be in an inconsistent state partway through its construction.
+    2) the JavaBeans pattern precludes the possibility of making a class immutable.
+
+    Builder pattern comes up to solve all the disadvantages
+
+    
+    // Builder Pattern
+    public class NutritionFacts {
+        private final int servingSize;
+        private final int servings;
+        private final int calories;
+        private final int fat;
+        private final int sodium;
+        private final int carbohydrate;
+
+        public static class Builder {
+
+            // Required parameters
+            private final int servingSize;
+            private final int servings;
+
+            // Optional parameters - initialized to default values
+            private int calories = 0;
+            private int fat = 0;
+            private int carbohydrate = 0;
+            private int sodium = 0;
+
+            public Builder(int servingSize, int servings) {
+                this.servingSize = servingSize;
+                this.servings = servings;
+            }
+
+            public Builder calories(int val)
+                { calories = val; return this; }
+            public Builder fat(int val)
+                { fat = val; return this; }
+            public Builder carbohydrate(int val)
+                { carbohydrate = val; return this; }
+            public Builder sodium(int val)
+                { sodium = val; return this; }
+
+            public NutritionFacts build() {
+                return new NutritionFacts(this);
+            }
+        }
+
+        private NutritionFacts(Builder builder) {
+            servingSize = builder.servingSize;
+            servings = builder.servings;
+            calories = builder.calories;
+            fat = builder.fat;
+            sodium = builder.sodium;
+            carbohydrate = builder.carbohydrate;
+        }
+    }
+
+    Note that NutritionFacts is immutable, and that all parameter default values are in a single location. The builder’s setter methods return the builder itself so
+    that invocations can be chained. Here’s how the client code looks: 
+
+    NutritionFacts cocaCola = new NutritionFacts.Builder(240, 8). calories(100).sodium(35).carbohydrate(27).build();
+
+    Note: What is immutable object? 
+
+    It is an object whose state cannot be modified after it is created.
+
+-   How volatile works(!!)
+
+     public class Singleton {
+        private volatile static Singleton uniqueInstance; //The volatile keyword ensures that multiple threads handle the uniqueInstance variable correctly when it is being
+                                                          //initialized to the Singleton instance.
+
+        private Singleton() {}
+
+        public static Singleton getInstance() { //Check for an instance and if there isn't one, enter a synchronized block.
+           if (uniqueInstance == null) { //Note we only synchronized the first time through!
+              synchronized(Singleton.class) { //?? It passes Singleton.class to the synchronized method??
+                 if (uniqueInstance == null) {
+                    uniqueInstance = new Singleton(); //Once in the block, check again and if still null, create an instance
+                 }
+              }
+           }
+           return uniqueInstance;
+        }
+     }
+    
+    If we do not make uniqueInstance variable volatile then Thread which is creating instance of Singleton is not able to communicate other thread, that instance has been 
+    created until it comes out of the Singleton block, so if Thread A is creating Singleton instance and just after creation lost the CPU, all other thread will not 
+    be able to see value of _instance as not null and they will believe its still null. 
+
+    Why this can happen? 
+    
+    Because reader threads are not doing any locking and until writer thread comes out of synchronized block, memory will not be synchronized and value of uniqueInstance 
+    will not be updated in main memory. With Volatile keyword in Java this is handled by Java himself and such updates will be visible by all reader threads.
+
+    One of the most important thing in learning of volatile keyword is understanding when to use volatile variable in Java. Here are a couple examples to demonstrate when
+    to use volatile keywords:
+    
+    1) 
+
+    You can use Volatile variable if you want to read and write long and double variable atomically. 
+    long and double both are 64 bit data type and by default writing of long and double is not atomic and platform dependence.
+
+    2) 
+
+    Volatile variable can be used as an alternative way of achieving synchronization in Java in some cases, like Visibility. with volatile 
+    variable its guaranteed that all reader thread will see updated value of volatile variable once write operation  completed, without volatile keyword 
+    different reader thread may see different values.
+
+    3)
+
+    volatile variable can be used to inform compiler that a particular field is subject to be accessed by multiple threads, which will prevent compiler 
+    from doing any reordering or any kind of optimization which is not desirable in multi-threaded environment. Without volatile variable compiler can 
+    re-order code, free to cache value of volatile variable instead of always reading from main memory. Without volatile variable compiler can 
+    re-order code, free to cache value of volatile variable instead of always reading from main memory. like following example without volatile 
+    variable may result in infinite loop:
+
+    private boolean isActive = thread;
+    public void printMessage(){
+      while(isActive){
+         System.out.println("Thread is Active");
+      }
+    }
+
+    Important points on Volatile keyword in Java
+
+    1. volatile keyword in Java is only application to variable and using volatile keyword with class and method is illegal.
+
+    2. volatile keyword in Java guarantees that value of volatile variable will always be read from main memory and not from Thread's local cache.
+
+    3. In Java reads and writes are atomic for all variables declared using Java volatile keyword (including long and double variables).
+
+    4. Using Volatile keyword in Java on variables reduces the risk of memory consistency errors, because any write to a volatile variable in Java establishes a 
+    happens-before relationship with subsequent reads of that same variable.
+
+    5. From Java 5 changes to a volatile variable are always visible to other threads. What’s more it also means that when a thread reads a volatile variable in 
+    java, it sees not just the latest change to the volatile variable but also the side effects of the code that led up the change.
+
+    6. Reads and writes are atomic for reference variables are for most primitive variables (all types except long and double) even without use of volatile keyword in Java.
+
+    7. An access to a volatile variable in Java never has chance to block, since we are only doing a simple read or write, so unlike a synchronized block we will 
+    never hold on to any lock or wait for any lock.
+
+    8. Java volatile variable that is an object reference may be null.
+
+    9. Java volatile keyword doesn't mean atomic, its common misconception that after declaring volatile ++ will be atomic, to make the operation atomic you still 
+    need to ensure exclusive access using synchronized method or block in Java.
+
+    10. If a variable is not shared between multiple threads no need to use volatile keyword with that variable.
+
+-   What is happens-before relationship:
+
+    In computer science, the happened-before relation (denoted: ->)is a relation between the result of two events, such that if one event should happen before 
+    another event, the result must reflect that. Even if those events are in reality executed out of order (usually to optimize program flow).
+
+-   What are differences between wait and sleep method in java?
+
+    Another frequently asked thread interview question in Java mostly appear in phone interview. Only major difference is wait release the lock or monitor while 
+    sleep doesn't release any lock or monitor while waiting. Wait is used for inter-thread communication while sleep is used to introduce pause on execution. 
+    See my post wait vs sleep in Java for more differences.
+
+    A wait can be "woken up" by another process calling notify on the monitor which is being waited on whereas a sleep cannot. 
+    Also a wait (and notify) must happen in a block synchronized on the monitor object whereas sleep does not:
+
+    Object mon = ...;
+    synchronized (mon) {
+        mon.wait();
+    } 
+
+-   What is String pool
+
+    String pool is a pool of Strings stored in Java heap memory. String Pool is possible only because String is immutable in Java and it's implementation of String
+    Interning concept. String Pool is also example of Flyweight design pattern.
+
+    E.g.
+
+    String s = "0";
+
+    for (int x = 1; x < 10; x++)
+    {
+        s = s + x;
+    }
+
+    What's actually happening is that you're creating ten String objects(with values "0", "01", "012", through "0123456789"). In the end s is referring to the String
+    with the value "0123456789", but at this point there are ten Strings in existence!
+
+    Whenever you make a new String, the JVM puts it into a special part of memory called the "String Pool". If there is already a String in the String Pool with the
+    same value, the JVM doesn't create a duplicate. it simply refers your reference variable to the existing entry. The JVM can get away with this because Strings
+    are immutable; one reference variable can't change a String's value out from under another reference variable referring to the same String.
+
+    The other issue with String Pool is that the Garbage Collector doesn't go there. So in our example, unless by coincidence you later happen to make a String called
+    "01234", for instance, the first nine Strings created in our for loop will just sit around wasting memory.
+    
+
+-   Why String is immutable or final in Java
+
+-   An interesting definition:
+
+    public WebSocket createSocket(ProtocolHandler handler, HttpRequestPacket requestPacket,
+            WebSocketListener... listeners) {
+
+    (??) what is ... means here
+
+-   Garbage Collection(!!)
+
+    -   Java Virtual Machine (JVM)
+
+        Each JVM implementation for a specific operating system, translates the Java programming instructions into instructions and commands that run on the local 
+        operating system. This way, Java programs achieve platform independence.
+
+        JVM knows nothing of the Java programming language, only a particular binary format, the class file format. A class file contains Java virtual machine 
+        instructions (or bytecodes) and a symbol table, as well as other ancillary information.
+
+    -   Hotspot Architecture
+
+        There are three components of the JVM that are focused on when running performance. 
+
+        The heap is where your object data is stored. This area is then managed by the garbage collector selected at startup. Most tuning options relate to 
+        sizing the heap and choosing the most appropriate garbage collector for your situation. The JIT compiler also has a big impact on performance but 
+        rarely requires tuning with the newer versions of the JVM.
+
+    -   Performance
+
+        Two main goals: responsiveness and throughput.
+
+        1)  Responsiveness
+
+            Responsiveness refers to how quickly an application or system responds with a requested piece of data.
+
+            E.g.
+
+            How fast a website returnes a page
+
+        2)  Throughput
+
+            Throughput focuses on maximizing the amount of work by an application in a specific period of time. E.g.
+
+            The number of database queries that can be completed in an hour.
+
+    -   Automatic Garbage Collection
+
+        Automatic garbage collection is the process of looking at heap memory, identifying which objects are in use and which are not, and deleting the unused objects.
+
+        Step 1: Marking
+
+        All objects are scanned in the marking phase to make this determination. This can be very time consuming process if all objects in a system must be scanned.
+
+        Step 2: Normal Deletion
+
+        Normal deletion removes unreferenced objects leaving referenced objects and pointers to free space.
+
+        The memory allocator holds references to blocks of free space where new object can be allocated.
+
+        Step 3: Deletion with Compacting
+
+        To further improve performance, in addition to deleting unreferenced objects, you can also compact the remaining referenced objects. By moving referenced object 
+        together, this makes new memory allocation much easier and faster.
+
+    -   Why Generational Garbage Collection?
+
+        As stated earlier, having to mark and compact all the objects in a JVM is inefficient. As more and more objects are allocated, the list of objects grows and grows 
+        leading to longer and longer garbage collection time. However, empirical analysis of applications has shown that most objects are short lived.
+
+    -   JVM Generations
+
+        The information learned from the object allocation behavior can be used to enhance the performance of the JVM. Therefore, the heap is broken up into smaller parts 
+        or generations. The heap parts are: Young Generation, Old or Tenured Generation, and Permanent Generation.
+
+    -   
+
+-   jdk and jre setup for Ubuntu
+
+    java    -   the binary file under jre. To install, do: sudo apt-get install openjdk-7-jre
+    jdk     -   the binary file under jdk. To install, do: sudo apt-get install openjdk-7-jdk
+
+    Also, you may need to use the following command to change the default java version:
+
+    sudo update-alternatives --config java
+
+    Eclipse will use the default java version, but you may take a look at "Window -> Preferences -> Java -> Compiler"
+
+-   Error: (??)
+
+    problem10.java:484: generic array creation
+          BinNode[] nodes = new BinNode<Integer>[13];
+                            ^
+    
+    But doing the following is fine:
+
+    BinNode[] nodes = new BinNode[13];
+
+    BinNode<Integer> node_0 = new BinNode<Integer>(15, 0);
+    nodes[0] = node_0
+    ...
+
+-   SortedSet<E> and TreeMap<K,V>
+
+    Same:   Both data structures provide the same ordering mechanisim so that the elements are ordered using their natural ordering, or by a Comparator
+            typically provided at sorted set creation time.
+
+    Diff:   TreeMap only allows sorting based on the value V. There is no such restriction on SortedSet.
+
+-   Lesson: Basic I/O
+
+    -   I/O Streams
+
+        Byte Streams
+        Character Streams
+        Buffered Streams
+        Scanning and Formatting Streams
+        I/O from the Command Line
+        Data Streams
+        Object Streams
+
+-   What are Static classes??
+
+    Static classes are nested classes that act like top-level classes, even if they appear somewhere in the middle or the bottom of the program hierachy(within
+    a class). Static classes do not need the reference of the outer class. They act like an outer class within themselves. Normal non-static nested classes, on
+    the other hand, need reference of the outer class. In other words, static classes are independent of the outer class, while other inner classes are dependent
+    on the outer class.
+
+    class Car {
+       class SUVs {
+       }
+       static class sedans {
+       }
+    }
+
+    Here, the keyword "static" ensures that the class sedan will be treated as an outer class. Static classes can only access static members of an outer class,
+    where non-static nested classes can interact with both static and non-static members of an outer class. This functionality allows static nested classes to
+    interact with other parts of the program and provides code re-usability.
+
+    -   Declaring an Object within a Static Class
+
+    You can access a static class by using the name of its outer class. For example, 
+
+    car.sedans
+
+    You can create an object for the static class only by accessing it through the outer class(which is true for all nested classes.) You can use the syntax:
+
+    car.sedan outdatesedan = new car.sedans();
+
+    -   Implementing the Concept of static classes in Java
+
+    class Car{
+      public static String message = “meant for transportation”;
+      static class sedans {
+         public void printMessage ()
+         {
+            System.out.println (“Cars are” + message);
+         }
+      }  
+    }
+
+    Class Main
+    {
+       Public static void main (String args[]) {
+          car.sedans text = new car.sedans();
+          text.printMessage();
+       }
+    }
+    Output: Cars are meant for transportation.
+
+    Here, we have declared message as a static string variable. Because it is static, the static class “sedans” is able to access it. When the compiler encounters 
+    the System.out.println line, it will print the “Cars are meant for transportation” line of text on screen.
+
+    
+
+-   Relationship between HashSet and HashMap
+
+    Surprisingly, HashSet is actually HashMap except that the all entries' value uses the same static default values called PRESENT:
+
+    private static final Object PRESENT = new Object();
+
+-   String and StringBuffer/StringBuilder Methods(!!)
+
+    String are immutable but StringBuffer/StringBuilder class can be a lot more efficient if you're manipulating a String. As of Java 5.0 you should use StringBuilder
+    class instead of StringBuffer, unless your String manipulations need to be thread-safe, which is not common. Here's a brief overview of the key methods in these
+    classes:
+
+    1)  Both String and StringBuffer/StringBuilder classes have:
+
+    char charAt(int index);                 //what char is at a certain position
+    int length();                           //how long is this
+    String substring(int start, int end);   //get part of this
+    String toString();                      //what's the String value of this
+
+    2)  To concatenate Strings:
+    
+    String concat(String);                  //for the String class
+    String append(String);                  //for StringBuffer & StringBuilder
+
+    3)  The String class has:
+
+    String replace(char old, char new);     //replace all occurence of a char
+    String substring(int begin, int end);   //get a portion of a String
+    char [] toCharArray();                  //convert to an array of chars
+    String toLowerCase();                   //convert all characters to lower case
+    String toUpperCase();                   //convert all characters to upper case
+    String trim();                          //remove whitespace from the ends
+    String valueOf(char []);                //make a String out of a char array
+    String valueOf(int i);                  //make a String out of a primitive
+                                            //other primitives are supported as well
+
+    4)  The StringBuffer & StringBuilder classes have:
+
+    StringBxxxx delete(int start, int end);                     //delete a portion
+    StringBxxxx insert(int offset, any primitive or a char[]);  //insert something
+    StringBxxxx replace(int start, int end);                    //replace this part with this String
+    StringBxxxx reverse(int start, int end);                    //replace a given character
+    
+
+    StringBuffer is a thread-safe, mutable sequence of characters. A string buffer is like a String, but can be modified. At any point in time
+    it contains some particular sequence of characters, but the length and content of the sequence can be changed through certain method calls.
+
+    String buffers are safe for use by multiple threads. The methods are synchronized where necessary so that all the operations on any particular instance behave 
+    as if they occur in some serial order that is consistent with the order of the method calls made by each of the individual threads involved.
+
+-   JUnit
+
+    -   Unit test
+
+        A unit test target is a small unit of code, e.g. a method or a class. The percentage of code which is tested by unit tests is typically called test coverage
+
+    -   Functional and integration tests
+
+        An integration test has the target to test the behavior of a component or the integration between a set of components. The term functional test
+        is sometimes used as synonym for integration test.
+
+    -   Behavior vs. state testing
+
+        A test is behavior test (also called interaction test) if it does not validate the result of a method call, but checks if certain methods were called with
+        the correct input parameters.
+
+        State testing is about validating the result, while behavior testing is about testing the behavior of the application under test.
+
+    -   Test Organization for Java projects
+
+        Typically unit tests are created in a seperate project or seperate source folder to avoid that the normal code and the test code is mixed.
+
+    -   Test Frameworks for Java
+
+        -   JUnit
+
+            Typically a JUnit test is a method contained in a class which is only used for testing. This is called a Test class.
+
+            To write a test with the JUnit 4.x framework you annotate a method with the @org.junit.Test annotation. 
+            In this method you use a method provided by the JUnit framework to check the expected result of the code execution versus the actual result.
+
+-   CLASSPATH
+
+    The CLASSPATH variable is one way to tell applications, including the JDK tools, where to look for user classes. To set the classpath, it is in most 
+    cases better to use the the -cp or -classpath argument when calling javac and java. It gives you more flexibility to use different classpaths for 
+    different java applications.
+
+    With the -cp and -classpath arguments your classpath can contain multiple jars and multiple locations separated with a : (colon)
+
+    javac -cp ".:/somewhere/A.jar:/elsewhere/B.jar" MyClass.java
+    java -cp ".:/somewhere/A.jar:/elsewhere/B.jar" MyClass
+
+    The classpath entry in the example sets the classpath to contain the current working directory (.), and the two jar files A.jar and B.jar.
+
+    If you want to use the CLASSPATH environment variable you can do
+
+    export CLASSPATH=".:/somewhere/A.jar:/elsewhere/B.jar"
+    javac MyClass.java
+    java MyClass
+
+-   what is the following import statement mean?
+
+import static org.junit.Assert.assertEquals;
+
+-   2D array
+
+    -   Create a 2D array
+
+    -   The length of a 2D array
