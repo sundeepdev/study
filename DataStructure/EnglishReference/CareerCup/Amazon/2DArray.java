@@ -32,8 +32,11 @@ Solution1:
         row and find new x as in first step and replace max_number by new value of col-y-1. 
     3.  repeat it till last row mean while if you get y=-1 then return the length of col. 
 
-    Time Complexity: m*log(n), why log(n)? because we can use binary search to do row scanning.
+    Time Complexity: O(m+n)
     Space Complexity: nothing
+
+    Analysis: This algorithm is very efficient and easy to understand. In short, see "0" goes
+    "down"; see "1" goes left.
 */
 
 import java.util.*;
@@ -65,7 +68,7 @@ class TwoDArray {
         int i = 0;
         while (i < col) {
             Pos p = new Pos(0, i);
-            Pos result = verticalBinarySearch(p);
+            Pos result = verticalSearch(p);
             if (result != null) {
                 return result.x;
             }
@@ -75,28 +78,68 @@ class TwoDArray {
         return -1;
     }
 
+    /*
+        Solution 2
+
+        1.  start scanning from right most end of first row and find first occurrence of 0. 
+            suppose it is some value y. then max_number of 1 till now is col-y-1. 
+        2.  then go to next row but start from y. if you found 1 at that place then scan this 
+            row and find new x as in first step and replace max_number by new value of col-y-1. 
+        3.  repeat it till last row mean while if you get y=-1 then return the length of col. 
+    */
+
     public int whichRowHasMaxOnes_2() {
         int row = array.length;
         int col = array[0].length;
+        int x = 0;
         int y = col - 1;
+        int result = 0;
 
-        for (int x = 0; x < row; x++) {
-            Pos p = new Pos(x, y);
-            Pop p_new = binarySearch(p);
+        while(x < row) {
+            result = x;
+            Pos p = new Pos(x, y);//now p is (0, col-1), which is the top-right node.
+            Pos p_new = HorizontalSearch(p);
             if (p_new == null) { 
-                //Couldn't find  
+                //couldn't find 0. That means this row is all 1.
+                return result;
+            } else {
+                //found one zero node, look at one row below:
+                x = x + 1;
+                y = p_new.y;      
+
+                if (x == row) {
+                    return result;
+                } else {
+                    while((array[x][y] != 1) && (x < row) ) {
+                        x = x + 1;
+                    }
+                }
             }
         }
 
+        return result;
     }
 
     /*
      *  Search element "0" by scanning from the position p(x, y) to the left
-     *  intput: the int array; the starting position p(x, y)
-     *  output: the position p'(x', y') that has the value "0". or null if it couldn't find the position has value "0".
+     *  input: the int array; the starting position p(x, y)
+     *  output: the position p'(x', y') that has the value "0". or null if it 
+        couldn't find the position has value "0".
      */
-    private Pos binarySearch(Pos p) {
-        
+    private Pos HorizontalSearch(Pos p) {
+        if (array[p.x][p.y] == 0) {
+            return p;
+        } else {
+            while (p.y >= 0) {
+                if (array[p.x][p.y] == 0) {
+                    return p;                   
+                }
+
+                p.y = p.y - 1;
+            }
+
+            return null;
+        }
     }
 
     /*
@@ -104,7 +147,7 @@ class TwoDArray {
         input:  the int array; the starting position p(x, y)
         output: the position p'(x', y'), which has the value "1".
     */
-    private Pos verticalBinarySearch(Pos p) {
+    private Pos verticalSearch(Pos p) {
         if (array[p.x][p.y] == 1) {
             return p;
         }
@@ -123,16 +166,14 @@ class TwoDArray {
 
     public static void main(String[] args) {
         int[][] array = new int[][]{
-            {1, 1, 1, 1},
             {0, 0, 0, 1},
             {0, 0, 1, 1},
+            {1, 1, 1, 1},
             {0, 1, 1, 1},
         };
     
         TwoDArray a = new TwoDArray(array);
-        int result = a.whichRowHasMaxOnes_1();
+        int result = a.whichRowHasMaxOnes_2();
         System.out.println("result = " + result);
     }
-
-
 }
