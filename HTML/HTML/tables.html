@@ -74,7 +74,41 @@
 
 -   An HTML Table Collapsed Borders
 
+    If you want the borders to collapse into one border, add CSS border-collapse;
+
+    Example:
+
+    table, th, tb {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+
+-   An HTML Table with Cell Padding
+
+    Cell padding specifies the space between the cell content and its borders.
+
+    If you do not specify a padding, the table cells will be displayed without padding.
+
+    To set the padding, use the CSS padding property;
+
+    Example:
+
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 15px;
+    }
+    
+
 -->
+<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+</style>
 </head>
 <body>
 <table style="width:100%">
