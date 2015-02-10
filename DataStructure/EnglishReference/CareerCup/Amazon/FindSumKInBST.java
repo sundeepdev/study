@@ -174,18 +174,18 @@ class BinTree<E> {
    /** inorder tree walk: left, root, right */
    void inorder(BinNode<E> rt) {
       if (rt == null) return;//We use the "nil" pointer to replace "null" in a normal BST
-      postorder(rt.left());
+      inorder(rt.left());
       visit(rt);
-      postorder(rt.right());
+      inorder(rt.right());
    }
 
    /** The second implementation of inorder. It is more efficient than inorder because it makes only half
     as many as recursive calls */   
    void inorder2(BinNode<E> rt) {
       if (rt == null) return;//We use the "nil" pointer to replace "null" in a normal BST
-      postorder(rt.left());
+      if (rt.left() != null) inorder(rt.left());
       visit(rt);
-      postorder(rt.right());
+      if (rt.right() != null)inorder(rt.right());
    }
  
    int count(BinNode<E> rt) {
@@ -411,6 +411,29 @@ class BinTree<E> {
       return z;
    }
 
+   //the each successor/predecessor takes O(logn) time so the total time complexity 
+   //takes O(logn() * n). Can we make it O(n) and keeps the storage complexity O(1)??
+   public void printPairs(BinNode<E> rt, int sum) {
+        BinNode<E> left = minimum(rt);
+        BinNode<E> right = maximum(rt);
+
+        if (left == null || right == null || left == right) {
+            return;
+        }
+
+        while(left != right) {
+            if (left.key() + right.key() == sum) {
+                System.out.println("[" + left.key() + "," + right.key() + "]");
+                left = successor(left);
+                right = predecessor(right);
+            } else if (left.key() + right.key() < sum) {
+                left = successor(left);
+            } else {
+                right = predecessor(right);
+            }
+        }
+    }
+
    public static void main(String[] args) {
 
       /* Create a whole bunch new nodes */
@@ -444,9 +467,9 @@ class BinTree<E> {
       bTree.insert(node_11);
       bTree.insert(node_12);
       
-      bTree.delete(node_4);
+      //bTree.inorder(bTree.root());
 
-      bTree.preorder(bTree.root());
+      bTree.printPairs(node_0, 20);
 
       return;
    }
