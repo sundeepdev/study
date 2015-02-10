@@ -50,7 +50,8 @@ class FindSumInAnArray {
 
         The complexity of this solution would be O(NlogN) due to sorting. Remember to use a in-place sorting
         algorithm like quicksort to sort the array as we don't have additional space. Thinkfully, Arrays.sort()
-        method uses a two pivot quicksort algorithm to sort array of primitives.
+        method uses a two pivot quicksort algorithm to sort array of primitives. This method takes O(1) space
+        complexity.
 
         Note: This method doesn't allow repairs repeat.
 

@@ -14,7 +14,7 @@ class FindSmallestNumber {
         int x;
         switch (A) {
             case(A % 2 == 0):
-            while()            
+            while()
 
             break;
             case(A % 3 == 0):
