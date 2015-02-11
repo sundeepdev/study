@@ -1,4 +1,4 @@
-package ie.ucd.murmur;
+//package ie.ucd.murmur;
 
 
 /** Murmur hash 2.0.
