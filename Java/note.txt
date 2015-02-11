@@ -4215,3 +4215,10 @@ import static org.junit.Assert.assertEquals;
         Note!!: for any position in array[x][y]. x is used to indicate the number of a row
         and y is used to indicate the number of a col. Therefore x is growing from top(0) to
         bottom(row-1) and y is growing from left(0) to right(col-1)
+
+-   The operator >>>
+
+    Shift right zero fill operator. The left operands value is moved right by the number of 
+    bits specified by the right operand and shifted values are filled up with zeros.
+
+    
