@@ -23,6 +23,8 @@ class FindSameSetIntegers {
         Space Complexity: O(firstList.size() + secondList.size())
 
         Can we find a better solution to reduce the space complexity??
+
+        Yes. One way to reduce the space complexity is to use bloom filter. 
         
     */
     public static boolean findSameSetIntegers(ArrayList<Integer> firstList, 
@@ -43,26 +45,6 @@ class FindSameSetIntegers {
         return false;
     }
 
-    
-    public static boolean findSameSetIntegers2(ArrayList<Integer> firstList, 
-                                               ArrayList<Integer> secondList) {
-    
-        int result = 0;
-
-        for (Integer i : firstList) {
-            result = result | MurmurHash.hash32( i.toString());
-        }
-
-        for (Integer j : secondList) {
-            if ((result | MurmurHash.hash32( j.toString())) == result) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-    
-
     public static void main(String[] args) {
         ArrayList<Integer> firstList = new ArrayList<Integer>();
         firstList.add(1);
@@ -79,9 +61,9 @@ class FindSameSetIntegers {
         firstList.add(39);
 
         ArrayList<Integer> secondList = new ArrayList<Integer>();
-        secondList.add(32);
+        secondList.add(33);
 
-        boolean result = findSameSetIntegers2(firstList, secondList);
+        boolean result = findSameSetIntegers(firstList, secondList);
 
         System.out.println(result);
     }
