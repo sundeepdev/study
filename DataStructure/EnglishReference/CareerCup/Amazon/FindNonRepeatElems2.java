@@ -6,6 +6,9 @@
 
 */
 
+import java.util.*;
+import java.lang.*;
+
 class FindNonRepeatElemsTwo {
     
     /*
@@ -24,6 +27,9 @@ class FindNonRepeatElemsTwo {
         get first non-repeating element, and by doing same in other set
         we will get the second non-repeating element.
 
+        Note(!!): Since x != y, we are 100% sure that x^y cannot produce 0. That
+        means there is at least one bit is set to 1.
+
         Let us see an example.
            arr[] = {2, 4, 7, 9, 2, 4}
 
@@ -37,16 +43,63 @@ class FindNonRepeatElemsTwo {
            elements in each set, and we get the non-repeating 
            elements 7 and 9. Please see implementation for this   
            step.
+
+        Note(!!): To get the rightmost set bit, we can do:
+
+        x & ~(x-1)
+
+        Time complexity: O(n)
+        Space compliexity: O(1)
+
     */
     public static int[] findNonRepeatElemTwo(int[] array) {
+        if (array == null || array.length < 4) {
+            return null;
+        }
+
         int xor = 0;
         int set_bit_no;
+        int n = array.length;
+
+        int x = 0;
+        int y = 0;
+
+        /* Get the xor of all elements */
+        for (int i = 0; i < n; i++) {
+            xor ^= array[i];
+        }
+
+        /* Get the right most set bit in set_bit_no */
+        set_bit_no = xor & ~(xor-1);
+
+        //System.out.println(xor);
+        //System.out.println(set_bit_no);
+
+        /*  Now divide elements in two sets by comparing rightmost set
+            bit of xor with bit at same position in each element */
+        for (int i = 0; i < n; i++) {
+            if (((array[i]) & set_bit_no) != 0) {
+                x = x ^ array[i];
+            } else {
+                y = y ^ array[i];
+            } 
+        }
+
+        int[] result = new int[2];
+        result[0] = x;
+        result[1] = y;
+
+        return result;
+       
     }
 
-    /* Get the xor of all elements */
-    for (i = 0; i < n; i++) {
-        xor ^= array[i];
-    }
+    public static void main(String[] args) {
+        int array[] = {2, 3, 7, 9, 11, 2, 3, 11};
+        int[] result = findNonRepeatElemTwo(array);
 
-    /* The the right most set bit in set_bit_no */
-}
+        
+        System.out.println(Arrays.toString(result));
+
+        return;
+    }
+}   

@@ -4221,4 +4221,8 @@ import static org.junit.Assert.assertEquals;
     Shift right zero fill operator. The left operands value is moved right by the number of 
     bits specified by the right operand and shifted values are filled up with zeros.
 
-    
+-   How to print an array
+
+    We can use the toString() method in the class Arrays. E.g.
+
+    System.out.println(Arrays.toString(my_array));
