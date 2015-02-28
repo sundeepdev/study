@@ -333,6 +333,8 @@ Chapter 5 One of a Kind Objects.
 
       3. Use "double-checked locking" to reduce the use of synchronization in getInstance()
 
+        (!! This dcl can be hazardous to your code. See the side note below)
+
          With double-checked locking, we first check to see if an instance is created, and if not, THEN we synchronize. This way, we only synchroniza the first time through, just
          what we want.
 
@@ -356,7 +358,7 @@ Chapter 5 One of a Kind Objects.
 
          This method of implementing the Singleton can drastically reduce the overhead.
 
-      Note: If you are using a JVM earlier than 1.5, the double-checked locking implementation is not thread safe.
+      Note: If you are using a JVM earlier than 1.5, the double-checked locking implementation is not thread safe(??).
 
             Why "volatile" keyword can ensures that multiple threads handle the uniqueInstance variable correctly when it is being initialized to the Singleton instance.
 
@@ -364,6 +366,19 @@ Chapter 5 One of a Kind Objects.
                 volatile field will read its current value before continuing, instead of (potentially) using a cached value. (However, there is no guarantee 
                 about the relative ordering of volatile reads and writes with regular reads and writes, meaning that it's generally not a useful threading construct.)
             -   (In Java 5 or later) Volatile reads and writes establish a happens-before relationship, much like acquiring and releasing a mutex.
+
+    -   Side notes on Double Check Locking
+
+        The DCL idiom was designed to support lazy initialization, which occurs when a class defers initialization of
+        an owned object until it is actually needed.
+
+        DCL seems like a clever optimization -- but it is not guaranteed to work. To understand why, we need to look at
+        the relationship between the JVM and the computer environment on which it runs. In particular, we need to look
+        at the Java Memory Model(JMM)
+
+        
+
+        
 
 Chapter 6: Encapsulating Invocation
 
