@@ -3519,7 +3519,7 @@ Veggie veggies[] = { new Garlic(), new Onion(), new Mushroom(), new RedPepper() 
         Serilizeing this collection is OK but deserilizaing does not work because Gson has no way of knowing how to map the input to the type.
 
 
-63) "transient" keyword
+63) "transient" keyword (!!)
 
     The transient keyword in Java is used to indicate that a field should not be serialized.
 
@@ -3548,17 +3548,39 @@ Veggie veggies[] = { new Garlic(), new Onion(), new Mushroom(), new RedPepper() 
 
     Note: the static factory methods are not the ones in Design Pattern!
 
+    A class can provide a public static factory method, which is simply a static method that returns an instance
+    of the class. E.g.
+
+    public static Boolean valueOf(boolean b) {
+        return b ? Boolean.TRUE : Boolean.FLASE;
+    }
+
+    Providing a static factory method instead of a public constructor has both advantages and disadvantages.
+    
     4 advantages(!!):
 
     1) One advantage of static factory methods is that, unlike constructors, they
-    have names.
+    have names that can make the methods easier to use and the resulting client code
+    easier to read. E.g.
 
-    Unlike multiple constructors, replacing the constructors with static factory methods and carefully chosen names to highlight their differences.
+    BigInteger(int, int, Random), which returns a BigInteger that is probably prime, would have been 
+    better expressed as a static method named BigInteger.probablePrime(This method is eventually added
+    in the 1.4 release).
+
+    Unlike multiple constructors, replacing the constructors with static factory methods and carefully chosen 
+    names to highlight their differences.
 
     2) A second advantage of static factory methods is that, unlike constructors,
-    they are not required to create a new object each time they’re invoked.
+    they are not required to create a new object each time they’re invoked. This allows immutable classes(Itm 15)
+    to use preconstructed instances, or to cache instances as they're constructed, and dispense them repeatedly
+    to avoid creating unnecessary duplicate objects. The Boolean.valueOf(boolean) method illustrates this technique.
 
-    This allows classes to maintain strict control over what instances exist at any time. Classes that do this are said to be instance-controlled.
+    This allows classes to maintain strict control over what instances exist at any time. Classes that do this 
+    are said to be instance-controlled. There are several reasons to write instance-controlled classes. Instance
+    control allows a class to guarantee that it is a singleton (Item 3) or noninstantiable (item 4). Also it allows
+    an immutable class (Item 15) to make the guarantee that no two equal instances exist(!!): a.equals(b) if and only
+    if a==b so that it clients can use the == operator instead of the equals(Object) method, which may result in
+    improved performance.
 
     3) A third advantage of static factory methods is that, unlike constructors,
     they can return an object of any subtype of their return type.
