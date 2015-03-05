@@ -9,26 +9,24 @@ import java.util.*;
 import java.lang.*;
 
 class FindSmallestNumber {
+    /*  This function is used to transfer a binary number to integer
+        For example: 5(101) -> 101
+    */
+    private int BinaryToInteger(int binary) {
+        int power = 0;
+        int result = 0;        
+
+        for (i = 0; i < 32; i++) {
+            if (binary )
+        }
+    }
+
     static public int findSmallestNumber(int A) {
         //1, 2, 3, 4, 5, 6, 7, 8, 9
-        int x;
-        switch (A) {
-            case(A % 2 == 0):
-            while()
-
-            break;
-            case(A % 3 == 0):
-            break;
-            case(A % 4 == 0):
-            break;
-            case(A % 5 == 0):
-            break;
-            case(A % 6 == 0):
-            break;
-            case(A % 7 == 0):
-            break;
-            case(A % 8 == 0):
-            break;
+        int x = 0;
+        while(1) {
+            x++;
+        
         }
     }
 }
