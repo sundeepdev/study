@@ -3546,7 +3546,7 @@ Veggie veggies[] = { new Garlic(), new Onion(), new Mushroom(), new RedPepper() 
 
 -   Item 1: Consider static factory methods instead of constructors
 
-    Note: the static factory methods are not the ones in Design Pattern!
+    Note: the static factory methods are not the ones often described in Design Pattern!
 
     A class can provide a public static factory method, which is simply a static method that returns an instance
     of the class. E.g.
@@ -3571,7 +3571,7 @@ Veggie veggies[] = { new Garlic(), new Onion(), new Mushroom(), new RedPepper() 
     names to highlight their differences.
 
     2) A second advantage of static factory methods is that, unlike constructors,
-    they are not required to create a new object each time they’re invoked. This allows immutable classes(Itm 15)
+    they are not required to create a new object each time they’re invoked. This allows immutable classes(Item 15)
     to use preconstructed instances, or to cache instances as they're constructed, and dispense them repeatedly
     to avoid creating unnecessary duplicate objects. The Boolean.valueOf(boolean) method illustrates this technique.
 
@@ -3583,18 +3583,27 @@ Veggie veggies[] = { new Garlic(), new Onion(), new Mushroom(), new RedPepper() 
     improved performance.
 
     3) A third advantage of static factory methods is that, unlike constructors,
-    they can return an object of any subtype of their return type.
+       they can return an object of any subtype of their return type.
 
-    E.g. java.util.EnumSet has no public constructors only static factories.
+    E.g. java.util.EnumSet has no public constructors only static factories. If it has sixty-four 
+    or fewer elements, as most enum types do, the static factories return a RegularEnumSet instance, 
+    which is backed by a single long; if the enum type has sixty-five or more elements, the factories 
+    return a JumboEnumSet instance, backed by a long array.
+
+    The class of the object returned by a static factory method need not even exist at the time the class
+    containing the method is written. Such flexible static factory methods form the basis of service provider
+    framework. Such as the JDBC API.
 
     A service provider framework contains 3 componenets:
     
-    -   A service interface
-    -   A provide registration API, which the system uses to register implementations, giving clients access to them
-    -   A service access API, which clients use to obtain an instance of the service. The service access API is the “flexible static
-        factory” that forms the basis of the service provider framework.
-    -   An optional fourth component of a service provider framework is a service provider interface, which providers implement to create instances of their service
-        implementation. 
+    -   A service interface, which provides implement; (e.g. in JDBC, Connection)
+    -   A provider registration API, which the system uses to register implementations, giving clients access to them.
+        (e.g. in JDBC, DriverManager.registerDriver)
+    -   A service access API, which clients use to obtain an instance of the service. The service access API is the 
+        “flexible static factory” that forms the basis of the service provider framework. (E.g. in JDBC,
+        DriverManager.getConnection)
+    -   An optional fourth component of a service provider framework is a service provider interface, which providers 
+        implement to create instances of their service implementation. (E.g. in JDBC, Driver)
 
     
     // Service provider framework sketch
@@ -3643,37 +3652,40 @@ Veggie veggies[] = { new Garlic(), new Onion(), new Mushroom(), new RedPepper() 
         }
     }        
 
-    4) A fourth advantage of static factory methods is that they reduce the verbosity of creating parameterized type instances.
+    4)  A fourth advantage of static factory methods is that they reduce the verbosity of creating parameterized 
+        type instances.
 
-    Think about the following example:
+        Think about the following example:
 
-    Map<String, List<String>> m = new HashMap<String, List<String>>();
+        Map<String, List<String>> m = new HashMap<String, List<String>>();
 
-    The pain increases as the complexity and length increase. With static factories, however, the compiler
-    can figure out the type parameters for you. This is known as type inference. For example, suppose that 
-    HashMap provided this static factory:
+        The pain increases as the complexity and length increase. With static factories, however, the compiler
+        can figure out the type parameters for you. This is known as type inference. For example, suppose that 
+        HashMap provided this static factory:
 
-    public static <K, V> HashMap<K, V> newInstance() {
-        return new HashMap<K, V>();
-    }
+        public static <K, V> HashMap<K, V> newInstance() {
+            return new HashMap<K, V>();
+        }
 
-    Then you could replace the wordy declaration above with this succinct alternative:
+        Then you could replace the wordy declaration above with this succinct alternative:
 
-    Map<String, List<String>> m = HashMap.newInstance();
+        Map<String, List<String>> m = HashMap.newInstance();
 
     Disadvantages:
 
-    1) The main disadvantage of providing only static factory methods is that classes without public or protected constructors cannot be subclassed. 
+    1)  The main disadvantage of providing only static factory methods is that classes without public or protected 
+        constructors cannot be subclassed(??). 
 
-    2) A second disadvantage of static factory methods is that they are not readily distinguishable from other static methods.
+    2)  A second disadvantage of static factory methods is that they are not readily distinguishable from other static 
+        methods.
 
-    some common names for static factory methods:
+        some common names for static factory methods:
 
-    valueOf
-    of
-    newInstance
-    getType
-    newType
+        valueOf
+        of
+        newInstance
+        getType
+        newType
 
 -   Item 2: Consider a builder when faced with many constructor parameters
 
@@ -3696,8 +3708,8 @@ Veggie veggies[] = { new Garlic(), new Onion(), new Mushroom(), new RedPepper() 
 
     JavaBean 
 
-    you call a parameterless constructor to create the object and then call setter methods to set each required parameter and each
-    optional parameter of interest:
+    you call a parameterless constructor to create the object and then call setter methods to set each required 
+    parameter and each optional parameter of interest:
 
     // JavaBeans Pattern - allows inconsistency, mandates mutability
     public class NutritionFacts {
@@ -3734,10 +3746,13 @@ Veggie veggies[] = { new Garlic(), new Onion(), new Mushroom(), new RedPepper() 
     2) the JavaBeans pattern precludes the possibility of making a class immutable.
 
     Builder pattern comes up to solve all the disadvantages
-
     
     // Builder Pattern
     public class NutritionFacts {
+        /*
+            The keyword "final", "private" plus no settlers provided guarantee
+            NutritionFacts Objects are immutable.
+        */
         private final int servingSize;
         private final int servings;
         private final int calories;
@@ -3757,11 +3772,15 @@ Veggie veggies[] = { new Garlic(), new Onion(), new Mushroom(), new RedPepper() 
             private int carbohydrate = 0;
             private int sodium = 0;
 
+            //What are serviingSize and servings used for here??
             public Builder(int servingSize, int servings) {
                 this.servingSize = servingSize;
                 this.servings = servings;
             }
 
+            /*
+                The statement "return this" plays the trick!!
+            */
             public Builder calories(int val)
                 { calories = val; return this; }
             public Builder fat(int val)
@@ -3786,20 +3805,132 @@ Veggie veggies[] = { new Garlic(), new Onion(), new Mushroom(), new RedPepper() 
         }
     }
 
-    Note that NutritionFacts is immutable, and that all parameter default values are in a single location. The builder’s setter methods return the builder itself so
-    that invocations can be chained. Here’s how the client code looks: 
+    Note that NutritionFacts is immutable, and that all parameter default values are in a single location. The 
+    builder’s setter methods return the builder itself so that invocations can be chained. Here’s how the client 
+    code looks: 
 
-    NutritionFacts cocaCola = new NutritionFacts.Builder(240, 8). calories(100).sodium(35).carbohydrate(27).build();
+    NutritionFacts cocaCola = new NutritionFacts.Builder(240, 8).calories(100).sodium(35).carbohydrate(27).build();
 
-    Note: What is immutable object? 
+    This client code is easy to write and, and more importantly, to read. The Builder pattern simulates named optional
+    parameters as found in Ada and Python.
 
-    It is an object whose state cannot be modified after it is created.
+    A builder whose parameters have been set makes a fine Abstract Factory. In other words, a client can pass such
+    a builder to a method to enable the method it create one or more objects for the client. To enable this usage, 
+    you need a type to represent the builder. If you are using release 1.5 or a later release, a single generic
+    type (Item 26) suffices for all builders, no matter what type of object they're building.
+
+    //A builder for objects of type T
+    public interface Builder<T> {
+        public T build();
+    }
+
+    Note that our NutritionFacts.Builder class could be declared to implement Builder<NutritionFacts>.
+
+    Methods that take a Builder instance would typically constrain the builder's type parameter using a bounded 
+    wildcard type(Item 28). For example, here is a method that builds a tree using a client-provided Builder
+    instance to build each node:
+
+    Tree buildTree(Builder<? extends Node> nodeBuilder) { ... }
+
+    Disadvantages of using The Builder Pattern:
+
+    1)  The cost of creating the builder is unlikely to be noticiable in practice, it could be a problem in
+        some performance-critical situations.
+
+    2)  It is more verbal than the telescoping constructor pattern, so it should be used only if there are enough
+        parameters(Say four or more but still keep in mind that you many want more parameters in the future.).
+
+    In summary, the Builder pattern is a good choice when designing classes whose constructors or static factories
+    would have more than a handful of parameters, Especially if most of those parameters are optional. Client code
+    is much easier to read and write with builders than with the tradional telescoping constructor pattern, and
+    builders are much safer than javaBeans.
+
+    (page 40)
+
+68) Java Concurrency in Practice
+
+    -   Chapter 1   Introduction
+
+        -   Benefits of using multi-threads
+
+            1)  Exploiting Multiple Processors
+            2)  Simplicity of Modeling
+            3)  More responsive User Interfaces
+
+        -   Risks of using multi-threads
+
+            1)  Safety Hazards
+
+            @NotThreadSafe
+            public class UnsafeSequence {
+                private int value;
+                /** Returns a unique value. */
+                public int getNext() {
+                    return value++;
+                }
+            }
+
+            The problem with UnsafeSequence is that with some unlucky timing, two threads could call getNext and
+            receive the same value. The increment notation, nextValue++, may appear to be a single operation, but
+            is in face three seperate operations: read the value, add one to it, and write out the new value. Since
+            operations in multiple threads may be arbitarily interleaved by the runtime, it is possible for two
+            threads to read the value at the same time, both see the same value, and then both add one to it.
+
+            The above notation "@NotThreadSafe" indicates this method is not thread safe. The other two annotations
+            which are used in this book are "@Immutable" and "@ThreadSafe". Users can use it with confidence in a
+            multithreaded environments.
+
+            UnsafeSequence can be fixed by making getNext a synchronized method, e.g.
+
+            @ThreadSafe
+            public class Sequence {
+                @GuardedBy("this") private int nextValue;
+                public synchronized int getNext() {
+                    return nextValue++;
+                }
+            }
+
+            2)  Liveness Hazards
+
+                It includes deadlocks, starvation and livelock. Like most concurrency bugs, bugs that cause liveness 
+                failures can be elusive because they depend on the relative timing of events in different threads, 
+                and therefore do not always manifest themselves in development or testing.
+
+            3)  Performance Hazards. 
+
+                Performance issues subsume a broad range of problems, including poor service time, responsiveness, 
+                throughput, resource consumption or scalability.
+
+    -   Chapter 2   Thread Safety
+
+        The primary mechanism for synchronization in Java is the synchronized keyword, which provides exclusive
+        locking, but the term "synchronization" also includes the use of volatile variables, explicit locks, and
+        atomic variables.
+
+        If multiple threads access the same mutable state variable without appropriate synchronization, your program
+        is broken. There are three ways to fix it:
+
+        -   Don't share the state variable across threads;
+        -   Make the state variable immutable; or
+        -   Use Synchronization whenever accessing the state variable.
+
+        When designing thread-safe classes, good object-oriented techniques - encapsulation, immutability, and
+        clear specification of invarients - are your best friends.
+
+        (page 28)
+            
+
+            
+        
 
 -   How volatile works(!!)
 
      public class Singleton {
-        private volatile static Singleton uniqueInstance; //The volatile keyword ensures that multiple threads handle the uniqueInstance variable correctly when it is being
-                                                          //initialized to the Singleton instance.
+        /*
+            The volatile keyword ensures that multiple threads handle the uniqyeInstance 
+            variable correctly when it is being initialized to the Singleton instance.
+        */
+        private volatile static Singleton uniqueInstance; 
 
         private Singleton() {}
 
@@ -4045,10 +4176,11 @@ Veggie veggies[] = { new Garlic(), new Onion(), new Mushroom(), new RedPepper() 
 
 -   What are Static classes??
 
-    Static classes are nested classes that act like top-level classes, even if they appear somewhere in the middle or the bottom of the program hierachy(within
-    a class). Static classes do not need the reference of the outer class. They act like an outer class within themselves. Normal non-static nested classes, on
-    the other hand, need reference of the outer class. In other words, static classes are independent of the outer class, while other inner classes are dependent
-    on the outer class.
+    Static classes are nested classes that act like top-level classes, even if they appear somewhere in the middle 
+    or the bottom of the program hierachy(within a class). Static classes do not need the reference of the outer 
+    class. They act like an outer class within themselves. Normal non-static nested classes, on the other hand, need 
+    reference of the outer class. In other words, static classes are independent of the outer class, while other inner 
+    classes are dependent on the outer class.
 
     class Car {
        class SUVs {
@@ -4057,9 +4189,10 @@ Veggie veggies[] = { new Garlic(), new Onion(), new Mushroom(), new RedPepper() 
        }
     }
 
-    Here, the keyword "static" ensures that the class sedan will be treated as an outer class. Static classes can only access static members of an outer class,
-    where non-static nested classes can interact with both static and non-static members of an outer class. This functionality allows static nested classes to
-    interact with other parts of the program and provides code re-usability.
+    Here, the keyword "static" ensures that the class sedan will be treated as an outer class. Static classes can 
+    only access static members of an outer class, where non-static nested classes can interact with both static and 
+    non-static members of an outer class. This functionality allows static nested classes to interact with other 
+    parts of the program and provides code re-usability.
 
     -   Declaring an Object within a Static Class
 
@@ -4092,10 +4225,9 @@ Veggie veggies[] = { new Garlic(), new Onion(), new Mushroom(), new RedPepper() 
     }
     Output: Cars are meant for transportation.
 
-    Here, we have declared message as a static string variable. Because it is static, the static class “sedans” is able to access it. When the compiler encounters 
-    the System.out.println line, it will print the “Cars are meant for transportation” line of text on screen.
-
-    
+    Here, we have declared message as a static string variable. Because it is static, the static class “sedans” is 
+    able to access it. When the compiler encounters the System.out.println line, it will print the “Cars are meant 
+    for transportation” line of text on screen.
 
 -   Relationship between HashSet and HashMap
 

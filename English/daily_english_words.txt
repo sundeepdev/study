@@ -137,3 +137,40 @@ Day 12
     -   slavishly
 
         You should not slavishly follow these rules, the violate them only occasionally and with good reason.
+
+Day 13
+
+    -   Preclude
+
+        The JavaBeans pattern precludes the possibility of making a class immutable.
+
+    -   Fraught
+
+        The traditional Abstract Factory implementation in Java has been the Class object, with the newInstance
+        method playing the part of the build method. This usage is fraught with problems.
+
+    -   Propagate
+
+        Also, the newInstance method propagates any exception thrown by the parameterless constructor, even though
+        newInstance lacks the corresponding throws clauses.
+
+    -   Elusive
+
+        Like most concurrency bugs, bugs that cause liveness failures can be elusive because they depend on 
+        the relative timing of events in different threads, and therefore do not always manifest themselves
+        in development or testing.
+
+    -   Subsume
+
+        Performance issues subsume a broad range of problems, including poor service time...
+
+    -   Rivets and I-beams
+
+        Building bridges that don't fall down requires the correct use of a lot of rivets and ibeams.
+
+    -   Retrofit
+
+        It is far easier to design a class to be thread-safe than to retrofit it for thread safety later.
+
+        
+        
