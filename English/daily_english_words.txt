@@ -172,5 +172,20 @@ Day 13
 
         It is far easier to design a class to be thread-safe than to retrofit it for thread safety later.
 
+Day 14
+
+    -   Mock
+
+        it's impossible to substitute a mock implementation for a singleton unless it implements
+        an interface that serves as its type(??)
+
+    -   Caveat
+
+        Nothing that a client can change this, with one caveat:...
+
+    -   Ironclad
+
+        It provides an ironclad guarantee against multiple instantiation.
+
         
         

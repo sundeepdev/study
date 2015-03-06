@@ -3845,7 +3845,106 @@ Veggie veggies[] = { new Garlic(), new Onion(), new Mushroom(), new RedPepper() 
     is much easier to read and write with builders than with the tradional telescoping constructor pattern, and
     builders are much safer than javaBeans.
 
-    (page 40)
+-   Item 3 Enforce the singleton property with a private constructor or an enum type
+
+    Singleton is simply a class that is instantiated exactly once. Making a class singleton can make it difficult
+    to test its clients, as it's impossible to substitute a mock implementation for a singleton unless it implements
+    an interface that serves as its type(??).
+
+    Before SDK 1.5, there were two ways to implement singletons. Both are based on keeping the constructor private
+    and exporting a public static member to provide access to the sole instance. 
+
+    Approach 1 uses a final field:
+
+    // Singleton with public final field
+    public class Elvis {
+        public static final Elvis INSTANCE = new Elvis();
+        private Elvis() {...}
+
+        public void leaveTheBuilding() {...}
+    }
+
+    Advantage: the declarations make it clear that the class is a singleton: the public static field is final
+    so it will always contain the same object reference.
+
+    Nothing that a client does can change this, with one caveat: a privileged client can invoke the private 
+    constructor reflectively (Item 53) with the aid of the AccessibleObject.setAccessible method If you
+    need to defend against this attack, modify the constructor to make it throw an exception if it’s asked 
+    to create a second instance.
+
+    Approach 2 uses a static factory method:
+
+    // Singleton with static factory
+    public class Elvis {
+        private static final Elvis INSTANCE = new Elvis();
+        private Elvis() { ... }
+        public static Elvis getInstance { return INSTANCE; }
+        public void leaveTheBuilding() { ... }
+    }
+
+    Advantage: It gives you the flexibility to change your mind about whether the class should be singleton
+    without changing its API(??).
+
+    To make a singleton class that is implemented using either of the previous approaches serializable, it is not
+    sufficient merely to add implements Serializable to its declaration. To maintain the singleton guarantee, 
+    you have to declare all instance fields transient and provide a readResolve method(item 77). Otherwise, each
+    time a serialized instance is deserialized, a new instance will be created. To prevent this, add this
+    readResolve method to the Elvis class(??):
+
+    // readResolve method to preserve singleton property
+    private Object readResolve() {
+        // Return the one true Elvis and let the garbage collector
+        // take care of the Elvis impersonator
+
+        return INSTANCE;
+    }
+
+    Approach 3: As of release 1.5, there is a third approach to implementing singletons. Simply make
+    an enum type with one element:
+
+    //Enum singleton - the preferred approach
+    public enum Elvis {
+        INSTANCE;
+        public void leaveTheBuilding() { ... }
+    }
+
+    This approach is functionally equilvalent to the public field approach, except that it is more concise,
+    provide the serialization machinery for free and provides an ironclad against multiple instantialization,
+    even in the face of sophisticated serialization or reflection attacks(??). It is considered as the best
+    approach to implement a singleton. 
+    
+-   Item 4 Enforce noninstantiability with a private constructor
+
+    Occasionally, you'll want to write a class that is just a grouping of static methods and static fields. Those
+    classes are for example java.lang.Math or java.util.Arrays. Such utility classes were not designed to be 
+    instantiated. It makes no sense to use constructors however, the compiler provides a public, parameterless 
+    default constructor.
+
+    Attempting to enforce noninstantiability by making a class abstract does not work. Why? for two reasons:
+
+    1)  The class can be subclassed and the subclass can be instantiated;
+    2)  It misleads the user into thinking the class was designed for inheritance(Itm 17).
+
+    A default constructor is generated only if a class contains no explicit constructors, so a class can be
+    made noninstantiable by including a private constructor:
+
+    // Noninstantiable utility class
+    public class UtilityClass {
+        // Suppress default constructor for noninstantiability
+        private UtilityClass() {
+            throw new AssertionError();
+        }
+
+        //Remainder omitted
+    }
+
+    As a side effect, this idiom also prevents the class from being subclassed. All constructors must invoke a 
+    superclass constructor, explicitly or implicitly, and a subclass would have no accessible superclass constructor 
+    to invoke.
+    
+
+     
+
 
 68) Java Concurrency in Practice
 
@@ -4140,6 +4239,96 @@ Veggie veggies[] = { new Garlic(), new Onion(), new Mushroom(), new RedPepper() 
     sudo update-alternatives --config java
 
     Eclipse will use the default java version, but you may take a look at "Window -> Preferences -> Java -> Compiler"
+
+-   Serializable Objects
+
+    To serialize an object means to convert its state to a byte stream so way that the byte stream can be reverted
+    back into a copy of the object. A Java object is serializable if its class or any of its superclasses implements
+    either the java.io.Serializable interface or its subinterface, java.io.Externalizable. Deserialization is the
+    process of converting the serialized form of an object back into a copy of the object.
+
+    For example, the java.awt.Button class implements the Serializable interface, so you can serialize a 
+    java.awt.Button object and store that serialized state in a file. Later, you can read back the serialized 
+    state and deserialize into a java.awt.Button object.
+
+    During deserialization, the fields of non-serializable classes will be initialized using the public or protected 
+    no-arg constructor of the class. A no-arg constructor must be accessible to the subclass that is serializable. 
+    The fields of serializable subclasses will be restored from the stream.
+
+    When traversing a graph, an object may be encountered that does not support the Serializable interface. In this 
+    case the NotSerializableException will be thrown and will identify the class of the non-serializable object.
+
+    Classes that require special handling during the serialization and deserialization process must implement special 
+    methods with these exact signatures:
+
+    1)  private void writeObject(java.io.ObjectOutputStream out)
+            throws IOException
+
+        The writeObject method is responsible for writing the state of the object for its particular class so that the 
+        corresponding readObject method can restore it.
+
+        The default mechanism for saving the Object's fields can be invoked by calling out.defaultWriteObject. The 
+        method does not need to concern itself with the state belonging to its superclasses or subclasses. State 
+        is saved by writing the individual fields to the ObjectOutputStream using the writeObject method or by using 
+        the methods for primitive data types supported by DataOutput.
+
+    2)  private void readObject(java.io.ObjectInputStream in)
+            throws IOException, ClassNotFoundException;
+    
+        The readObject method is responsible for reading from the stream and restoring the classes fields. It may call 
+        in.defaultReadObject to invoke the default mechanism for restoring the object's non-static and non-transient 
+        fields. The defaultReadObject method uses information in the stream to assign the fields of the object saved 
+        in the stream with the correspondingly named fields in the current object. This handles the case when the class 
+        has evolved to add new fields. The method does not need to concern itself with the state belonging to its 
+        superclasses or subclasses. State is saved by writing the individual fields to the ObjectOutputStream using the 
+        writeObject method or by using the methods for primitive data types supported by DataOutput.
+
+    3)  private void readObjectNoData()
+            throws ObjectStreamException;
+
+        The readObjectNoData method is responsible for initializing the state of the object for its particular class in 
+        the event that the serialization stream does not list the given class as a superclass of the object being 
+        deserialized. This may occur in cases where the receiving party uses a different version of the deserialized 
+        instance's class than the sending party, and the receiver's version extends classes that are not extended by the 
+        sender's version. This may also occur if the serialization stream has been tampered; hence, readObjectNoData 
+        is useful for initializing deserialized objects properly despite a "hostile" or incomplete source stream.
+
+    Serializable classes that need to designate an alternative object to be used when writing an object to the stream 
+    should implement this special method with the exact signature:
+
+    ANY-ACCESS-MODIFIER Object writeReplace() throws ObjectStreamException;
+
+    This writeReplace method is invoked by serialization if the method exists and it would be accessible from a method 
+    defined within the class of the object being serialized. Thus, the method can have private, protected and 
+    package-private access. Subclass access to this method follows java accessibility rules.
+
+    Classes that need to designate a replacement when an instance of it is read from the stream should implement this 
+    special method with the exact signature.
+
+    ANY-ACCESS-MODIFIER Object readResolve() throws ObjectStreamException;
+
+    This readResolve method follows the same invocation rules and accessibility rules as writeReplace.
+
+    The serialization runtime associates with each serializable class a version number, called a serialVersionUID, 
+    which is used during deserialization to verify that the sender and receiver of a serialized object have loaded 
+    classes for that object that are compatible with respect to serialization. If the receiver has loaded a class 
+    for the object that has a different serialVersionUID than that of the corresponding sender's class, then 
+    deserialization will result in an InvalidClassException. A serializable class can declare its own serialVersionUID 
+    explicitly by declaring a field named "serialVersionUID" that must be static, final, and of type long:
+
+    ANY-ACCESS-MODIFIER static final long serialVersionUID = 42L;
+
+    If a serializable class does not explicitly declare a serialVersionUID, then the serialization runtime will 
+    calculate a default serialVersionUID value for that class based on various aspects of the class, as described 
+    in the Java(TM) Object Serialization Specification. However, it is strongly recommended that all serializable 
+    classes explicitly declare serialVersionUID values, since the default serialVersionUID computation is highly 
+    sensitive to class details that may vary depending on compiler implementations, and can thus result in unexpected 
+    InvalidClassExceptions during deserialization. Therefore, to guarantee a consistent serialVersionUID value across 
+    different java compiler implementations, a serializable class must declare an explicit serialVersionUID value. 
+    It is also strongly advised that explicit serialVersionUID declarations use the private modifier where possible, 
+    since such declarations apply only to the immediately declaring class--serialVersionUID fields are not useful as 
+    inherited members. Array classes cannot declare an explicit serialVersionUID, so they always have the default 
+    computed value, but the requirement for matching serialVersionUID values is waived for array classes.
 
 -   Error: (??)
 
