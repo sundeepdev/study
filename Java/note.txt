@@ -789,6 +789,9 @@ Chapter 10 numbers and statics
                                      //a primitive without having to call intValue() method on the Integer object.
    }
 
+    Note(!!): There is a cost doing wrapping: it needs to create an object for each operation: 
+    listOfNumbers.add(i). Assuming you do 100 times of this operation, it needs to create 100 Integer objects.
+
    Beside doing wrapping and unwrapping, autobox also lets you use either a primitive or its wrapper type virtually anywhere one or the other is expected.
 
    1) Method arguments
@@ -3934,7 +3937,7 @@ Veggie veggies[] = { new Garlic(), new Onion(), new Mushroom(), new RedPepper() 
         private UtilityClass() {
             throw new AssertionError();
         }
-
+)
         //Remainder omitted
     }
 
@@ -3942,7 +3945,313 @@ Veggie veggies[] = { new Garlic(), new Onion(), new Mushroom(), new RedPepper() 
     superclass constructor, explicitly or implicitly, and a subclass would have no accessible superclass constructor 
     to invoke.
     
+-   Item 5: Avoid creating unnecessary objects
 
+    An object can always be reused if it is immutable(Item 15). 
+
+    An extreme example of what not to do, consider this statement:
+
+    String s = new String("stringette"); //Don't do this
+
+    If this usage occurs in a loop or in a frequently invoked method, millions of String instance can be created
+    needlessly. 
+
+    The improved version is simply the following:
+
+    String s = "stringette";
+
+    You can often avoid creating unnecessary objects by using static factory methods(Item 1) in preference to 
+    constructors on immutable classes that provide both. For example, the static method:
+
+    Boolean.valueOf(String)
+
+    this method is never required to create a new object each time it's called.
+
+    In addition to reusing immutable objects, you can also reuse mutable objects if you know they won't be modified.
+    
+    public class Person {
+        private final Date birthDate;
+
+        //Other fields, methods, and constructor omitted
+
+        //DON't DO THIS
+        public boolean isBabyBoobmer() {
+            // Unnecessary allocation of expensive object
+            Calendar gmtCal = 
+                Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+                gmtCal.set(1946, Calendar.JANUARY, 1, 0, 0, 0);
+                Date boomStart = gmtCal.getTime();
+                gmtCal.set(1965, Calendar.JANUARY, 1, 0, 0, 0);
+                Date boomEnd = gmtCal.getTime();
+                return birthDate.compareTo(boomStart) >= 0 &&
+                        birthDate.compareTo(boomEnd) < 0;
+        }
+    }
+
+    The isBabyBoomer method unnecessarily creates a new Calendar, TimeZone, and two Date instances each time it is
+    invoked. The version that follows avoids this inefficiency with a static initializer:
+
+    class Person {
+        privte final Date birthDate;
+        //Other fields, methods, and constructor omitted
+
+        /*
+            The starting and ending dates of the baby boom.
+        */
+        private static final Date BOOM_START;
+        private static final Date BOOM_END;
+
+        static {
+            Calendar gmtCal =
+            Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+            gmtCal.set(1946, Calendar.JANUARY, 1, 0, 0, 0);
+            BOOM_START = gmtCal.getTime();
+            gmtCal.set(1965, Calendar.JANUARY, 1, 0, 0, 0);
+            BOOM_END = gmtCal.getTime();
+        }
+
+        public boolean isBabyBoomer() {
+            return birthDate.compareTo(BOOM_START) >= 0 &&
+                    birthDate.compareTo(BOOM_END) < 0;
+        }
+    }
+
+    In my mathine, the original version takes 32,000 ms for 10 million invocations, while the improved
+    version takes 130ms, which is about 250 times faster. Not only is performance improved, but so is clarity.
+
+    There is a new way to create unnecessary objects in release 1.5. It is called autoboxing. It allows the programmer
+    to mix primitive and boxed primitive types. E.g.
+
+    // Hideously slow program! Can you spot the object creation?
+    public static void main(String[] args) {
+        Long sum = 0L;
+        for(long i = 0; i < Integer.MAX_VALUE; i++) {
+            sum += i;
+        }
+        System.out.println(sum)
+    }
+
+    The variable sum is declared as a Long instead of a long, which means that the program constructs about 2.^31 
+    unnecessary Long instances (roughly one for each time the long i is added to the Long sum). Changing the declaration 
+    of sum from Long to long reduces the runtime from 43 seconds to 6.8 seconds on my machine. The lesson is clear: prefer
+    primitives to boxed primitives, and watch out for unintentional autoboxing.
+
+    This item should not be misconstrued to imply that object creation is expensive and should be avoided. 
+    Conversely, avoiding object creation by maintaining your own object pool is a bad idea unless the objects in the pool
+    are extremely heavyweight. Keep in mind that Failing to make defensive copies(Item 39) where required can lead to 
+    insidious bugs and security holes; creating objects unnecessarily merely affects style and performance.
+
+-   Item 6 Eliminate obsolete object references
+
+    Don't think that the Java garbage-collection feature can always avoid memory management problem. Consider the
+    following simple stack implementation:
+
+    //Can you spot the memory leak?
+    public class Stack {
+        private Object[] elements;
+        private int size = 0;
+        private static final int DEFAULT_INITIAL_CAPACITY = 16;
+
+        public Stack() {
+            elements = new Object[DEFAULT_INITIAL_CAPACITY];
+        }
+
+        public void push(Object e) {
+            ensureCapacity();
+            elements[size++] = e;
+        }
+
+        public Object pop() {
+            if (size == 0) {
+                throw new EmptyStackException();
+            }
+
+            return elements[--size];
+        }
+
+        /*
+            Ensure space for at least one more element. roughly
+            doubling the capacity each time the array needs to grow.
+        */
+        private void ensureCapacity() {
+            if (elements.length == size) {
+                elements = Arrays.copyOf(elements, 2 * size + 1);
+            }
+        }
+    }
+
+    So where is the memory leak? If a stack grows and then shrinks, the objects that were popped off the stack
+    will not be garbage collected, even if the program using the stack has no more references to them. This is
+    because the stack maintains obsolete references to these objects. An obselete reference is simply a reference
+    that will never be dereferenced again. In this case, any references outside of the “active portion” of the 
+    element array are obsolete. The active portion consists of the elements whose index is less than size.
+
+    To fix this sort of problem is simple: null out references once they become obselete. E.g.
+
+    public Object pop() {
+        if (size == 0) {
+            throw new EmptyStackException();
+        }
+        Object result = elements[--size];
+        elements[size] = null; // Eliminate obsolete reference
+        return result;
+    }
+
+    When programmers are first stung by this problem, they may overcompensate ny nulling out every object reference
+    as soon as the program is finished using it. This is unnecessary and it clutters up the program. Nulling out
+    object references should be the exception rather than the norm.
+
+    Generally speaking, whenever a class manages its own memory, the programmer should be alert for memory leaks.
+    Whenever an element is freed, any object references contained in the element should be nulled out.
+
+    (??)Another common source of memory leaks is caches. Once you put an object reference into a cache, it's easy to
+    to forget that it's there and leave it in the cache long after it becomes irrelevant. One solution is to implement
+    a WeakHashMap: entries will be removed automatically after they become obsolete. Remember that WeakHashMap is
+    useful only if the desired lifetime of cache entries is determinaed by external references to the key, not
+    the value.
+
+    (??)A third common source of memory leaks is listeners and other callbacks. If you implement an API where clients 
+    register callbacks but don’t deregister them explicitly, they will accumulate unless you take some action. 
+    The best way to ensure that callbacks are garbage collected promptly is to store only weak references to them, 
+    for instance, by storing them only as keys in a WeakHashMap.
+
+    Last but not least, except using a careful code inspection, with the aid of a debugging tool known as a heap
+    profiler, you can discover memory leaks more easily.
+
+-   Item 7  Avoid finalizers
+
+    Finalizers are unpredictable, often dangerous, and generally unnecessary. C++ destructors are also used to
+    reclaim other nonmemory resources(of course memory resource!). In Java, the try-finally block is generally 
+    used for this purpose.
+
+    One shortcoming of finilizers is that there is no guarantee they'll be executed promptly. It can take arbitrarily
+    long between the time that an object becomes unreachable and the time that its finilizer is executed. That means
+    you should NEVER do anything time-critical in a finilizer. E.g.(!!)
+
+    Depends on a finilizer to close files
+
+    This is a grave error because open file descriptors are a limited resource. If many files are left open because
+    the JVM is tardy executing finilizers, a program may fail because it can no longer open files. Note that the
+    behavior of a program that depends on the promptness of finilizer execution may likewise vary. It is entirely
+    possible that such a program will run perfectly on the JVM on which you test it and then fail miserably on the
+    JVM favored by your most important client.
+
+    Not only does the language specification provide no guarantee that finilizers will get executed promptly; it provides
+    no guarantee that they'll be executed at all. It is entirely possible that a program terminates without executing
+    finilizers on some objects that are no longer reachable. As a consequence, you should never depend on a finilizer
+    to update critical persistent state. E.g.(!!)
+
+    Depends on a finilizer to release persistent lock on a shared resource such as a database 
+
+    Doing above is a good way to bring your entire distributed system to a grinding halt.
+
+    Don't be seduced by the methods System.gc and System.runFinalizatioon. This may increase the odds of finilizers
+    getting executed but they don't guarantee it. The only methods that claim to guarantee finilization are
+    System.runFinalizerOnExit and its evil twin, Runtime.runFinalizerOnExit. These methods are fatally flawed and
+    have been deprecated.
+    
+    Last but not least, there is a severe performance penalty for using finilizers. It is much much slower to create
+    and destroy objects with finilizers.
+
+    How should we do if we don't rely on finilizers? Just provide:
+
+    An explicit termination method, and requires clients of the class to invoke tihs method on each instance when it
+    is no longer needed. This method requires a private field that can be used to keep track of whether it has been
+    terminated or not. Other needed methods must check this field and throw an illegalStateException if they are called
+    after the object has been terminated.
+
+    Typicaly examples are: 
+
+    1)  The close methods on InputStream, OutputStream, and java.sql.Conection.
+    2)  The cancel methods on java.util.Timer, which performs the necessary stage change to cause the thread associated
+        with a Timer instance to terminate itself gently.
+
+    Explicit termination methods are typically used in combination with the try-finally construct to ensure termination:
+
+    // try-finally block guarantees execution of termination method
+    Foo foo = new Foo(...)
+    try {
+        // Do what must be done with Foo
+        ...
+    } finally {
+        foo.terminate(); //Explicit termination method.
+    }
+
+    So what are finilizers good for?
+
+    1)  One is to act as "safe net" in case the owner of an object forgets to call its explicit termination
+        method. This is a "late-better-than-never" solution. Note that the finilizer should log a warning
+        if it finds that the resource has not been terminated, as this indicates a bug in the client code.
+
+        The four classes cited as examples of the explicit termination method pattern (FileInputStream, 
+        FileOutputStream, Timer, and Connection)finalizers that serve as safety nets in case their termination 
+        methods aren’t called. Unfortunately these finalizers do not log warnings. Such warnings generally 
+        can’t be added after an API is published, as it would appear to break existing clients.
+
+    2)  Native peers(??something related to JNI?). A native peer is a native object to which a normal object 
+        delegates via native methods. Because a native peer is not a normal object, the garbage collector 
+        doesn’t know about it and can’t reclaim it when its Java peer is reclaimed. A finalizer is an appropriate 
+        vehicle for performing this task, assuming the native peer holds no critical resources. If the native peer 
+        holds resources that must be terminated promptly, the class should have an explicit termination method, 
+        as described above. The termination method should do whatever is required to free the critical resource. 
+        The termination method can be a native method, or it can invoke one.
+
+    It's important to note that "finalizer chaining" is not performed automatically. If a class (other than Object)
+    has a finalizer and a overrides it, the sub-class finilizer must invoke the superclass finalizer manually.
+
+    // Manual finalizer chaining
+    @Override protected void finalize() throws Throwable {
+        try {
+            ... //Finalize subclass state
+        } finally {
+            super.finalize();
+        }
+    }
+
+    It is possible to defend against the careless forgetting to invoke the superclass's finilizer at the cost
+    of creating an additional object for every object to be finalized. Put the finilizer on an anonymous class
+    (Item 22), called a finalizer guardian, which is created for each instance of the enclosing class. The enclosing
+    instance stores the sole reference to its finilizer guardian in a private instance field so the finalizer guardian
+    becomes eligible for finalization at the same time as the enclosing instance. When the guardian is finalized, it
+    performs the finilization activity desired for the enclosing instance, just as if its finalizer were a method on
+    the enclosing class:
+
+    //Finalizer Guardian idiom
+    public class Foo {
+        // Sole purpose of this object is to finalize outer Foo object
+        private final Object finalizerGurdian = new Object() {
+            @Override protected void finalize() throws Throwable {
+                ... // Finalize outer Foo object
+            }
+        }
+    };
+
+    Why the above method works? Because when a Foo object is reclaimed, its internal finalizerGurdian object
+    must be reclaimed too. Therefore the finalized() method is automatically called when the finalizeGurdian
+    object is being reclaimed.
+
+    Note that the public class, Foo, has no finalizer (other than the trivial one it inherits from Object), so it
+    doesn't matter whether a subclass finalizer calls super.finalize or not. This technique should be considered
+    for every nonfinal public class that has a finalizer(?? I still can't understand it all). 
+
+    In summary: 
+
+    1)  Don't use finalizer except as a safety net or to terminate noncritical native resources.
+
+    2)  In those rare instances where you do use a finalizer as a safety net, remember to log the
+        invalid usage from the finalizer.
+
+    3)  If you need to associate a finalizer with a public nonfinal class, consider using a finalizer guardian
+        , so finalization can take place even if a subclass finalizer fails to invoke super.finalize.
+        
+    
+
+    
+    
+
+    
+
+    
      
 
 
@@ -4569,3 +4878,11 @@ import static org.junit.Assert.assertEquals;
     We can use the toString() method in the class Arrays. E.g.
 
     System.out.println(Arrays.toString(my_array));
+
+-   WeakHashMap
+
+    WeakHashMap is an implementation of the Map interface that stores only weak references to to its keys.
+    Storing only weak references allows a key-value pair to be garbagecollected when its keys is no longer
+    referenced outside of the WeakHashMap.
+
+    This class provides the easiest way to harness the power of weak references. 

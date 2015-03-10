@@ -187,5 +187,82 @@ Day 14
 
         It provides an ironclad guarantee against multiple instantiation.
 
-        
+    -   Clutter up
+
+        This is unnecessary and it clutters up the program.
+
+    -   Norm     
+
+        Nulling out object references should be the exception rather than the norm.
+
+Day 15
+
+    -   Pop Your Cherry
+
+        Peter tells me you're popping your cherry with this.
+
+    -   Pop a squat
+
+        All right, homeboy. Pop a squat
+
+    -   Convertible
+
+        This stuff you are signing give you the convertible note for funding.
+
+    -   Shit-ton
+
+        You know how sea turtles have a shit-ton of babies.
+
+    -   technicality
+
+        A lot of these guys come in here and they can do all the engineering stuff but they get all 
+        hung up on technicalities. They just cannot tell you what their vision for the company is.
+
+    -   halve
+
+        It's like you need both halves of the brain, right?
+
+    -   bait
+
+        The whose house smells like a bait station.
+
+    -   recap
+
+        Richard, I'm just gonna recap for a second.
+
+    -   Freeballing.
+
+        This is the type of evening that requires freeballing.
+
+    -   liven
+
+        Our startup sources actors to parties to liven things up.
+
+    -   orgy
+
+        Welcome to the Peter Gregory foundation's fourth annual orgy of caring.
+
+Day 16  
+
+    -   erratic
+
+        Their use can cause erratic behavior.
+
+    -   grave
+
+        It is a grave error to depend on a finilizer to close files.
+
+    -   tardy
+
+        If many files are left open because the JVM is tardy in executing finilizers, a program
+        may fail because it can no longer open files.
+
+    -   likewise
+
+         The behavior of a program that depends on the promptness of finilizer execution may likewise vary.
+
+    -   odds(different from odd)
+
+        They may increase the odds of finilizers getting executed, but they don't guarantee it.
+
         
