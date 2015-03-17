@@ -531,6 +531,46 @@ Notes from Learning MySQL:
    SHOW COLUMNS FROM name_of_table  //To explore the table "name_of_table"
    DESC name_of_table               //the same as the above command
 
+3.  Stop mysql service
+
+    # sudo /etc/init.d/mysql stop
+
+    It looks this method cannot kill the mysql process because the mysql_safe init script will restart mysqld.
+    The correct way to do this is:
+
+    sudo service mysql stop
+
+    
+4.  Recover your root password
+
+    Step 1: stop your mysql service
+
+    # sudo /etc/init.d/mysql stop
+
+    Step 2: start your mysqld_safe daemon (If the server is started with the --skip-grant-tables option, it
+    does not consult the mysql.plugins table and does not load plugins listed there).
+
+    # sudo mysqld_safe --skip-grant-tables &
+
+    Step 3: Connect to mysql server using mysql client:
+
+    # mysql -u root
+
+    Step 4: Setup new MySQL root user password
+
+    mysql> use mysql;
+    mysql> update user set password=PASSWORD("NEW-ROOT-PASSWORD") where User='root';
+    mysql> flush privileges;
+    mysql> quit
+
+    Step 5: Restart MySQL Server:
+
+    # sudo /etc/init.d/mysql restart
+
+    Step 6: Test your login w/ password
+ 
+    # sudo mysql -u root -p
+
 -  Modeling and Designing Databases
 
    There are three major stages in database design, each producing a progressively lower-level description:

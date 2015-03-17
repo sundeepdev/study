@@ -265,4 +265,11 @@ Day 16
 
         They may increase the odds of finilizers getting executed, but they don't guarantee it.
 
+    -   dire
+
+        Overriding the equals method seem simple, but there are many ways to get it wrong, and the consequences
+        can be dire.
+
+        
+
         
